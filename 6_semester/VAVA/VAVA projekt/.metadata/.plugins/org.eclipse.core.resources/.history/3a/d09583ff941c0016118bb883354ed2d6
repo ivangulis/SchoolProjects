@@ -1,0 +1,43 @@
+ChampionPoolManager = Mana\u017Eér výberu \u0161ampiónov
+DifferentPasswords = Heslá sa nezhodujú
+AccountCreated = Vá\u0161 ú\u010Det bol úspe\u0161ne vytvorený
+AlreadyRegistered = Tento ú\u010Det u\u017E existuje
+Language = Jazyk
+NewPassword = Nové heslo
+ConfirmPassword = Porvt\u010F heslo
+Save = Ulo\u017E
+
+EditProfileTitle = Úprava profilu
+EditProfileCaption = UPRAV PROFIL
+EditProfileNick = Nová prezývka
+EditProfileServer = Zmenie\u0165 server
+
+LoginPassword = Heslo
+LoginUsername = Meno
+LoginError = Zlé prihlasovacie meno alebo heslo
+Login = Prihlási\u0165
+Register = Registrova\u0165
+
+RegisterTitle = Registrácia
+RegisterNick = Tvoja prezývka
+RegisterUsername = Nové meno
+RegisterCreate = Vytvor
+
+MainWindowBans = Najlep\u0161ie bany
+MainWindowDetails = Detaily
+Name = Meno
+Role = Rola
+Value = Hodnota
+MainWindowAddChamp = Pridaj \u0161ampióna
+MainWindowActualizeDB = Aktualizuj databázu
+EditProfile = Uprav profil
+LogOut = Odhlási\u0165
+Profile = Profil
+MainWindowRefresh = Obnov \u0161ampiónov
+Add = Prida\u0165
+MoveUp = Posu\u0148 hore
+MoveDown = Posu\u0148 dole
+Delete = Zma\u017E
+IPCost = Cena IP:
+RPCost = Cena RP:
+Released = Vydaný

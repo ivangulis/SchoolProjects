@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="702.0" prefWidth="1187.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
+   <children>
+      <HBox layoutX="14.0" layoutY="91.0" prefHeight="426.0" prefWidth="889.0">
+         <children>
+            <TableView fx:id="tableTops" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="124.0" text="Name" />
+                <TableColumn prefWidth="53.0" text="Win %" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableJungles" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="104.0" text="Name" />
+                <TableColumn prefWidth="73.0" text="Win %" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableMids" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="117.0" text="Name" />
+                <TableColumn prefWidth="60.0" text="Win %" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableAdcs" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="115.0" text="Name" />
+                <TableColumn prefWidth="62.0" text="Win %" />
+              </columns>
+            </TableView>
+            <TableView fx:id="tableSupports" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="118.0" text="Name" />
+                <TableColumn prefWidth="59.0" text="Win %" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+      <HBox prefHeight="38.0" prefWidth="1187.0">
+         <children>
+            <MenuBar prefHeight="38.0" prefWidth="1090.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Language">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="ENG" />
+                        <MenuItem mnemonicParsing="false" text="SK" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <MenuBar prefHeight="38.0" prefWidth="231.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Profile">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Show profile" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Log out">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Log me out" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </HBox>
+      <TableView fx:id="tableAllChamps" layoutX="928.0" layoutY="38.0" prefHeight="650.0" prefWidth="244.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Name" />
+          <TableColumn prefWidth="75.0" text="Role" />
+            <TableColumn prefWidth="75.0" text="Win %" />
+        </columns>
+      </TableView>
+      <Button fx:id="buttonAddChamp" layoutX="786.0" layoutY="631.0" mnemonicParsing="false" onAction="#addChampion" prefHeight="57.0" prefWidth="126.0" text="Add champion" />
+      <Label fx:id="labelTop" layoutX="73.0" layoutY="38.0" prefHeight="53.0" prefWidth="73.0" text="TOP" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelJungle" layoutX="215.0" layoutY="38.0" prefHeight="53.0" prefWidth="132.0" text="JUNGLE" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelMid" layoutX="422.0" layoutY="38.0" prefHeight="53.0" prefWidth="73.0" text="MID" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelAdc" layoutX="594.0" layoutY="38.0" prefHeight="53.0" prefWidth="84.0" text="ADC" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelSupport" layoutX="733.0" layoutY="38.0" prefHeight="53.0" prefWidth="164.0" text="SUPPORT" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableDetails" layoutX="395.0" layoutY="525.0" prefHeight="230.0" prefWidth="200.0">
+        <columns>
+          <TableColumn prefWidth="82.0" />
+          <TableColumn prefWidth="117.0" />
+        </columns>
+      </TableView>
+      <Button fx:id="buttonAdminControlActualize" layoutX="15.0" layoutY="669.0" mnemonicParsing="false" onAction="#adminControlActualize" prefHeight="39.0" prefWidth="262.0" text="Admin Control - actualize champions" visible="false" />
+   </children>
+</AnchorPane>

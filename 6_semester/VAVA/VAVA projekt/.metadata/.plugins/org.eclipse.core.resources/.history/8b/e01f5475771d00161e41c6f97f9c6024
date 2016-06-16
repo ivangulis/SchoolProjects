@@ -1,0 +1,911 @@
+package view;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import application.Main;
+import facade.ChampionsFacadeBeanRemote;
+import facade.UserFacadeBeanRemote;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import model.User;
+import model.Champion;
+import table.TableChampion;
+import table.TableDetails;
+
+/**
+ * Class, that controlls Main window, which is responsible for displaying tables and everything
+ * around champions and making pool.
+ * @author Ivan Gulis
+ */
+public class MainWindowController {
+	
+	private static Logger LOG = Logger.getLogger(RegisterController.class.getName());
+	
+	@FXML
+	private AnchorPane root;
+	@FXML
+	private TableView<TableChampion> tableTops;
+	@FXML
+	private TableColumn<TableChampion, String> nameTableColumnTop;
+	@FXML
+	private TableColumn<TableChampion, Double> winRatioTableColumnTop;	
+	@FXML
+	private TableView<TableChampion> tableJungles;
+	@FXML
+	private TableColumn<TableChampion, String> nameTableColumnJungle;
+	@FXML
+	private TableColumn<TableChampion, Double> winRatioTableColumnJungle;	
+	@FXML
+	private TableView<TableChampion> tableMids;
+	@FXML
+	private TableColumn<TableChampion, String> nameTableColumnMid;
+	@FXML
+	private TableColumn<TableChampion, Double> winRatioTableColumnMid;	
+	@FXML
+	private TableView<TableChampion> tableAdcs;
+	@FXML
+	private TableColumn<TableChampion, String> nameTableColumnAdc;
+	@FXML
+	private TableColumn<TableChampion, Double> winRatioTableColumnAdc;	
+	@FXML
+	private TableView<TableChampion> tableSupports;
+	@FXML
+	private TableColumn<TableChampion, String> nameTableColumnSupport;
+	@FXML
+	private TableColumn<TableChampion, Double> winRatioTableColumnSupport;	
+	@FXML
+	private TableView<TableChampion> tableAllChamps;
+	@FXML
+	private TableColumn<TableChampion, String> nameTableColumn;
+	@FXML
+	private TableColumn<TableChampion, String> roleTableColumn;
+	@FXML
+	private TableColumn<TableChampion, Double> winRatioTableColumn;	
+	@FXML
+	private TableView<TableChampion> tableBanList;
+	@FXML
+	private TableColumn<TableChampion, String> nameTableColumnBanList;
+	@FXML
+	private TableColumn<TableChampion, Double> banRatioTableColumnBanList;	
+	@FXML
+	private TableView<TableDetails> tableDetails;
+	@FXML
+	private TableColumn<TableDetails, String> nameTableColumnDetails;
+	@FXML
+	private TableColumn<TableDetails, String> valueTableColumnDetails;
+	@FXML
+	private Button buttonAdminControlActualize;
+	@FXML
+	private Button buttonSavePool;
+	@FXML
+	private Button buttonRefreshChampions;
+	@FXML
+	private Label labelTop;
+	@FXML
+	private Label labelJungle;
+	@FXML
+	private Label labelMid;
+	@FXML
+	private Label labelAdc;
+	@FXML
+	private Label labelSupport;
+	@FXML
+	private Label labelDetails;
+	@FXML
+	private Label labelBans;
+	@FXML
+	private Label labelNick;
+	@FXML
+	private Label labelServer;
+	@FXML
+	private Label labelAllChamps;
+	@FXML
+	private MenuItem menuItemEditProfile;
+	@FXML
+	private MenuItem menuItemLogOut;
+	@FXML
+	private Menu menuLanguage;
+	@FXML
+	private Menu menuProfile;
+	
+	private User user; //logged user
+	private List<Champion> allChampions;
+	private	Set<String> hashSetChampions = new HashSet<String>(); //set of champions in pool tables together
+	
+	public Label getLabelAllChamps() {
+		return labelAllChamps;
+	}
+	public User getUser() {
+		return user;
+	}
+	
+	public Button getButtonRefreshChampions() {
+		return buttonRefreshChampions;
+	}
+
+	public TableColumn<TableChampion, String> getNameTableColumnTop() {
+		return nameTableColumnTop;
+	}
+
+	public TableColumn<TableChampion, Double> getWinRatioTableColumnTop() {
+		return winRatioTableColumnTop;
+	}
+
+	public TableColumn<TableChampion, String> getNameTableColumnJungle() {
+		return nameTableColumnJungle;
+	}
+
+	public TableColumn<TableChampion, Double> getWinRatioTableColumnJungle() {
+		return winRatioTableColumnJungle;
+	}
+
+	public TableColumn<TableChampion, String> getNameTableColumnMid() {
+		return nameTableColumnMid;
+	}
+
+	public TableColumn<TableChampion, Double> getWinRatioTableColumnMid() {
+		return winRatioTableColumnMid;
+	}
+
+	public TableColumn<TableChampion, String> getNameTableColumnAdc() {
+		return nameTableColumnAdc;
+	}
+
+	public TableColumn<TableChampion, Double> getWinRatioTableColumnAdc() {
+		return winRatioTableColumnAdc;
+	}
+
+	public TableColumn<TableChampion, String> getNameTableColumnSupport() {
+		return nameTableColumnSupport;
+	}
+
+	public TableColumn<TableChampion, Double> getWinRatioTableColumnSupport() {
+		return winRatioTableColumnSupport;
+	}
+
+	public TableColumn<TableChampion, String> getNameTableColumn() {
+		return nameTableColumn;
+	}
+
+	public TableColumn<TableChampion, String> getRoleTableColumn() {
+		return roleTableColumn;
+	}
+
+	public TableColumn<TableChampion, Double> getWinRatioTableColumn() {
+		return winRatioTableColumn;
+	}
+
+	public TableColumn<TableChampion, String> getNameTableColumnBanList() {
+		return nameTableColumnBanList;
+	}
+
+	public TableColumn<TableChampion, Double> getBanRatioTableColumnBanList() {
+		return banRatioTableColumnBanList;
+	}
+
+	public TableColumn<TableDetails, String> getNameTableColumnDetails() {
+		return nameTableColumnDetails;
+	}
+
+	public TableColumn<TableDetails, String> getValueTableColumnDetails() {
+		return valueTableColumnDetails;
+	}
+
+	public Button getButtonAdminControlActualize() {
+		return buttonAdminControlActualize;
+	}
+
+	public Button getButtonSavePool() {
+		return buttonSavePool;
+	}
+
+	public Label getLabelDetails() {
+		return labelDetails;
+	}
+
+	public Label getLabelBans() {
+		return labelBans;
+	}
+
+	public MenuItem getMenuItemEditProfile() {
+		return menuItemEditProfile;
+	}
+
+	public MenuItem getMenuItemLogOut() {
+		return menuItemLogOut;
+	}
+
+	public Menu getMenuLanguage() {
+		return menuLanguage;
+	}
+
+	public Menu getMenuProfile() {
+		return menuProfile;
+	}
+	
+	public Label getLabelNick() {
+		return labelNick;
+	}
+
+	public Label getLabelServer() {
+		return labelServer;
+	}
+
+	/** This function initializes whole window and user information */
+	public void setUser(User user) {
+		
+		labelTop.getStyleClass().add("roles");
+		labelJungle.getStyleClass().add("roles");
+		labelMid.getStyleClass().add("roles");
+		labelAdc.getStyleClass().add("roles");
+		labelSupport.getStyleClass().add("roles");
+		labelDetails.getStyleClass().add("roles");
+		labelBans.getStyleClass().add("roles");
+		labelAllChamps.getStyleClass().add("roles");
+		
+		this.user = user;
+		/** If user is admin, then he has access to special databaze actualization button */
+		if ("admin".equals(user.getUsername()))
+			buttonAdminControlActualize.setVisible(true);
+		else buttonAdminControlActualize.setVisible(false);
+		
+		labelNick.setText(user.getNick());
+		labelServer.setText("(" + user.getServer() + ")");
+		
+		//set all table cell properties
+		nameTableColumn.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("name"));
+		roleTableColumn.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("role"));
+		winRatioTableColumn.setCellValueFactory(new PropertyValueFactory<TableChampion, Double>("winRatio"));	
+		nameTableColumnTop.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("name"));
+		winRatioTableColumnTop.setCellValueFactory(new PropertyValueFactory<TableChampion, Double>("winRatio"));
+		nameTableColumnJungle.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("name"));
+		winRatioTableColumnJungle.setCellValueFactory(new PropertyValueFactory<TableChampion, Double>("winRatio"));
+		nameTableColumnMid.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("name"));
+		winRatioTableColumnMid.setCellValueFactory(new PropertyValueFactory<TableChampion, Double>("winRatio"));
+		nameTableColumnAdc.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("name"));
+		winRatioTableColumnAdc.setCellValueFactory(new PropertyValueFactory<TableChampion, Double>("winRatio"));
+		nameTableColumnSupport.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("name"));
+		winRatioTableColumnSupport.setCellValueFactory(new PropertyValueFactory<TableChampion, Double>("winRatio"));
+		nameTableColumnBanList.setCellValueFactory(new PropertyValueFactory<TableChampion, String>("name"));
+		banRatioTableColumnBanList.setCellValueFactory(new PropertyValueFactory<TableChampion, Double>("banRatio"));
+		nameTableColumnDetails.setCellValueFactory(new PropertyValueFactory<TableDetails, String>("name"));
+		valueTableColumnDetails.setCellValueFactory(new PropertyValueFactory<TableDetails, String>("value"));
+		
+		//CSS support, set certain columns to center
+		roleTableColumn.setStyle("-fx-alignment: CENTER;");
+		winRatioTableColumn.setStyle("-fx-alignment: CENTER;");
+		nameTableColumnTop.setStyle("-fx-alignment: CENTER;");
+		winRatioTableColumnTop.setStyle("-fx-alignment: CENTER;");
+		nameTableColumnJungle.setStyle("-fx-alignment: CENTER;");
+		winRatioTableColumnJungle.setStyle("-fx-alignment: CENTER;");
+		nameTableColumnMid.setStyle("-fx-alignment: CENTER;");
+		winRatioTableColumnMid.setStyle("-fx-alignment: CENTER;");
+		nameTableColumnAdc.setStyle("-fx-alignment: CENTER;");
+		winRatioTableColumnAdc.setStyle("-fx-alignment: CENTER;");
+		nameTableColumnSupport.setStyle("-fx-alignment: CENTER;");
+		winRatioTableColumnSupport.setStyle("-fx-alignment: CENTER;");
+		valueTableColumnDetails.setStyle("-fx-alignment: CENTER;");
+		banRatioTableColumnBanList.setStyle("-fx-alignment: CENTER;");
+		
+		setRowFactories();
+		refreshChampionsFunction();
+	}
+	
+	/** Set table row factories with their context menus */
+	public void setRowFactories() {
+		
+		/** Edited from https://gist.github.com/james-d/8187590 */
+		tableAllChamps.setRowFactory(new Callback<TableView<TableChampion>, TableRow<TableChampion>>() {
+			/** Context menu from table row initialize */
+			@Override
+		     public TableRow<TableChampion> call(TableView<TableChampion> tableView) {
+				final TableRow<TableChampion> row = new TableRow<>();
+				final ContextMenu rowMenu = new ContextMenu();
+				ContextMenu tableMenu = tableView.getContextMenu();
+				if (tableMenu != null) {
+					rowMenu.getItems().addAll(tableMenu.getItems());
+					rowMenu.getItems().add(new SeparatorMenuItem());
+				}
+				MenuItem addToPool = new MenuItem("+");
+				addToPool.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						addToPool();
+					}
+				});
+				rowMenu.getItems().addAll(addToPool);
+				row.contextMenuProperty().bind(
+						Bindings.when(Bindings.isNotNull(row.itemProperty()))
+						.then(rowMenu)
+						.otherwise((ContextMenu) null));
+				return row;
+		      	}
+		});
+		tableAllChamps.setOnMousePressed(new EventHandler<MouseEvent>() {
+			/** Handle for showing details for clicked champion from table */
+		    @Override 
+		    public void handle(MouseEvent event) {
+		        if ((event.isSecondaryButtonDown() || event.isPrimaryButtonDown()) 
+		        		&& (!tableAllChamps.getSelectionModel().isEmpty())) {
+		        	Champion champion = tableAllChamps.getSelectionModel().getSelectedItem().getChampion();
+		        	showDetails(champion);
+		        }
+		    }
+		});
+		
+		/** Edited from https://gist.github.com/james-d/8187590 */
+		tableTops.setRowFactory(new Callback<TableView<TableChampion>, TableRow<TableChampion>>() {
+		      @Override
+		      public TableRow<TableChampion> call(TableView<TableChampion> tableView) {
+		        final TableRow<TableChampion> row = new TableRow<>();
+		        final ContextMenu rowMenu = new ContextMenu();
+		        ContextMenu tableMenu = tableView.getContextMenu();
+		        if (tableMenu != null) {
+		          rowMenu.getItems().addAll(tableMenu.getItems());
+		          rowMenu.getItems().add(new SeparatorMenuItem());
+		        }
+		        MenuItem moveUp = new MenuItem("^");
+		        moveUp.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveUp(tableTops);
+                    }
+                });
+		        MenuItem moveDown = new MenuItem("v");
+		        moveDown.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveDown(tableTops);
+                    }
+                });
+		        MenuItem delete = new MenuItem("-");
+		        delete.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	TableChampion champion = row.getItem();
+                    	removeFromPool(tableTops, champion);
+                    }
+                });
+		        rowMenu.getItems().addAll(moveUp, moveDown, delete);
+		        row.contextMenuProperty().bind(
+		            Bindings.when(Bindings.isNotNull(row.itemProperty()))
+		            .then(rowMenu)
+		            .otherwise((ContextMenu) null));
+		        return row;
+		        }
+		});
+		
+		/** Edited from https://gist.github.com/james-d/8187590 */
+		tableJungles.setRowFactory(new Callback<TableView<TableChampion>, TableRow<TableChampion>>() {
+		      @Override
+		      public TableRow<TableChampion> call(TableView<TableChampion> tableView) {
+		        final TableRow<TableChampion> row = new TableRow<>();
+		        final ContextMenu rowMenu = new ContextMenu();
+		        ContextMenu tableMenu = tableView.getContextMenu();
+		        if (tableMenu != null) {
+		          rowMenu.getItems().addAll(tableMenu.getItems());
+		          rowMenu.getItems().add(new SeparatorMenuItem());
+		        }
+		        MenuItem moveUp = new MenuItem("^");
+		        moveUp.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveUp(tableJungles);
+                    }
+                });
+		        MenuItem moveDown = new MenuItem("v");
+		        moveDown.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveDown(tableJungles);
+                    }
+                });
+		        MenuItem delete = new MenuItem("-");
+		        delete.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	TableChampion champion = row.getItem();
+                    	removeFromPool(tableJungles, champion);
+                    }
+                });
+		        rowMenu.getItems().addAll(moveUp, moveDown, delete);
+		        row.contextMenuProperty().bind(
+		            Bindings.when(Bindings.isNotNull(row.itemProperty()))
+		            .then(rowMenu)
+		            .otherwise((ContextMenu) null));
+		        return row;
+		        }
+		});
+		
+		/** Edited from https://gist.github.com/james-d/8187590 */
+		tableMids.setRowFactory(new Callback<TableView<TableChampion>, TableRow<TableChampion>>() {
+		      @Override
+		      public TableRow<TableChampion> call(TableView<TableChampion> tableView) {
+		        final TableRow<TableChampion> row = new TableRow<>();
+		        final ContextMenu rowMenu = new ContextMenu();
+		        ContextMenu tableMenu = tableView.getContextMenu();
+		        if (tableMenu != null) {
+		          rowMenu.getItems().addAll(tableMenu.getItems());
+		          rowMenu.getItems().add(new SeparatorMenuItem());
+		        }
+		        MenuItem moveUp = new MenuItem("^");
+		        moveUp.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveUp(tableMids);
+                    }
+                });
+		        MenuItem moveDown = new MenuItem("v");
+		        moveDown.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveDown(tableMids);
+                    }
+                });;
+		        MenuItem delete = new MenuItem("-");
+		        delete.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	TableChampion champion = row.getItem();
+                    	removeFromPool(tableMids, champion);
+                    }
+                });
+		        rowMenu.getItems().addAll(moveUp, moveDown, delete);
+		        row.contextMenuProperty().bind(
+		            Bindings.when(Bindings.isNotNull(row.itemProperty()))
+		            .then(rowMenu)
+		            .otherwise((ContextMenu) null));
+		        return row;
+		        }
+		});
+		
+		/** Edited from https://gist.github.com/james-d/8187590 */
+		tableAdcs.setRowFactory(new Callback<TableView<TableChampion>, TableRow<TableChampion>>() {
+		      @Override
+		      public TableRow<TableChampion> call(TableView<TableChampion> tableView) {
+		        final TableRow<TableChampion> row = new TableRow<>();
+		        final ContextMenu rowMenu = new ContextMenu();
+		        ContextMenu tableMenu = tableView.getContextMenu();
+		        if (tableMenu != null) {
+		          rowMenu.getItems().addAll(tableMenu.getItems());
+		          rowMenu.getItems().add(new SeparatorMenuItem());
+		        }
+		        MenuItem moveUp = new MenuItem("^");
+		        moveUp.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveUp(tableAdcs);
+                    }
+                });
+		        MenuItem moveDown = new MenuItem("v");
+		        moveDown.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveDown(tableAdcs);
+                    }
+                });
+		        MenuItem delete = new MenuItem("-");
+		        delete.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	TableChampion champion = row.getItem();
+                    	removeFromPool(tableAdcs, champion);
+                    }
+                });
+		        rowMenu.getItems().addAll(moveUp, moveDown, delete);
+		        row.contextMenuProperty().bind(
+		            Bindings.when(Bindings.isNotNull(row.itemProperty()))
+		            .then(rowMenu)
+		            .otherwise((ContextMenu) null));
+		        return row;
+		        }
+		});
+		
+		/** Edited from https://gist.github.com/james-d/8187590 */
+		tableSupports.setRowFactory(new Callback<TableView<TableChampion>, TableRow<TableChampion>>() {
+		      @Override
+		      public TableRow<TableChampion> call(TableView<TableChampion> tableView) {
+		        final TableRow<TableChampion> row = new TableRow<>();
+		        final ContextMenu rowMenu = new ContextMenu();
+		        ContextMenu tableMenu = tableView.getContextMenu();
+		        if (tableMenu != null) {
+		          rowMenu.getItems().addAll(tableMenu.getItems());
+		          rowMenu.getItems().add(new SeparatorMenuItem());
+		        }
+		        MenuItem moveUp = new MenuItem("^");
+		        moveUp.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveUp(tableSupports);
+                    }
+                });
+		        MenuItem moveDown = new MenuItem("v");
+		        moveDown.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	moveDown(tableSupports);
+                    }
+                });
+		        MenuItem delete = new MenuItem("-");
+		        delete.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                    	TableChampion champion = row.getItem();
+                    	removeFromPool(tableSupports, champion);
+                    }
+                });
+		        rowMenu.getItems().addAll(moveUp, moveDown, delete);
+		        row.contextMenuProperty().bind(
+		            Bindings.when(Bindings.isNotNull(row.itemProperty()))
+		            .then(rowMenu)
+		            .otherwise((ContextMenu) null));
+		        return row;
+		        }
+		});
+	}
+	
+	// Event Listener on Button[#buttonRefreshChampions].onAction
+	@FXML
+	public void refreshChampions(ActionEvent event) {
+		refreshChampionsFunction();
+	}
+	
+	/** This function refresh all tables and reload data from database */
+	public void refreshChampionsFunction() {
+		loadPoolFunction();
+		loadBanList();
+		tableAllChamps.getItems().clear();
+		tableTops.getItems().clear();
+		tableJungles.getItems().clear();
+		tableMids.getItems().clear();
+		tableAdcs.getItems().clear();
+		tableSupports.getItems().clear();
+		Context ctx = null;
+		try {
+			ctx = new InitialContext();
+			ChampionsFacadeBeanRemote remote = (ChampionsFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//"
+					+ "ChampionsFacadeBean!facade.ChampionsFacadeBeanRemote");
+			LOG.info("Connection to ChampionsFacadeBean initialized");
+			allChampions = remote.loadFromDbAllChampions();
+			for (Champion champion : allChampions) {
+				TableChampion row = new TableChampion(champion, champion.getName(),
+						champion.getRole(), champion.getWinRatio(), champion.getBanRatio());
+				tableAllChamps.getItems().add(row);
+			}
+			LOG.info("All champions were successfully loaded from database.");
+		} catch (NamingException e) { //logging from this function
+			LOG.log(Level.SEVERE, "Context was not able to be initialized - name resolution has failed.", e);
+		} catch (RuntimeException e) { //logging from loadFromDbAllChampions
+			LOG.log(Level.SEVERE, "Error: Query execution exceeded the query timeout value set and the"
+					+ " transaction was rolled back - Failed to get champion list from database.", e);
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				LOG.log(Level.SEVERE, "Context was not able to be closed - name resolution has failed.", e);
+			}
+		}
+	}
+
+	/** This function calls bean to load data into database from web page, using parser */
+	// Event Listener on Button[#buttonAdminControlActualize].onAction
+	@FXML
+	public void adminControlActualize(ActionEvent event) {
+		Context ctx = null;
+		try {
+			ctx = new InitialContext();
+			ChampionsFacadeBeanRemote remote = (ChampionsFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//"
+					+ "ChampionsFacadeBean!facade.ChampionsFacadeBeanRemote");
+			remote.saveAllChampions();
+			LOG.info("All champions from web page were successfully saved into database.");
+		} catch (NamingException e) {
+			LOG.log(Level.SEVERE, "Context was not able to be initialized - name resolution has failed.", e);
+		} catch (IllegalArgumentException | IOException e) {
+			LOG.log(Level.SEVERE, "Error: One or more champions are not an entity or were deleted from database"
+					+ " - Failed to actualize champions in database.", e);
+		}
+		finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				LOG.log(Level.SEVERE, "Context was not able to be closed - name resolution has failed.", e);
+			}
+		}
+	}
+	
+	// Event Listener on Button[#buttonAddChamp].onAction
+	@FXML
+	public void addChampion(ActionEvent event) {
+		addToPool();
+	}
+	
+	/** This function saves user with changed pool into database */
+	// Event Listener on Button[#buttonSavePool].onAction
+	@FXML
+	public void savePool(ActionEvent event) {
+		Context ctx = null;
+		try {
+			ctx = new InitialContext();
+			UserFacadeBeanRemote remote = (UserFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//"
+					+ "UserFacadeBean!facade.UserFacadeBeanRemote");
+		remote.saveUser(user);
+		LOG.info("User changes were successfully saved into database.");
+		} catch (NamingException e) { //logging from this function
+			LOG.log(Level.SEVERE, "Context was not able to be initialized - name resolution has failed.", e);
+		} catch (IllegalArgumentException e) { //logging from saveUser
+			LOG.log(Level.SEVERE, "Error: User " + user.getUsername() + " is not an "
+					+ "entity or was deleted from database - Failed to actualize user in database.", e);
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				LOG.log(Level.SEVERE, "Context was not able to be closed - name resolution has failed.", e);
+			}
+		}
+	}
+	
+	/** This function load champion pool into tables for current user */
+	public void loadPoolFunction() {
+		hashSetChampions.clear();
+		for (Champion champion : user.getPool())
+			hashSetChampions.add(champion.getName());
+		tableTops.getItems().clear();
+		tableJungles.getItems().clear();
+		tableMids.getItems().clear();
+		tableAdcs.getItems().clear();
+		tableSupports.getItems().clear();
+		for (Champion champion : user.getPool()) {
+			TableChampion row = new TableChampion(champion, champion.getName(),
+					champion.getRole(), champion.getWinRatio(), champion.getBanRatio());
+			switch (champion.getRole()) {
+			case "Top Lane": 
+				tableTops.getItems().add(row);
+				break;
+			case "Jungler": 
+				tableJungles.getItems().add(row);
+				break;
+			case "Middle Lane": 
+				tableMids.getItems().add(row);
+				break;
+			case "AD Carry":
+				tableAdcs.getItems().add(row);
+				break;
+			case "Support":
+				tableSupports.getItems().add(row);
+				break;
+			default:
+				break;
+			}
+		}
+		LOG.info("Pool tables were successfully filled with user's champions.");
+	}
+	
+	/**
+	 * Function, that remove selected row from certain table
+	 * @param table - table of champions
+	 * @param row - table row with champion
+	 */
+	public void removeFromPool(TableView<TableChampion> table, TableChampion row) {
+		if (hashSetChampions.remove(row.getChampion().getName())) {
+			table.getItems().remove(row);
+			user.getPool().remove(row.getChampion());
+			LOG.info("Champion was successfully removed from pool table.");
+		}
+	}
+	
+	/**
+	 * Function, that move up selected row in certain table
+	 * @param table - table of champions
+	 */
+	public void moveUp(TableView<TableChampion> table) {
+		TableChampion act = table.getSelectionModel().getSelectedItem();
+		int actIndex = table.getSelectionModel().getSelectedIndex();
+		if (actIndex > 0) {
+			TableChampion actBefore = table.getItems().get(actIndex - 1);
+			TableChampion temp = act;
+			table.getItems().set(actIndex, actBefore); //act = actBefore;
+			table.getItems().set(actIndex - 1, temp); //actBefore = temp;
+		}
+	}
+	
+	/**
+	 * Function, that move down selected row in certain table
+	 * @param table - table of champions
+	 */
+	public void moveDown(TableView<TableChampion> table) {
+		TableChampion act = table.getSelectionModel().getSelectedItem();
+		int actIndex = table.getSelectionModel().getSelectedIndex();
+		if (actIndex < table.getItems().size() - 1) {
+			TableChampion actAfter = table.getItems().get(actIndex + 1);
+			TableChampion temp = act;
+			table.getItems().set(actIndex, actAfter); //act = actAfter;
+			table.getItems().set(actIndex + 1, temp); //actAfter = temp;
+		}
+	}
+	
+	/** Function, that add selected row champion into pool table (depends on champion role) */
+	public void addToPool() {
+		Champion champion = tableAllChamps.getSelectionModel().getSelectedItem().getChampion(); 
+		System.out.println(champion.getRole() + " bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+		if (!hashSetChampions.contains(champion.getName())) {
+			System.out.println(champion.getRole() + " aaaaaaaaaaaaaaaaaaaaaaa");
+			hashSetChampions.add(champion.getName());
+			user.getPool().add(champion);
+			TableChampion row = new TableChampion(champion, champion.getName(),
+					champion.getRole(), champion.getWinRatio(), champion.getBanRatio());
+			switch (champion.getRole()) {
+			case "Top Lane": 
+				tableTops.getItems().add(row);
+				LOG.info("Champion was successfully added into TOP pool table.");
+				break;
+			case "Jungler": 
+				tableJungles.getItems().add(row);
+				LOG.info("Champion was successfully added into JUNGLE pool table.");
+				break;
+			case "Middle Lane": 
+				tableMids.getItems().add(row);
+				LOG.info("Champion was successfully added into MID pool table.");
+				break;
+			case "AD Carry":
+				tableAdcs.getItems().add(row);
+				LOG.info("Champion was successfully added into ADC pool table.");
+				break;
+			case "Support":
+				tableSupports.getItems().add(row);
+				LOG.info("Champion was successfully added into SUPPORT pool table.");
+				break;
+			default:
+				LOG.warning("Champion was not added into pool table. Incorrect role.");
+			}
+		}	
+	}
+	
+	/** Function, that calls been to get 6 most banned champions, and load banList table */
+	private void loadBanList() {
+		tableBanList.getItems().clear();
+		Context ctx = null;
+		try {
+			ctx = new InitialContext();
+			ChampionsFacadeBeanRemote remote = (ChampionsFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//"
+					+ "ChampionsFacadeBean!facade.ChampionsFacadeBeanRemote");
+			LOG.info("Connection to ChampionsFacadeBean initialized");
+			List<Champion> banList = remote.getTopBans();
+			for (Champion champion : banList) {
+				TableChampion row = new TableChampion(champion, champion.getName(),
+						champion.getRole(), champion.getWinRatio(), champion.getBanRatio());
+				tableBanList.getItems().add(row);
+			}
+			LOG.info("For banlist, 6 most banned champions were successfully loaded from database.");
+		} catch (NamingException e) { //logging from this function
+			LOG.log(Level.SEVERE, "Context was not able to be initialized - name resolution has failed.", e);
+		} catch (RuntimeException e) { //logging from getTopBans
+			LOG.warning("Banlist was not loaded from database into banList tabe.");
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				LOG.log(Level.SEVERE, "Context was not able to be closed - name resolution has failed.", e);
+			}
+		}
+	}
+	
+	/**
+	 * Show details in table for selected champion
+	 * @param champion - selected champion
+	 */
+	private void showDetails(Champion champion) {
+		tableDetails.getItems().clear();
+		valueTableColumnDetails.setText(champion.getName());
+		TableDetails role = new TableDetails(Main.getInstance().getLanguage()
+				.getString("Role") + ":", champion.getRole());
+		tableDetails.getItems().add(role);
+		TableDetails winRatio = new TableDetails(Main.getInstance().getLanguage()
+				.getString("Win") + ":", champion.getWinRatio().toString() + "%");
+		tableDetails.getItems().add(winRatio);
+		TableDetails playRatio = new TableDetails(Main.getInstance().getLanguage()
+				.getString("Play") + ":", champion.getPlayRatio().toString() + "%");
+		tableDetails.getItems().add(playRatio);
+		TableDetails banRatio = new TableDetails(Main.getInstance().getLanguage()
+				.getString("Ban") + ":", champion.getBanRatio().toString() + "%");
+		tableDetails.getItems().add(banRatio);
+		TableDetails ipCost = new TableDetails(Main.getInstance().getLanguage()
+				.getString("IPCost"), champion.getIpCost().toString() + " IP");
+		tableDetails.getItems().add(ipCost);
+		TableDetails rpCost = new TableDetails(Main.getInstance().getLanguage()
+				.getString("RPCost"), champion.getRpCost().toString() + " RP");
+		tableDetails.getItems().add(rpCost);
+		TableDetails released = new TableDetails(Main.getInstance().getLanguage()
+				.getString("Released"), champion.getReleased());
+		tableDetails.getItems().add(released);
+	}
+	
+	/** Opens Login window and closes Main window (and null current user) */
+	// Event Listener on MenuItem[#menuItemLogOut].onAction
+	@FXML
+	public void logOut(ActionEvent event) {
+		Main.getInstance().getLoginWindow().show();
+		Main.getInstance().getMainWindow().hide();
+		Main.getInstance().getLc().getTextFieldUsername().setText("");
+		Main.getInstance().getLc().getPasswordField().setText("");
+		LOG.info("User was successfully logged out, main window was hid, login window shown.");
+	}
+	
+	/** Opens EditUser window */
+	// Event Listener on Button[#buttonRegister].onAction
+	@FXML
+	public void editProfile() {
+		try {
+			String title = Main.getInstance().getLanguage().getString("EditProfileTitle");
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource(Main.getInstance().getProperties().getProperty("EditProfileFXML")));
+			Parent root = fxmlLoader.load();
+			Main.getInstance().setEpc(fxmlLoader.<EditProfileController>getController());
+			ObservableList<String> options = 
+				    FXCollections.observableArrayList(
+				        "EUW", "EUNE", "NA"
+			);
+			Main.getInstance().getEpc().getComboBoxServer().setItems(options);
+			Main.getInstance().getEpc().getComboBoxServer().getSelectionModel().select(0);
+			Main.getInstance().getEpc().setUser(user);
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setTitle(title);
+			stage.setScene(scene);
+			stage.show();
+			Main.getInstance().setEditProfileWindow(stage);
+			Main.getInstance().getEpc().getTextFieldNick().setText(user.getNick());
+			Main.getInstance().getEpc().getComboBoxServer().getSelectionModel().select(user.getServer());
+			Main.getInstance().renameEditProfile();
+			LOG.info("EditProfile window was successfully set and loaded.");
+		} catch (IOException e) { //includes FileNotFoundException
+			LOG.log(Level.SEVERE, "Error: fxmlLoader was not able to load their files correctly.", e);
+		}
+	}
+	
+	/** Function, that changes language to slovak */
+	// Event Listener on MenuItem[#menuItemSlovak].onAction
+	@FXML
+	public void changeSlovak(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("sk");
+		Main.getInstance().renameAll();
+	}
+	
+	/** Function, that changes language to english */
+	// Event Listener on MenuItem[#menuItemEnglish].onAction
+	@FXML
+	public void changeEnglish(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("eng");
+		Main.getInstance().renameAll();
+	}
+}

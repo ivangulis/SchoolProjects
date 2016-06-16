@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence">
+  <persistence-unit name="PostgresDS" transaction-type="JTA">
+    <jta-data-source>java:/PostgresDS</jta-data-source>
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+    </properties>
+    
+    <class>model.User</class>class>
+    <class>model.Champion</class>class>
+    
+    <!--class>entity.Film</class>
+    <class>entity.Station</class>
+    <class>entity.TvDay</class>
+    <class>entity.User</class>-->
+    
+  </persistence-unit>
+</persistence>

@@ -1,0 +1,54 @@
+package model;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="\"pool\"")
+public class Pool implements Serializable {
+
+	private static final long serialVersionUID = 5584237125804470860L;
+	private List<Champion> top;
+	private List<Champion> jungle;
+	private List<Champion> mid;
+	private List<Champion> adc;
+	private List<Champion> support;
+	
+	public List<Champion> getTop() {
+		return top;
+	}
+	public void setTop(List<Champion> top) {
+		this.top = top;
+	}
+	public List<Champion> getJungle() {
+		return jungle;
+	}
+	public void setJungle(List<Champion> jungle) {
+		this.jungle = jungle;
+	}
+	public List<Champion> getMid() {
+		return mid;
+	}
+	public void setMid(List<Champion> mid) {
+		this.mid = mid;
+	}
+	public List<Champion> getAdc() {
+		return adc;
+	}
+	public void setAdc(List<Champion> adc) {
+		this.adc = adc;
+	}
+	public List<Champion> getSupport() {
+		return support;
+	}
+	public void setSupport(List<Champion> support) {
+		this.support = support;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+}

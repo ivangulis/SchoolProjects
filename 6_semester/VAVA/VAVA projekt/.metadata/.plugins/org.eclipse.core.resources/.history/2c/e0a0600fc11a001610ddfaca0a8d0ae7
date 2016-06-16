@@ -1,0 +1,47 @@
+package executive;
+
+import java.util.ArrayList;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import dao.UserDAO;
+import model.Champion;
+import model.User;
+
+/**
+ * Session Bean implementation class LoginExecutiveBean
+ */
+@Stateless
+public class ChampionsExecutiveBean {
+
+	@PersistenceContext
+    private EntityManager em;
+	private UserDAO userDAO = new UserDAO();
+	
+	public User verifyLogin(String username, String password) {
+		User user = null;
+		try {
+			user = userDAO.verifyLogin(em, username, password);
+			user.setPool(new ArrayList<Champion>(user.getPool()));
+			em.detach(user);
+		} catch (Exception e) {
+			return user; //TODO logger
+		}
+		return user;
+	}
+
+	public boolean createAccount(String username, String password) {
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		try {
+			userDAO.createAccount(em, user);
+		} catch (Exception e) {
+			return false; //TODO logger
+		}
+		return true;
+	}
+
+}

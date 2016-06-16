@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="600.0" stylesheets="@Other.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.EditProfileController">
+   <children>
+      <TextField fx:id="textFieldNick" layoutX="321.0" layoutY="171.0" />
+      <ComboBox fx:id="comboBoxServer" layoutX="321.0" layoutY="211.0" prefHeight="25.0" prefWidth="103.0" />
+      <PasswordField fx:id="passwordField" layoutX="321.0" layoutY="258.0" />
+      <PasswordField fx:id="passwordField2" layoutX="321.0" layoutY="316.0" />
+      <Label fx:id="labelPassword" layoutX="138.0" layoutY="258.0" prefHeight="25.0" prefWidth="149.0" text="New password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelPassword2" layoutX="138.0" layoutY="316.0" prefHeight="25.0" prefWidth="149.0" text="Confirm password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelMainCaption" alignment="CENTER" layoutX="178.0" layoutY="70.0" text="EDIT PROFILE" underline="true">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonSaveAccount" layoutX="249.0" layoutY="359.0" mnemonicParsing="false" onAction="#editAccount" prefHeight="47.0" prefWidth="103.0" text="Save" />
+      <Label fx:id="labelPasswordError" alignment="CENTER" layoutX="140.0" layoutY="423.0" prefHeight="27.0" prefWidth="321.0" stylesheets="@Other.css" textFill="RED" underline="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelNick" layoutX="138.0" layoutY="171.0" prefHeight="25.0" prefWidth="149.0" text="New nick">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <MenuBar layoutX="-2.0" prefHeight="35.0" prefWidth="605.0">
+         <menus>
+            <Menu fx:id="menuLanguage" mnemonicParsing="false" text="Language">
+               <items>
+                  <MenuItem fx:id="menuItemEnglish" mnemonicParsing="false" onAction="#changeEnglish" text="ENG" />
+                  <MenuItem fx:id="menuItemSlovak" mnemonicParsing="false" onAction="#changeSlovak" text="SK" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Label fx:id="labelServer" layoutX="138.0" layoutY="211.0" prefHeight="25.0" prefWidth="149.0" text="Change server">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="checkChangePassword" layoutX="373.0" layoutY="351.0" mnemonicParsing="false" text="Change password" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></CheckBox>
+   </children>
+</AnchorPane>

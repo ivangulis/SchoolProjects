@@ -1,0 +1,17 @@
+LoginTitle = TV program
+NewAccTitle = New account
+MainWindowTitle = Champion Pool Manager
+ChangeStationsTitle = Stations
+LoginWindowFail = Failed to show login window
+LoginWrongPassword = Invalid username or password
+AccCreated = New account was created
+AccExists = Account already exists
+Confirm = Confirm
+ConfirmLogout = Are you sure to log out?
+ConfirmExit = Are you sure to exit?
+Yes = Yes
+No = No
+Cancel = Cancel
+ConfirmTitle = Confirm
+InfoTitle = Information
+ErrorTitle = Error

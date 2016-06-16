@@ -1,0 +1,71 @@
+package entity2;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="\"user\"")
+@NamedQueries({
+	@NamedQuery(name="User.getUser",
+			query="SELECT u FROM User u WHERE u.username = :custName AND u.password = :custPassword")
+})
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 7231016984615339213L;
+	private Integer id;
+	private String username;
+	private String password;
+	private List<Station> stations;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@Column(unique = true, nullable = false)
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	@Column(nullable = false)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@ManyToMany
+	@JoinTable(name = "user_station", 
+			   joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "station_id"))
+	public List<Station> getStations() {
+		return stations;
+	}
+
+	public void setStations(List<Station> stations) {
+		this.stations = stations;
+	}
+
+}

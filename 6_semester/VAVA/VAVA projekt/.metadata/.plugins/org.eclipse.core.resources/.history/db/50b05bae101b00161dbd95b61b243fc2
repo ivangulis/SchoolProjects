@@ -1,0 +1,18 @@
+package facade;
+
+import java.util.List;
+
+import javax.ejb.Remote;
+
+import model.Champion;
+import model.User;
+
+@Remote
+public interface ChampionsFacadeBeanRemote {
+
+	public List<Champion> getAllChampions();
+	public List<Champion> loadFromDbAllChampions();
+	//public User verifyLogin(String username, String password);
+	//public boolean createAccount(String username, String password);
+
+}

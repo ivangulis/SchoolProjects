@@ -1,0 +1,20 @@
+package dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import model.User;
+
+public class ChampionsDAO {
+
+	public User verifyLogin(EntityManager em, String username, String password) {
+		TypedQuery<User> query = em.createNamedQuery("User.getUser", User.class);
+		query.setParameter("custName", username).setParameter("custPassword", password);
+		return query.getSingleResult();
+	}
+
+	public void createAccount(EntityManager em, User user) {
+		em.persist(user);
+	}
+
+}

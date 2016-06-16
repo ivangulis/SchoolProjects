@@ -1,0 +1,52 @@
+ChampionPoolManager = Mana\u017Eér výberu \u0161ampiónov
+DifferentPasswords = Heslá sa nezhodujú.
+AccountCreated = Vá\u0161 ú\u010Det bol úspe\u0161ne vytvorený.
+AlreadyRegistered = Tento ú\u010Det u\u017E existuje.
+Language = Jazyk
+NewPassword = Nové heslo
+ConfirmPassword = Porvt\u010F heslo
+Save = Ulo\u017E
+
+EditProfileTitle = Úprava profilu
+EditProfileCaption = UPRAV PROFIL
+EditProfileNick = Nová prezývka
+EditProfileServer = Zmenie\u0165 server
+AccountSaved = Ú\u010Det bol úspe\u0161ne zmenený.
+AccountNotSaved = Ú\u010Det nebol zmenený.
+EditProfileChangePw = Zme\u0148 heslo
+
+LoginPassword = Heslo
+LoginUsername = Meno
+LoginError = Zlé prihlasovacie heslo.
+LoginUsernameError = Dané prihlasovacie meno neexistuje.
+Login = Prihlási\u0165
+Register = Registrova\u0165
+
+RegisterTitle = Registrácia
+RegisterNick = Tvoja prezývka
+RegisterUsername = Nové meno
+RegisterCreate = Vytvor
+HashingFailed = Zlyhalo ha\u0161ovanie hesiel, skúste to neskôr.
+
+MainWindowBans = Najlep\u0161ie zákazy
+MainWindowDetails = Detaily
+MainWindowAllChamps = V\u0161etci \u0161ampióni
+MainWindowLoad = V\u0161etci \u0161ampióni boli úspe\u0161ne na\u010Dítaný z databáze.
+Name = Meno
+Role = Rola
+Value = Hodnota
+MainWindowActualizeDB = Aktualizuj DB
+EditProfile = Upravi\u0165 profil
+LogOut = Odhlási\u0165
+Profile = Profil
+MainWindowRefresh = Obnov \u0161ampiónov
+Add = Prida\u0165
+MoveUp = Posu\u0148 hore
+MoveDown = Posu\u0148 dole
+Delete = Zma\u017E
+IPCost = Cena IP:
+RPCost = Cena RP:
+Released = Vydaný
+Play = Hraný
+Win = Vyhrá
+Ban = Zakázaný

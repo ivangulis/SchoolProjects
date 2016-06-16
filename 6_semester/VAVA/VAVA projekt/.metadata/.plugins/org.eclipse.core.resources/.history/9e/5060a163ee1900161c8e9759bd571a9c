@@ -1,0 +1,13 @@
+package facade;
+
+import javax.ejb.Remote;
+
+import entity2.User;
+
+@Remote
+public interface LoginFacadeBeanRemote {
+
+	public User verifyLogin(String username, String password);
+	public boolean createAccount(String username, String password);
+
+}

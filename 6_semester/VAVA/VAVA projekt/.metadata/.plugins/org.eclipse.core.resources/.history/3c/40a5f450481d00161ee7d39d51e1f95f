@@ -1,0 +1,196 @@
+package view;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.persistence.PersistenceException;
+
+import application.Hasher;
+import application.Main;
+import facade.UserFacadeBeanRemote;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.PasswordField;
+
+public class LoginController {
+	@FXML
+	private TextField textFieldUsername;
+	@FXML
+	private PasswordField passwordField;
+	@FXML
+	private Button buttonRegister;
+	@FXML
+	private Button buttonLogin;
+	@FXML
+	private Label labelMainCaption;
+	@FXML
+	private Label labelUsername;
+	@FXML
+	private Label labelPassword;
+	@FXML
+	private Label labelPasswordError;
+	@FXML
+	private Menu menuLanguage;
+	
+	private static Logger LOG = Logger.getLogger(RegisterController.class.getName());
+	
+	public Button getButtonRegister() {
+		return buttonRegister;
+	}
+
+	public Button getButtonLogin() {
+		return buttonLogin;
+	}
+
+	public Label getLabelMainCaption() {
+		return labelMainCaption;
+	}
+
+	public Label getLabelUsername() {
+		return labelUsername;
+	}
+
+	public Label getLabelPassword() {
+		return labelPassword;
+	}
+
+	public Label getLabelPasswordError() {
+		return labelPasswordError;
+	}
+
+	public Menu getMenuLanguage() {
+		return menuLanguage;
+	}
+
+	public TextField getTextFieldUsername() {
+		return textFieldUsername;
+	}
+	
+	public PasswordField getPasswordField() {
+		return passwordField;
+	}
+	
+	// Event Listener on Button[#buttonLogin].onAction
+	@FXML
+	/** Tlaèidlo login vykoná prihlásenie a zobrazí hlavné okno */
+	public void login(ActionEvent event) {
+		Context ctx = null;
+		labelPasswordError.setText("");
+		String username = textFieldUsername.getText();
+		String password = passwordField.getText();
+		Hasher hasher = new Hasher();
+		try {
+			ctx = new InitialContext();
+			UserFacadeBeanRemote remote = (UserFacadeBeanRemote) ctx.lookup
+					("ProjectEAR/ProjectServer//UserFacadeBean!facade.UserFacadeBeanRemote");
+			User user;
+			try {
+				user = remote.getUser(username);
+				LOG.info("Info: User was successfully found in database.");
+			} catch (Exception e) { //include EntityExistsException
+				LOG.log(Level.SEVERE, "Error: Failed to get user entity from database.", e);
+			}
+			if (user != null) {
+				String hashedPassword = hasher.getHash(password, user.getSalt());
+				if (hashedPassword.equals(user.getPassword())) {
+					String title = Main.getInstance()
+							.getLanguage()
+							.getString("ChampionPoolManager");
+					//Parent root = FXMLLoader.load(getClass().getResource("/view/MainWindow.fxml")); //fxml
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+							.getResource(Main.getInstance().getProperties().getProperty("MainWindowFXML")));
+					Parent root = fxmlLoader.load();
+					Main.getInstance().setMwc(fxmlLoader.<MainWindowController>getController());
+					Main.getInstance().getMwc().setUser(user);			
+					Scene scene = new Scene(root);
+					Stage stage = new Stage();
+					stage.setTitle(title);
+					stage.setScene(scene);
+					stage.show();
+					Main.getInstance().setMainWindow(stage);
+					Main.getInstance().getLoginWindow().hide();
+					Main.getInstance().renameMainWindow();
+				} else {
+					String text = Main.getInstance().getLanguage().getString("LoginError");
+					labelPasswordError.setText(text);
+					//TODO logger maybe
+				}
+			} else {
+				String text = Main.getInstance().getLanguage().getString("LoginUsernameError");
+				labelPasswordError.setText(text);
+				//nenašiel sa user
+			}
+		} catch (NamingException e) {
+			e.printStackTrace(); //TODO logger, ked sa nepodari spojit so serverom, mozno logovat spolu
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); //TODO logger, ked sa nepodari otvorit MainWindow
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace(); //TODO logger
+			}
+		}
+	}
+	// Event Listener on Button[#buttonRegister].onAction
+	@FXML
+	/** Tlaèidlo register zobrazí okno registrácie */
+	public void register(ActionEvent event) {
+		try {
+			String title = Main.getInstance().getLanguage().getString("RegisterTitle");
+			//Parent root = FXMLLoader.load(getClass().getResource("/view/Register.fxml")); //fxml
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource(Main.getInstance().getProperties().getProperty("RegisterFXML")));
+			Parent root = fxmlLoader.load();
+			Main.getInstance().setRc(fxmlLoader.<RegisterController>getController());
+			ObservableList<String> options = 
+				    FXCollections.observableArrayList(
+				        "EUW", "EUNE", "NA"
+			);
+			Main.getInstance().getRc().getComboBoxServer().setItems(options);
+			Main.getInstance().getRc().getComboBoxServer().getSelectionModel().select(0);
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setTitle(title);
+			stage.setScene(scene);
+			stage.show();
+			Main.getInstance().setRegisterWindow(stage);
+			Main.getInstance().renameRegister();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); //TODO logger, ked sa nepodari otvorit NewAcc
+		}
+	}
+	
+	// Event Listener on MenuItem[#menuItemSlovak].onAction
+	@FXML
+	public void changeSlovak(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("sk");
+		Main.getInstance().renameAll();
+	}
+	
+	// Event Listener on MenuItem[#menuItemEnglish].onAction
+	@FXML
+	public void changeEnglish(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("eng");
+		Main.getInstance().renameAll();
+	}
+}

@@ -1,0 +1,61 @@
+package model;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="\"user\"")
+public class User implements Serializable {
+
+	private static final long serialVersionUID = -7351729135012380019L;
+	private Integer id;
+	private String username;
+	private String password;
+	private List<Champion> pool;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	@Column(unique = true, nullable = false)
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	@Column(nullable = false)
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
+	public List<Champion> getPool() {
+		return pool;
+	}
+	public void setPool(List<Champion> pool) {
+		this.pool = pool;
+	}	
+	
+	
+	
+}

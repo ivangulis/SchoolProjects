@@ -1,0 +1,36 @@
+package facade;
+
+import java.util.List;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import executive.ChampionsExecutiveBean;
+import model.Champion;
+
+/**
+ * Session Bean implementation class ChampionsFacadeBean
+ * This bean is used to provide access for client to methods around champions.
+ * @author Ivan Gulis
+ */
+@Stateless
+public class ChampionsFacadeBean implements ChampionsFacadeBeanRemote {
+
+	@EJB
+	ChampionsExecutiveBean championsExecBean;
+	
+	@Override
+	public void saveAllChampions() {
+		return championsExecBean.saveAllChampions();
+	}
+	
+	@Override
+	public List<Champion> loadFromDbAllChampions() {
+		return championsExecBean.loadFromDbAllChampions();
+	}
+	
+	@Override
+	public List<Champion> getTopBans() {
+		return championsExecBean.getTopBans();
+	}
+}

@@ -1,0 +1,4 @@
+MainScreenFXML = /view/MainScreen.fxml
+LoginFXML = /view/Login.fxml
+RegisterFXML = /view/Register.fxml
+EditProfileFXML = /view/EditProfile.fxml

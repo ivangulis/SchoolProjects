@@ -1,0 +1,34 @@
+package table;
+
+import org.joda.time.LocalTime;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+public class FilmTable {
+
+	private final StringProperty name;
+	private final ObjectProperty<LocalTime> start_time;
+	private final ObjectProperty<LocalTime> end_time;
+
+	public FilmTable(String name, LocalTime start_time, LocalTime end_time) {
+		this.name = new SimpleStringProperty(name);
+		this.start_time = new SimpleObjectProperty<>(this, "start_time", start_time);
+		this.end_time = new SimpleObjectProperty<>(this, "end_time", end_time);
+	}
+
+	public LocalTime getStart_time() {
+		return start_time.get();
+	}
+
+	public LocalTime getEnd_time() {
+		return end_time.get();
+	}
+
+	public String getName() {
+		return name.get();
+	}
+
+}

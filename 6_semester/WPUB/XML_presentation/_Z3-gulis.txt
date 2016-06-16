@@ -1,0 +1,17 @@
+súbory:
+súbor na generovanie vısledkov:	generate_pdf_html.bat
+slajdy HTML formátu:		1.html a 14.html
+slajdy PDF formátu: 		prezentacia.pdf
+transformácie (XSL):		dopdf.xsl, dohtml.xsl, zakladne.xsl
+zdrojové XML:			prezentacia.xml
+DTD k XMLku:			prezentacia.dtd
+dokument s opisom DTD:		opisDTD.docx
+auto-generovanı FO súbor:	prezentacia.fo
+obrázky:			všetky .jpg, .png (spolu 8)
+
+spôsob prekladu:
+Je potrebné ma nainštalovanı Saxon 9.7 a XEP.
+Vıstupy sa generujú spustením súboru generate_pdf_html.bat priamo do rozbaleného prieèinka.
+Pre správne fungovanie je potrebné v tomto .bat súbore nastavi správnu cestu k nainštalovanému Saxon jarku
+(napríklad C:\saxon\saxon9he.jar) a xep.bat (C:\docbook\xep\xep.bat).
+Všetky rozbalené súbory musia lea v rovnakom prieèinku ako generate_pdf_html.bat.

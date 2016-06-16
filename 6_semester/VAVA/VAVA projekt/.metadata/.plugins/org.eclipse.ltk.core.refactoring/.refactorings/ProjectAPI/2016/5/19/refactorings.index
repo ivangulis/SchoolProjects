@@ -1,0 +1,14 @@
+1463238775581	Rename package 'entity'
+1463239445266	Encapsulate field 'pool'
+1463241658778	Delete element
+1463241709206	Encapsulate field 'pool'
+1463242234712	Rename package 'entity2'
+1463242903419	Delete element
+1463242908343	Delete element
+1463243176340	Delete element
+1463243627312	Rename package 'model'
+1463243820598	Rename package 'entity'
+1463332553576	Copy compilation unit
+1463352411112	Encapsulate field 'rolePosition'
+1463352439951	Encapsulate field 'playRatio'
+1463352445834	Encapsulate field 'banRatio'

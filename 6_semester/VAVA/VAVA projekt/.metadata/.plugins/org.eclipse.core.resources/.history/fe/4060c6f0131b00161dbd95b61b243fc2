@@ -1,0 +1,64 @@
+package executive;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import dao.ChampionDAO;
+import dao.UserDAO;
+import model.Champion;
+import model.User;
+import webSearchFeature.WebSearch;
+
+/**
+ * Session Bean implementation class LoginExecutiveBean
+ */
+@Stateless
+public class ChampionsExecutiveBean {
+
+	@PersistenceContext
+    private EntityManager entityManager;
+	private ChampionDAO championDAO = new ChampionDAO();
+	
+	public void saveAllChampions() {
+		List<Champion> allChampions = new ArrayList<Champion>();
+		
+		WebSearch webSearch = new WebSearch();
+		allChampions = webSearch.searchForChampions();
+		
+		championDAO.saveAllChampions(entityManager, allChampions);
+		
+		//return allChampions;
+	}
+	
+	public void downloadProgram(EntityManager em, List<List<Film>> tvDays, Map<Integer, Integer> map, List<Station> stations, LocalDate day) throws IOException {
+    	FilmDAO filmDAO = new FilmDAO();
+    	URLDownloader URLdownloader = new URLDownloader();
+		Parser parser = new Parser();
+		for (Station s: stations) {
+			Integer filmIndex = map.get(s.getId());
+			if (tvDays.get(filmIndex).isEmpty()) {
+				Document doc = URLdownloader.createHTML(s.getUrl());
+				parser.parseDoc(tvDays, filmIndex, doc, day, s);
+				filmDAO.saveTvDay(em, tvDays.get(filmIndex));
+			}
+		}
+    }
+	
+	public List<Champion> loadFromDbAllChampions() {
+    	List<Champion> allChampions = null;
+		try {
+			allChampions = championDAO.loadFromDbAllChampions(entityManager);
+			for (Champion champion : allChampions) {
+				entityManager.detach(champion);
+			}
+		} catch (Exception e) {
+			return allChampions; //TODO logger
+		}
+    	return allChampions;
+    }
+
+}

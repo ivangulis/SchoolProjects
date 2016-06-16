@@ -1,0 +1,54 @@
+.button {
+    -fx-background-color: linear-gradient(#ff5400, #be1d00);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16pt;
+}
+.button Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
+
+.root {
+    -fx-background-image: url("/images/background.jpg");
+}
+
+.roles {
+    -fx-font-size: 24pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+}
+
+.table-view {
+    -fx-base: #1d1d1d;
+    -fx-control-inner-background: #1d1d1d;
+    -fx-background-color: #1d1d1d;
+    -fx-padding: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #A00000;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: #A00000;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 35;
+    -fx-border-insets: 0 10 1 0;
+    -fx-font-size: 16pt;
+}
+
+.menu-bar {
+    -fx-background-color: #3300FF;
+}
+
+.menu {
+    -fx-background-color: #3300FF;
+}
+
+.menu-item {
+    -fx-background-color: #3300FF;
+}

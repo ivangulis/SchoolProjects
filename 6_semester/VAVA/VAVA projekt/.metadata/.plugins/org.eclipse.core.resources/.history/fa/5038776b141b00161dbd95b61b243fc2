@@ -1,0 +1,16 @@
+package facade;
+
+import java.util.List;
+
+import javax.ejb.Remote;
+
+import model.Champion;
+import model.User;
+
+@Remote
+public interface ChampionsFacadeBeanRemote {
+
+	public List<Champion> saveAllChampions();
+	public List<Champion> loadFromDbAllChampions();
+
+}

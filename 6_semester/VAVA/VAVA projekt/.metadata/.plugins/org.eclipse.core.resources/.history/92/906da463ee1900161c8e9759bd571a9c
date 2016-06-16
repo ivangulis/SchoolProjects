@@ -1,0 +1,26 @@
+package facade;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import org.joda.time.DateTime;
+
+import entity2.Response;
+import entity2.User;
+import executive.ProgramExecutiveBean;
+
+/**
+ * Session Bean implementation class ProgramFacadeBean
+ */
+@Stateless
+public class ProgramFacadeBean implements ProgramFacadeBeanRemote {
+
+	@EJB
+	private ProgramExecutiveBean programBean;
+
+	@Override
+	public Response loadProgram(User user, DateTime date) {
+		return programBean.loadProgram(user, date);
+	}
+
+}

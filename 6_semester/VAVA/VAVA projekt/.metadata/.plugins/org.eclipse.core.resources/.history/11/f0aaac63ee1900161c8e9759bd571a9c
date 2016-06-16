@@ -1,0 +1,62 @@
+package entity2;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.joda.time.LocalDate;
+
+@Entity
+@Table(name = "tv_day")
+public class TvDay implements Serializable {
+
+	private static final long serialVersionUID = 6666785498783998106L;
+	private Integer id;
+	private LocalDate day;
+	private Station station;
+	private List<Film> films;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public LocalDate getDay() {
+		return day;
+	}
+
+	public void setDay(LocalDate day) {
+		this.day = day;
+	}
+
+	@ManyToOne
+	public Station getStation() {
+		return station;
+	}
+
+	public void setStation(Station station) {
+		this.station = station;
+	}
+
+	@OneToMany(mappedBy = "tv_day")
+	public List<Film> getFilms() {
+		return films;
+	}
+
+	public void setFilms(List<Film> films) {
+		this.films = films;
+	}
+
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+       
+<hibernate-configuration>
+        <session-factory>
+                <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+                <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+                <!-- Assume test is the database name -->
+                <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/Projekt1</property>
+                <property name="hibernate.connection.username">Ivan</property>
+                <property name="hibernate.connection.password">25051993</property>
+                <!-- Echo all executed SQL to stdout -->
+                <property name='show_sql'>true</property>
+                <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+                <!-- List of XML mapping files -->
+                <mapping class="model.Komix"/>
+                <mapping class="model.Bublina"/>
+                <mapping class="model.Strana"/>
+                <mapping class="model.Postava"/>
+                <mapping class="model.Umelec"/>
+                <mapping class="model.Nakreslenie"/>
+        </session-factory>
+</hibernate-configuration>

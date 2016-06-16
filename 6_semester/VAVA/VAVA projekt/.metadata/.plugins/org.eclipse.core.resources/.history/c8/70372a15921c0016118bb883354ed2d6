@@ -1,0 +1,11 @@
+LoginTitle = Champion Pool Manager
+RegisterTitle = Register
+MainWindowTitle = Champion Pool Manager
+EditProfileTitle = Profile editing
+DifferentPasswords = Passwords do not match!!!
+LoginError = Wrong username or password!!!
+AccountCreated = Your account was successfully created
+AlreadyRegistered = This account is already registered
+Confirm = Confirm
+Yes = Yes
+No = No

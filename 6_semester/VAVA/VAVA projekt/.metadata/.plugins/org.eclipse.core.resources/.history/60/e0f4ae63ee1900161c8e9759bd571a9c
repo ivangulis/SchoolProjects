@@ -1,0 +1,85 @@
+package entity2;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.joda.time.LocalTime;
+
+@Entity
+@Table(name = "film")
+public class Film implements Serializable {
+
+	private static final long serialVersionUID = 5173821360028888462L;
+	private Integer id;
+	private String name;
+	private LocalTime start_time;
+	private LocalTime end_time;
+	private TvDay tv_day;
+	private List<User> users;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public LocalTime getStart_time() {
+		return start_time;
+	}
+
+	public void setStart_time(LocalTime start_time) {
+		this.start_time = start_time;
+	}
+
+	public LocalTime getEnd_time() {
+		return end_time;
+	}
+
+	public void setEnd_time(LocalTime end_time) {
+		this.end_time = end_time;
+	}
+
+	@ManyToOne
+    @JoinColumn(name = "tvday_id")
+	public TvDay getTv_day() {
+		return tv_day;
+	}
+
+	public void setTv_day(TvDay tv_day) {
+		this.tv_day = tv_day;
+	}
+
+	@ManyToMany
+	@JoinTable(name = "user_film", 
+			   joinColumns = @JoinColumn(name = "film_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+}

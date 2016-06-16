@@ -1,0 +1,28 @@
+package entity2;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class Response implements Serializable {
+
+	private static final long serialVersionUID = -1988161499506071086L;
+	private List<Film> films;
+	private List<TvDay> tvDays;
+
+	public List<Film> getFilms() {
+		return films;
+	}
+
+	public void setFilms(List<Film> films) {
+		this.films = films;
+	}
+
+	public List<TvDay> getTvDays() {
+		return tvDays;
+	}
+
+	public void setTvDays(List<TvDay> films) {
+		this.tvDays = films;
+	}
+
+}

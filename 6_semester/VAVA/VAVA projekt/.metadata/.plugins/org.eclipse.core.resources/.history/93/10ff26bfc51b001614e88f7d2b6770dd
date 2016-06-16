@@ -1,0 +1,25 @@
+package table;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import model.Champion;
+
+public class TableDetails {
+	
+	private final StringProperty name;
+	private final StringProperty value;
+
+	public TableDetails(Champion champion, String name, String value) {
+		this.name = new SimpleStringProperty(name);
+		this.value = new SimpleStringProperty(value);
+	}
+
+	public StringProperty getName() {
+		return name;
+	}
+
+	public StringProperty getValue() {
+		return value;
+	}
+
+}

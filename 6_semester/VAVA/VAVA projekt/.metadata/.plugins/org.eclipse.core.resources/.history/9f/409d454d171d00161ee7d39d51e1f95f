@@ -1,0 +1,28 @@
+package dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import model.Champion;
+
+public class ChampionDAO {
+
+	public void saveAllChampions(EntityManager entityManager, List<Champion> champions) {
+		for (Champion champion: champions) {
+			entityManager.merge(champion);
+		}
+	}
+	public List<Champion> loadFromDbAllChampions(EntityManager entityManager) {
+		TypedQuery<Champion> query = entityManager.createNamedQuery("Champion.getChampion", Champion.class);
+		return query.getResultList();
+	}
+	
+	public List<Champion> getTopBans(EntityManager entityManager) {
+		TypedQuery<Champion> query = entityManager.createNamedQuery("Champion.getTopBans", Champion.class);
+		query.setMaxResults(6);
+		return query.getResultList();
+	}
+
+}

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE prezentacia SYSTEM "prezentacia.dtd" >
+
+<?xml-stylesheet type="text/xsl" href="dohtml.xsl"?>
+<?xml-stylesheet type="text/xsl" href="dopdf.xsl"?>
+
+<prezentacia>
+	<slide typ = "titulny">
+		<title>Útoky na detekcie plagiátorstva</title>
+		<paragraf>
+			<text>Autor: Ivan Gulis</text>
+		</paragraf>
+	</slide>
+	
+	<slide typ = "obsahovy">
+		<title>Obsah prezentácie</title>
+		<obrazok link="toyStory.jpg" zdroj="http://www.quickmeme.com/img/b1/b1e9be76f623d290c09378a71114144ebef59a36f68586db2f95bd3718f3d24b.jpg"></obrazok>
+	</slide>
+		
+		<slide typ = "odrazkovy">
+		<title>Ciele práce</title>
+		<paragraf>
+			<list>
+				<listitem><bold>analyzovať</bold> jednotlivé metódy plagiátorských útokov a zistiť ich slabiny</listitem>
+				<listitem>útoky aj metódy detekcie <bold>kategorizovať</bold></listitem>
+				<listitem><bold>navrhnúť</bold> techniky na ochranu pred útokmi</listitem>
+				<listitem><bold>vykonať experiment</bold> s existujúcimi nástrojmi na detekciu</listitem>
+				<listitem>navrhnúť a <bold>implementovať</bold> detekčné mechanizmy proti úspešným útokom</listitem>
+				<listitem><bold>experimentálne preveriť</bold> správnosť riešenia</listitem>
+			</list>
+		</paragraf>
+	</slide>
+	
+	<slide typ = "textovoObrazkovy">
+		<title>Útoky</title>
+		<paragraf>
+			<list>
+				<listitem>synonymami</listitem>
+				<listitem>zmena slovosledu</listitem>
+				<listitem>zámena čísel za text</listitem>
+				<listitem>homoglyfy</listitem>
+				<listitem>biele znaky za medzery</listitem>
+				<listitem>obrázky miesto textu</listitem>
+				<listitem>využitie PDF vrstiev</listitem>
+			</list>
+		</paragraf>
+		<obrazok link="hulk.png" zdroj="https://pbs.twimg.com/media/BNr6c8LCUAAmeY1.png"></obrazok>
+	</slide>
+	
+	<slide typ = "textovoObrazkovy">
+		<title>Metódy detekcie</title>
+		<paragraf>
+			<list>
+				<listitem>N-gramy</listitem>
+				<listitem>LCS substring</listitem>
+				<listitem>LCS subsequence</listitem>
+				<listitem>Greedy-String-Tiling</listitem>
+				<listitem>Levensteinova vzdialenosť</listitem>
+				<listitem>Cosine similarity</listitem>
+				<listitem>TF-IDF</listitem>
+				<listitem>Metadáta</listitem>
+			</list>
+		</paragraf>
+		<obrazok link = "bartSimpson.png" zdroj="https://brendatobias.files.wordpress.com/2012/09/bart-simpson-plagiarize.png" ></obrazok>
+	</slide>
+	
+	<slide typ = "obrazkovy">
+		<title>Úvodný experiment</title>
+		<obrazok link = "graf.png"></obrazok>
+	</slide>
+	
+	<slide typ = "textovoObrazkovy">
+		<title>Návrh riešenia</title>
+		<paragraf>
+			<list>
+				<listitem>Detekcia počtom podozrivých znakov</listitem>
+				<listitem>Detekcia frekvenčnou analýzou</listitem>
+				<listitem>Detekcia priemernou dĺžkou slova</listitem>
+				<listitem>Detekcia analýzou objemu dát</listitem>
+			</list>
+		</paragraf>
+		<obrazok link = "stop.jpg" zdroj="http://elearningindustry.com/wp-content/uploads/2013/11/Top-10-FREE-Plagiarism-Detection-Tools-For-Teachers-1024x1024.jpg" ></obrazok>
+	</slide>
+	
+	<slide typ = "textovoObrazkovy">
+		<title>Implementácia</title>
+		<paragraf>
+			<list>
+				<listitem>Vylepšenie LCS substring</listitem>
+				<listitem>Tvorba štatistík <kurziva>slov, znakov, objemov dát</kurziva></listitem>
+				<listitem>Spracovanie štatistík</listitem>
+			</list>
+		</paragraf>
+		<obrazok link = "statistics.png" zdroj="http://s3.amazonaws.com/libapps/accounts/54646/images/statistics.png" ></obrazok>
+	</slide>
+	
+	<slide typ = "tabulkovy">
+		<title>Overenie riešenia - LCS substring</title>
+		<table>
+			<hlavicka>
+				<stlpec>PlaDes</stlpec>
+				<stlpec>LCS (1)</stlpec>
+				<stlpec>LCS (10)</stlpec>
+				<stlpec>LCS (100)</stlpec>
+				<stlpec>LCS (1000)</stlpec>
+			</hlavicka>
+			<tablerow>
+				<stlpec>synonymá</stlpec>
+				<stlpec>3,67</stlpec>
+				<stlpec>19,77</stlpec>
+				<stlpec>52,37</stlpec>
+				<stlpec>53,61</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>výmena čísiel za text</stlpec>
+				<stlpec>2,14</stlpec>
+				<stlpec>15,72</stlpec>
+				<stlpec>58,45</stlpec>
+				<stlpec>59,31</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>zmena slovosledu</stlpec>
+				<stlpec>2,58</stlpec>
+				<stlpec>16,16</stlpec>
+				<stlpec>28,34</stlpec>
+				<stlpec>28,34</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>homoglyfy i za všetky L</stlpec>
+				<stlpec>1,08</stlpec>
+				<stlpec>8,13</stlpec>
+				<stlpec>37,84</stlpec>
+				<stlpec>41,59</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>homoglyfy i za všetky L, cl - d, rn - m</stlpec>
+				<stlpec farba="green">0,45</stlpec>
+				<stlpec>3,47</stlpec>
+				<stlpec>10,63</stlpec>
+				<stlpec>10,63</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>homoglyfy - cyrilika (50% a,e)</stlpec>
+				<stlpec farba="green">0,97</stlpec>
+				<stlpec>3,92</stlpec>
+				<stlpec>16,25</stlpec>
+				<stlpec>16,25</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>homoglyfy - cyrilika (100% a,e)</stlpec>
+				<stlpec farba="green">0,23</stlpec>
+				<stlpec>1,99</stlpec>
+				<stlpec>2,84</stlpec>
+				<stlpec>2,84</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>homoglyfy - cyrilika (100% 8 pismen)</stlpec>
+				<stlpec farba="green">0,24</stlpec>
+				<stlpec farba="green">0,24</stlpec>
+				<stlpec farba="green">0,24</stlpec>
+				<stlpec farba="green">0,24</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>biele znaky za medzery (50% L)</stlpec>
+				<stlpec>7,1</stlpec>
+				<stlpec>9,68</stlpec>
+				<stlpec>9,68</stlpec>
+				<stlpec>9,68</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>biele znaky za medzery (100% L)</stlpec>
+				<stlpec farba="green">0,47</stlpec>
+				<stlpec farba="green">0,47</stlpec>
+				<stlpec farba="green">0,47</stlpec>
+				<stlpec farba="green">0,47</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>PDF vrstvy</stlpec>
+				<stlpec farba="green">0,74</stlpec>
+				<stlpec>1,3</stlpec>
+				<stlpec>1,3</stlpec>
+				<stlpec>1,3</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>obrázky</stlpec>
+				<stlpec farba="green">0</stlpec>
+				<stlpec farba="green">0</stlpec>
+				<stlpec farba="green">0</stlpec>
+				<stlpec farba="green">0</stlpec>
+			</tablerow>
+		</table>
+	</slide>
+	
+	<slide typ = "tabulkovy">
+		<title>Overenie riešenia - detekcie útokov</title>
+		<table>
+			<hlavicka>		
+				<stlpec>PlaDes</stlpec>
+				<stlpec>LCS (100)</stlpec>
+				<stlpec>Počtom podozrivých znakov</stlpec>
+				<stlpec>Frekvenčnou analýzou</stlpec>
+				<stlpec>Priemernou dĺžkou slova</stlpec>
+				<stlpec>Analýzou objemu dát</stlpec>
+			</hlavicka>
+			<tablerow>
+				<stlpec>homoglyfy i za všetky L</stlpec>
+				<stlpec>37,84</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec farba="red">áno</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec>nie</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>homoglyfy - cyrilika (50% a,e)</stlpec>
+				<stlpec>16,25</stlpec>
+				<stlpec farba="red">áno</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec farba="red">áno</stlpec>
+				<stlpec>nie</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>biele znaky za medzery (50% L)</stlpec>
+				<stlpec>9,68</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec farba="red">áno</stlpec>
+				<stlpec>nie</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>biele znaky za medzery (100% L)</stlpec>
+				<stlpec>0,47</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec farba="red">áno</stlpec>
+				<stlpec farba="red">áno</stlpec>
+				<stlpec>nie</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>PDF vrstvy</stlpec>
+				<stlpec>1,3</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec farba="red">áno</stlpec>
+			</tablerow>
+			<tablerow>
+				<stlpec>obrázky</stlpec>
+				<stlpec>0</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec>nie</stlpec>
+				<stlpec farba="red">áno</stlpec>
+			</tablerow>
+		</table>
+	</slide>
+	
+	<slide typ = "textovy">
+		<title>Zhodnotenie</title>
+		<paragraf>
+			<text>V prvej polovici práce sme <bold>analyzovali známe metódy útokov na detekcie plagiátorstva</bold>, popísali sme detekčné metódy, 
+			a experimentovali sme s aplikáciami <kurziva>PlaDes, Ferret, WCopyFind</kurziva>.
+			V druhej polovici sme <bold>navrhli riešenia nevyriešených problémov</bold>, navrhli a implementovali detekcie a vylepšili sme metódu LCS - substring. Implementované riešenie sme overili.</text>
+		</paragraf>
+	</slide>
+	
+	<slide typ = "textovoObrazkovy">
+		<title>Ciele do budúcna</title>
+		<paragraf>
+			<list>
+				<listitem>Lepšie určenie hraničných hodnôt</listitem>
+				<listitem>Zrýchlenie spracovania .doc</listitem>
+				<listitem>Zapojenie OCR</listitem>
+				<listitem>Poškodené a zaheslované dokumenty</listitem>
+				<listitem>Podozrivé znaky už z originálu dokumentu</listitem>
+			</list>
+		</paragraf>
+		<obrazok link = "ocr.jpg" zdroj="https://ahm3dibrahim.files.wordpress.com/2011/06/dhiraagucaptchaocr.jpg" ></obrazok>
+	</slide>
+	
+	<slide typ = "obrazkovy">
+		<title>Otázky a diskusia</title>
+		<obrazok link = "plades.png" zdroj="http://www2.fiit.stuba.sk/~chuda/plagiarism/img/zoznam.png" ></obrazok>
+	</slide>
+	
+	<slide typ = "zdrojovy">
+		<title>Zdroje</title>
+	</slide>
+	
+</prezentacia>

@@ -1,0 +1,17 @@
+LoginTitle = Champion Pool Manager
+RegisterTitle = Register
+MainWindowTitle = Champion Pool Manager
+DifferentPasswords = Passwords do not match
+LoginError = Wrong username or password
+AccountCreated = Your account was successfully created
+AlreadyRegistered = This account is already registered
+Confirm = Confirm
+ConfirmLogout = Are you sure to log out?
+ConfirmExit = Are you sure to exit?
+Yes = Yes
+No = No
+Cancel = Cancel
+ConfirmTitle = Confirm
+InfoTitle = Information
+ErrorTitle = Error
+ChangeStationsTitle = Stations

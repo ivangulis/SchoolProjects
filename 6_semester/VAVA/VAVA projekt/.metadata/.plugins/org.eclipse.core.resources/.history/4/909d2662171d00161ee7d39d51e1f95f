@@ -1,0 +1,26 @@
+package dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import model.User;
+
+public class UserDAO {
+	
+	/** Získa usera z databázy podla username */
+	public User getUser(EntityManager entityManager, String username) {
+		TypedQuery<User> query = entityManager.createNamedQuery("User.getUser", User.class);
+		query.setParameter("paramName", username);
+		return query.getSingleResult();
+	}
+
+	/** Uloží nového usera do databázy */
+	public void createAccount(EntityManager entityManager, User user) {
+		entityManager.persist(user);
+	}
+	
+	/** Aktualizuje usera z databázy */
+	public void saveAccount(EntityManager entityManager, User user) {
+		entityManager.merge(user);
+	}
+}

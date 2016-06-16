@@ -1,0 +1,108 @@
+package model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="champion")
+@NamedQueries({
+	@NamedQuery(name="Champion.getChampion",
+			query="SELECT champion FROM Champion champion"),
+	@NamedQuery(name="Champion.getTopBans",
+	query="SELECT champion FROM Champion champion ORDER BY champion.banRatio DESC")
+})
+public class Champion implements Serializable {
+
+	private static final long serialVersionUID = 2866491435298062248L;
+	//private Integer id;
+	private String name;
+	private String role;
+	private Double winRatio;
+	private Double playRatio;
+	private Double banRatio;
+	private String released;
+	private Integer rpCost;
+	private Integer ipCost;
+	
+	@Column(nullable = false)
+	public String getReleased() {
+		return released;
+	}
+	public void setReleased(String released) {
+		this.released = released;
+	}
+	
+	@Column(nullable = false)
+	public Integer getRpCost() {
+		return rpCost;
+	}
+	public void setRpCost(Integer rpCost) {
+		this.rpCost = rpCost;
+	}
+	
+	@Column(nullable = false)
+	public Integer getIpCost() {
+		return ipCost;
+	}
+	public void setIpCost(Integer ipCost) {
+		this.ipCost = ipCost;
+	}
+	/*
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}*/
+	
+	@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@Column(nullable = false)
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	@Column(nullable = false)
+	public Double getWinRatio() {
+		return winRatio;
+	}
+	public void setWinRatio(Double winRatio) {
+		this.winRatio = winRatio;
+	}
+	
+	@Column(nullable = false)
+	public Double getPlayRatio() {
+		return playRatio;
+	}
+	public void setPlayRatio(Double playRatio) {
+		this.playRatio = playRatio;
+	}
+	
+	@Column(nullable = false)
+	public Double getBanRatio() {
+		return banRatio;
+	}
+	public void setBanRatio(Double banRatio) {
+		this.banRatio = banRatio;
+	}
+	
+	
+}

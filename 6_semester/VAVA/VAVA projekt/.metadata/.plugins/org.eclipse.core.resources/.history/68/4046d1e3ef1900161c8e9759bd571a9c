@@ -1,0 +1,22 @@
+package dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import entity.Station;
+import entity.User;
+
+public class StationDAO {
+
+	public List<Station> getStations(EntityManager em) {
+		TypedQuery<Station> q = em.createNamedQuery("Station.getAll", Station.class);
+		return q.getResultList();
+	}
+	
+	public void saveStations(EntityManager em, User user) {
+		em.merge(user);
+	}
+
+}

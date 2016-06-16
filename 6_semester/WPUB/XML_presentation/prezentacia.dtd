@@ -1,0 +1,21 @@
+<!ELEMENT prezentacia (slide*)>
+<!ELEMENT slide (title, paragraf?, table?, obrazok?)>
+<!ATTLIST slide typ (titulny|obsahovy|textovoObrazkovy|obrazkovy|tabulkovy|zdrojovy|textovy|odrazkovy) #REQUIRED>
+
+<!ELEMENT paragraf (text|list)>
+<!ELEMENT text (#PCDATA|bold|kurziva)*>
+<!ELEMENT bold (#PCDATA)>
+<!ELEMENT kurziva (#PCDATA)>
+
+<!ELEMENT list (listitem*)>
+<!ELEMENT table (hlavicka,tablerow*)>
+<!ELEMENT tablerow (stlpec*)>
+<!ELEMENT hlavicka (stlpec*)>
+
+<!ELEMENT listitem (#PCDATA|bold|kurziva)*>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT stlpec (#PCDATA)>
+<!ATTLIST stlpec farba (red|blue|green) #IMPLIED>
+<!ELEMENT obrazok EMPTY>
+<!ATTLIST obrazok link CDATA #REQUIRED
+				  zdroj CDATA #IMPLIED>

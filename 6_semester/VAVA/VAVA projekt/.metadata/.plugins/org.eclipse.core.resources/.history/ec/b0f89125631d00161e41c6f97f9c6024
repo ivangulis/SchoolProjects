@@ -1,0 +1,21 @@
+package facade;
+
+import java.util.List;
+
+import javax.ejb.Remote;
+
+import model.Champion;
+
+/**
+ * Interface of champion facade bean interface for saving all 
+ * champions, loading all champions or just some of them.
+ * @author Ivan Gulis
+ */
+@Remote
+public interface ChampionsFacadeBeanRemote {
+
+	public void saveAllChampions();
+	public List<Champion> loadFromDbAllChampions();
+	List<Champion> getTopBans();
+
+}

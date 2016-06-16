@@ -1,0 +1,103 @@
+package controller;
+
+import javafx.fxml.FXML;
+
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import application.Main;
+import entity2.Station;
+import entity2.User;
+import facade.StationsFacadeBeanRemote;
+import javafx.event.ActionEvent;
+
+import javafx.scene.layout.VBox;
+
+public class ChangeStationsController implements InitUser {
+
+	@FXML
+	private VBox stations_vBox;
+	@FXML
+	private Button save_button;
+	@FXML
+	private Button cancel_button;
+	
+	private User user;
+	private Map<Integer, CheckBox> stations_chechBoxes;
+	List<Station> stations;
+
+	public void initUser(User user) {
+		this.user = user;
+		stations_chechBoxes = new HashMap<Integer, CheckBox>();
+		Context ctx = null;
+		try {
+			ctx = new InitialContext();
+			StationsFacadeBeanRemote remote = (StationsFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//StationsFacadeBean!facade.StationsFacadeBeanRemote");
+			stations = remote.getStations();
+			for (Station s: stations) {
+				CheckBox newCheckBox = new CheckBox(s.getName());
+				stations_chechBoxes.put(s.getId(), newCheckBox);
+				stations_vBox.getChildren().add(newCheckBox);
+			}
+			for (Station s: user.getStations()) {
+				CheckBox checkBox = stations_chechBoxes.get(s.getId());
+				if (checkBox != null) {
+					checkBox.setSelected(true);
+				}
+			}
+		} catch (NamingException e) {
+			e.printStackTrace(); //TODO loger
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	// Event Listener on Button[#save_button].onAction
+	@FXML
+	public void save(ActionEvent event) {
+		Context ctx = null;
+		try {
+			ctx = new InitialContext();
+			StationsFacadeBeanRemote remote = (StationsFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//StationsFacadeBean!facade.StationsFacadeBeanRemote");
+			List<Station> savedStations = new ArrayList<Station>();
+			for (Station s: stations) {
+				if (stations_chechBoxes.get(s.getId()).isSelected()) {
+					savedStations.add(s);
+				}
+			}
+			user.setStations(savedStations);
+			remote.saveStations(user);
+		} catch (NamingException e) {
+			e.printStackTrace(); //TODO loger
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace(); //TODO loger
+			}
+		}
+	}
+
+	// Event Listener on Button[#cancel_button].onAction
+	@FXML
+	public void cancel(ActionEvent event) {
+		String fxml = Main.getInstance().getProperties().getProperty("ChangeStationsFXML");
+		Main.getInstance().getWindowController().closeWindow(fxml);
+	}
+
+}

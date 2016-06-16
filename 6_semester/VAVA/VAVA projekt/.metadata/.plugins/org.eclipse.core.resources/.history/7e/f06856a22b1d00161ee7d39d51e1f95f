@@ -1,0 +1,28 @@
+package application;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+/**
+ * Class, that stores informations about language (that is currently used) and locale.
+ * @author Ivan Gulis
+ */
+public class Language {
+
+	ResourceBundle resources;
+	
+	public Language() {
+		resources = ResourceBundle.getBundle("Resource");
+	}
+	
+	public void setLanguage(String language) {
+		resources = ResourceBundle.getBundle("Resource", new Locale(language));
+	}
+	
+	/** Get string from resources */
+	public String getString(String value) {
+		String string = resources.getString(value);
+		return string;
+	}
+
+}

@@ -1,0 +1,32 @@
+package table;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+public class TableChampion {
+	
+	private final StringProperty name;
+	private final StringProperty role;
+	private final StringProperty winRatio;
+
+	public TableChampion(String name, String role, String winRatio) {
+		this.name = new SimpleStringProperty(name);
+		this.role = new SimpleStringProperty(role);
+		this.winRatio = new SimpleStringProperty(winRatio);
+	}
+
+	public StringProperty getName() {
+		return name;
+	}
+
+	public StringProperty getRole() {
+		return role;
+	}
+
+	public StringProperty getWinRatio() {
+		return winRatio;
+	}
+	
+	
+
+}

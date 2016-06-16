@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginController">
+   <children>
+      <TextField fx:id="textFieldUsername" layoutX="226.0" layoutY="175.0" />
+      <PasswordField fx:id="passwordField" layoutX="226.0" layoutY="229.0" />
+      <Button fx:id="buttonLogin" layoutX="325.0" layoutY="281.0" mnemonicParsing="false" onAction="#login" prefHeight="39.0" prefWidth="101.0" text="Login" />
+      <Button fx:id="buttonRegister" layoutX="185.0" layoutY="281.0" mnemonicParsing="false" onAction="#register" prefHeight="39.0" prefWidth="101.0" text="Register" />
+      <Label fx:id="labelRegLog" layoutX="127.0" layoutY="72.0" text="{Binding Path=Confirm, Source={StaticResource Resource}, Mode=OneWay}">//"(-: Register or Login :-)">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelUsername" layoutX="255.0" layoutY="144.0" prefHeight="17.0" prefWidth="101.0" text="Username" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelPassword" layoutX="255.0" layoutY="200.0" prefHeight="17.0" prefWidth="101.0" text="Password" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelLoginError" layoutX="174.0" layoutY="340.0" prefHeight="27.0" prefWidth="253.0" textFill="RED">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

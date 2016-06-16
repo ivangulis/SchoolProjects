@@ -1,0 +1,56 @@
+package webSearchFeature;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.jsoup.Connection;
+
+import model.Champion;
+
+public class WebSearch {
+	
+	private static final String URL = "http://champion.gg/statistics/";
+	private static final String USERAGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
+
+	public List<Champion> searchForChampions() {
+		List<Champion> champions = new ArrayList<Champion>();
+		Connection connection;
+		Document document = null;
+		try {
+			connection = Jsoup.connect(URL).userAgent(USERAGENT);
+			document = connection.get();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Elements table1 = document.select("table[id=table-1]");
+		Elements body = table1.select("tbody");
+		Elements rows = body.select("tr");
+		
+		for(Element element : rows) {
+			/*String name = curElm.select("a[target=\"blank\"]").text();
+			Elements small = curElm.select("small");
+			String sex = small.get(4).text();*/
+			//Elements columns = element.select("td");
+			
+			String name = element.select("span[class=stat-champ-title]").text();
+			String role = element.select("td[class=stat-role-title]").text();;
+			String winRatio = element.select("").text();
+			
+			Champion champion = new Champion();
+			champion.setName(name);
+			champion.setRole(role);
+			champion.setWinRatio(winRatio);
+			champions.add(champion);
+		}
+
+		return champions;
+	}
+	
+}
+

@@ -1,0 +1,55 @@
+package webSearchFeature;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.jsoup.Connection;
+
+import model.Champion;
+
+public class WebSearch {
+	
+	private static final String URL = "http://champion.gg/";
+	private static final String USERAGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
+
+	public List<Champion> getChampionList() {
+		List<Champion> champions = new ArrayList<Champion>();
+		Connection connection;
+		Document document = null;
+		try {
+			connection = Jsoup.connect(URL).userAgent(USERAGENT);
+			document = connection.get();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Elements elements = document.select("table[id=table_1]");
+		//Elements body = table1.select("tbody");
+		//Elements trElms = body.select("tr");
+		
+		for(Element element : elements) {
+			/*String name = curElm.select("a[target=\"blank\"]").text();
+			Elements small = curElm.select("small");
+			String sex = small.get(4).text();*/
+			String name = element.select("").text();
+			String role = element.select("").text();;
+			Double winRatio = Double.parseDouble(element.select("").text());
+			
+			Champion champion = new Champion();
+			champion.setName(name);
+			champion.setRole(role);
+			champion.setWinRatio(winRatio);
+			champions.add(champion);
+		}
+
+		return champions;
+	}
+	
+}
+

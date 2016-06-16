@@ -1,0 +1,26 @@
+package downloader;
+
+import java.io.IOException;
+import java.util.Properties;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+public class URLDownloader {
+
+	Properties properties;
+
+	public URLDownloader() throws IOException {
+		properties = new Properties();
+		properties.load(this.getClass().getClassLoader().getResourceAsStream("Conf.properties"));
+	}
+
+	public Document createHTML(String url) throws IOException {
+		String userAgent = properties.getProperty("UserAgent");
+		Connection connection = Jsoup.connect(url).userAgent(userAgent);
+		Document htmlDocument = connection.get();
+		return htmlDocument;
+	}
+
+}

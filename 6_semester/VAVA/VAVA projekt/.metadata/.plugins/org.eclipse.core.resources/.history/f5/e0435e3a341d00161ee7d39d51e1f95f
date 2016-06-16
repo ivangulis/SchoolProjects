@@ -1,0 +1,212 @@
+package application;
+	
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import view.EditProfileController;
+import view.LoginController;
+import view.MainWindowController;
+import view.RegisterController;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+
+/**
+ * Main class with main() method, 
+ * containing property file objects, language, and all controllers and stages of windows.
+ * All other classes can access it similarly to singleton like (but it is not singleton
+ *  - Application needs direct public call).
+ * @author Ivan Gulis
+ */
+public class Main extends Application {
+	
+	private static Main instance;
+	public Main() {
+		instance = this;
+	}
+	public static Main getInstance() {
+		return instance;
+	}
+	
+	private Properties properties;
+	private Language language;
+	
+	private Stage loginWindow;
+	private Stage mainWindow;
+	private Stage registerWindow;
+	private Stage editProfileWindow;
+	private EditProfileController epc;
+	private LoginController lc;
+	private MainWindowController mwc;
+	private RegisterController rc;
+
+	public Stage getMainWindow() {
+		return mainWindow;
+	}
+	public void setMainWindow(Stage mainWindow) {
+		this.mainWindow = mainWindow;
+	}
+	public Stage getRegisterWindow() {
+		return registerWindow;
+	}
+	public void setRegisterWindow(Stage registerWindow) {
+		this.registerWindow = registerWindow;
+	}
+	public Stage getEditProfileWindow() {
+		return editProfileWindow;
+	}
+	public void setEditProfileWindow(Stage editProfileWindow) {
+		this.editProfileWindow = editProfileWindow;
+	}
+	public void setLoginWindow(Stage loginWindow) {
+		this.loginWindow = loginWindow;
+	}
+	public EditProfileController getEpc() {
+		return epc;
+	}
+	public void setEpc(EditProfileController epc) {
+		this.epc = epc;
+	}
+	public LoginController getLc() {
+		return lc;
+	}
+	public void setLc(LoginController lc) {
+		this.lc = lc;
+	}
+	public MainWindowController getMwc() {
+		return mwc;
+	}
+	public void setMwc(MainWindowController mwc) {
+		this.mwc = mwc;
+	}
+	public RegisterController getRc() {
+		return rc;
+	}
+	public void setRc(RegisterController rc) {
+		this.rc = rc;
+	}
+	
+	public Language getLanguage() {
+		return language;
+	}
+
+	public Properties getProperties() {
+		return properties;
+	}
+
+	public Stage getLoginWindow() {
+		return loginWindow;
+	}
+	
+	/** Premenuje všetky okná */
+	public void renameAll() {
+		if (editProfileWindow != null)
+			renameEditProfile();
+		if (loginWindow != null)
+			renameLogin();
+		if (mainWindow != null)
+			renameMainWindow();
+		if (registerWindow != null)
+			renameRegister();
+	}
+	
+	/** Premenuje celé okno EditProfile */
+	public void renameEditProfile() {
+		editProfileWindow.setTitle(language.getString("EditProfileTitle"));
+		epc.getLabelMainCaption().setText(language.getString("EditProfileCaption"));
+		epc.getLabelNick().setText(language.getString("EditProfileNick"));
+		epc.getLabelPassword().setText(language.getString("NewPassword"));
+		epc.getLabelPassword2().setText(language.getString("ConfirmPassword"));
+		epc.getLabelPasswordError().setText("");
+		epc.getLabelServer().setText(language.getString("EditProfileServer"));
+		epc.getMenuLanguage().setText(language.getString("Language"));
+		epc.getButtonSaveAccount().setText(language.getString("Save"));
+	}
+	
+	/** Premenuje celé okno Login */
+	public void renameLogin() {
+		loginWindow.setTitle(language.getString("ChampionPoolManager"));
+		lc.getLabelMainCaption().setText(language.getString("ChampionPoolManager"));
+		lc.getLabelPassword().setText(language.getString("LoginPassword"));
+		lc.getLabelUsername().setText(language.getString("LoginUsername"));
+		lc.getLabelPasswordError().setText("");
+		lc.getMenuLanguage().setText(language.getString("Language"));
+		lc.getButtonLogin().setText(language.getString("Login"));
+		lc.getButtonRegister().setText(language.getString("Register"));
+	}
+	
+	/** Premenuje celé okno Register */
+	public void renameRegister() {
+		registerWindow.setTitle(language.getString("RegisterTitle"));
+		rc.getLabelMainCaption().setText(language.getString("RegisterTitle"));
+		rc.getLabelNickR().setText(language.getString("RegisterNick"));
+		rc.getLabelPasswordError().setText("");
+		rc.getLabelPasswordR().setText(language.getString("NewPassword"));
+		rc.getLabelPasswordR2().setText(language.getString("ConfirmPassword"));
+		rc.getLabelUsernameR().setText(language.getString("RegisterUsername"));
+		rc.getMenuLanguage().setText(language.getString("Language"));
+		rc.getButtonCreateAccount().setText(language.getString("RegisterCreate"));
+	}
+	
+	/** Premenuje celé okno MainWindow */
+	public void renameMainWindow() {
+		mainWindow.setTitle(language.getString("ChampionPoolManager"));
+		mwc.getLabelBans().setText(language.getString("MainWindowBans"));
+		mwc.getLabelDetails().setText(language.getString("MainWindowDetails"));
+		mwc.getNameTableColumn().setText(language.getString("Name"));
+		mwc.getNameTableColumnDetails().setText(language.getString("Name")+ ":");
+		mwc.getNameTableColumnTop().setText(language.getString("Name"));
+		mwc.getNameTableColumnJungle().setText(language.getString("Name"));
+		mwc.getNameTableColumnMid().setText(language.getString("Name"));
+		mwc.getNameTableColumnAdc().setText(language.getString("Name"));
+		mwc.getNameTableColumnSupport().setText(language.getString("Name"));
+		mwc.getRoleTableColumn().setText(language.getString("Role"));
+		mwc.getNameTableColumnBanList().setText(language.getString("Name"));
+		mwc.getBanRatioTableColumnBanList().setText(language.getString("Ban") + " %");
+		mwc.getButtonAddChamp().setText(language.getString("MainWindowAddChamp"));
+		mwc.getButtonAdminControlActualize().setText(language.getString("MainWindowActualizeDB"));
+		mwc.getButtonSavePool().setText(language.getString("Save"));
+		mwc.getMenuItemEditProfile().setText(language.getString("EditProfile"));
+		mwc.getMenuItemLogOut().setText(language.getString("LogOut"));
+		mwc.getMenuLanguage().setText(language.getString("Language"));
+		mwc.getMenuProfile().setText(language.getString("Profile"));
+		mwc.getButtonRefreshChampions().setText(language.getString("MainWindowRefresh"));
+		mwc.getWinRatioTableColumn().setText(language.getString("Win") + " %");
+		mwc.getWinRatioTableColumnTop().setText(language.getString("Win") + " %");
+		mwc.getWinRatioTableColumnJungle().setText(language.getString("Win") + " %");
+		mwc.getWinRatioTableColumnMid().setText(language.getString("Win") + " %");
+		mwc.getWinRatioTableColumnAdc().setText(language.getString("Win") + " %");
+		mwc.getWinRatioTableColumnSupport().setText(language.getString("Win") + " %");
+	}
+
+	@Override
+	/** Otvorí a nastaví okno Login */
+	public void start(Stage primaryStage) {
+		language = new Language();
+		properties = new Properties();
+		try {
+			properties.load(new FileInputStream("etc/Conf.properties"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(properties.getProperty("LoginFXML")));
+			Parent root = fxmlLoader.load();
+			lc = fxmlLoader.<LoginController>getController();
+			loginWindow = primaryStage;
+			Scene scene = new Scene(root);
+			String title = language.getString("ChampionPoolManager");
+			primaryStage.setTitle(title);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+			renameLogin();
+		} catch (IOException e) {
+			//String text = language.getText("LoginWindowFail");
+			//windowController.error(text); //TODO logger
+		}
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+}

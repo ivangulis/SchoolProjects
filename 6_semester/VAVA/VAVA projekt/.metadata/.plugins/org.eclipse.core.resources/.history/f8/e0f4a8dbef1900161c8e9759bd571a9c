@@ -1,0 +1,69 @@
+package executive;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.jsoup.nodes.Document;
+
+import downloader.Parser;
+import downloader.URLDownloader;
+import entity.Film;
+import entity.Response;
+import entity.Station;
+import entity.TvDay;
+import entity.User;
+
+/**
+ * Session Bean implementation class ProgramExecutiveBean
+ */
+@Stateless
+public class ProgramExecutiveBean {
+
+	@PersistenceContext
+    private EntityManager em;
+	
+    public Response loadProgram(User user, DateTime date) {
+    	Response response = new Response();
+    	//TODO pozri do dbs
+    	//TODO ak tam nie je tak download
+		try {
+			Properties properties = new Properties();
+			properties.load(this.getClass().getClassLoader().getResourceAsStream("Conf.properties"));
+			String minusHounrsStr = properties.getProperty("MinusHours");
+			try {
+				int minusHours = Integer.parseInt(minusHounrsStr);
+				date = date.minusHours(minusHours);
+			} catch (NumberFormatException e) {
+				//TODO logger
+			}
+			LocalDate day = date.toLocalDate();
+	    	URLDownloader URLdownloader = new URLDownloader();
+			Parser parser = new Parser();
+			List<TvDay> tvDays = new ArrayList<>();
+			for (Station s: user.getStations()) {
+				TvDay tvDay = new TvDay();
+				Document doc = URLdownloader.createHTML(s.getUrl());
+				List<Film> films = parser.parseDoc(tvDay, doc, day); //TODO ak film nebude potrebovat ako atribut tvDay tak ho tu nemusim posielat ako argument
+				tvDay.setDay(day);
+				tvDay.setFilms(films);
+				tvDay.setStation(s);
+				tvDays.add(tvDay);
+			}
+			response.setTvDays(tvDays);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return response; //TODO
+    }
+
+}

@@ -1,0 +1,47 @@
+package webSearchFeature;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
+public class PageDownloader {
+
+	private static final String URL = "http://champion.gg/";
+	private static final String USER_LOGON_NAME = "3779";
+	private static final String USER_PASSWORD = "sDdd_124HFgdA";
+	private static final String STUDENT_LIST_URL_SUFFIX = "%2Fauth%2Fnucitel%2Fkontakty.pl?predmet=282288%3Bzobrazeni=0%3Bcviceni=v%3Bpism=all";
+	private static final String URL_PARAMETERS = "destination=" + STUDENT_LIST_URL_SUFFIX + "&credential_0=" + USER_LOGON_NAME + "&credential_1=" + USER_PASSWORD + "&login=Prihl%E1si%BB+sa";;
+	
+	public Document createHTML(String url) throws IOException {
+		String userAgent = properties.getProperty("UserAgent");
+		Connection connection = Jsoup.connect(url).userAgent(userAgent);
+		Document htmlDocument = connection.get();
+		return htmlDocument;
+	}
+	
+	public String getContent() throws Exception {
+		CookieHandler.setDefault(new CookieManager());
+		
+		URL url = new URL("http://champion.gg/");
+		HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
+	
+		appendRequestHeader(connection);
+
+		//Send post request
+		connection.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+		wr.writeBytes(URL_PARAMETERS);
+		wr.flush();
+		wr.close();
+		
+		connection.connect();
+		return printHttpsContent(connection);
+	}
+
+}
+

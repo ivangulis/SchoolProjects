@@ -1,0 +1,21 @@
+package facade;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import executive.LoginExecutiveBean;
+import model.User;
+
+/**
+ * Session Bean implementation class LoginFacadeBean
+ */
+@Stateless
+public class ChampionsFacadeBean implements ChampionsFacadeBeanRemote {
+
+	@EJB
+	ChampionsFacadeBean loginBean;
+	
+	
+	
+
+}

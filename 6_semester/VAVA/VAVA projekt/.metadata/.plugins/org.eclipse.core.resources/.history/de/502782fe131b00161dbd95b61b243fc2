@@ -1,0 +1,30 @@
+package facade;
+
+import java.util.List;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import executive.ChampionsExecutiveBean;
+import model.Champion;
+import model.User;
+
+/**
+ * Session Bean implementation class ChampionsFacadeBean
+ */
+@Stateless
+public class ChampionsFacadeBean implements ChampionsFacadeBeanRemote {
+
+	@EJB
+	ChampionsExecutiveBean championsExecBean;
+	
+	@Override
+	public List<Champion> saveAllChampions() {
+		return championsExecBean.saveAllChampions();
+	}
+	
+	@Override
+	public List<Champion> loadFromDbAllChampions() {
+		return championsExecBean.loadFromDbAllChampions();
+	}
+}

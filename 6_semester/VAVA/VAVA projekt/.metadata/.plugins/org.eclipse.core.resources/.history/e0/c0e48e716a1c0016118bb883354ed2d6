@@ -1,0 +1,4 @@
+LoginFXML = /view/Login.fxml
+NewAccFXML = /view/NewAcc.fxml
+MainScreenFXML = /view/MainScreen.fxml
+ChangeStationsFXML = /view/ChangeStations.fxml

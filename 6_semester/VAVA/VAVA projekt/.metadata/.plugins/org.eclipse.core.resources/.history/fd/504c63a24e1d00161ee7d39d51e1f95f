@@ -1,0 +1,50 @@
+ChampionPoolManager = Champion Pool Manager
+DifferentPasswords = Passwords do not match.
+AccountCreated = Your account was successfully created.
+AlreadyRegistered = This account is already registered.
+Language = Language
+NewPassword = New password
+ConfirmPassword = Confirm password
+Save = Save
+
+EditProfileTitle = Profile editing
+EditProfileCaption = EDIT PROFILE
+EditProfileNick = New nick
+EditProfileServer = Change server
+AccountSaved = Account was successfully edited.
+AccountNotSaved = Account was not edited.
+
+LoginPassword = Password
+LoginUsername = Username
+LoginError = Wrong password.
+LoginUsernameError = This username does not exist.
+Login = Login
+Register = Register
+
+RegisterTitle = Registration
+RegisterNick = Your nickname
+RegisterUsername = New username
+RegisterCreate = Create
+HashingFailed = Password hashing has failed, try again later.
+
+MainWindowBans = Best bans
+MainWindowDetails = Details
+Name = Name
+Role = Role
+Value = Value
+MainWindowAddChamp = Add champion
+MainWindowActualizeDB = Actualize database
+EditProfile = Edit profile
+LogOut = Log out
+Profile = Profile
+MainWindowRefresh = Refresh champions
+Add = \u2660
+MoveUp = Move up
+MoveDown = Move down
+Delete = Delete
+IPCost = IP Cost:
+RPCost = RP Cost:
+Released = Released:
+Play = Play
+Win = Win
+Ban = Ban

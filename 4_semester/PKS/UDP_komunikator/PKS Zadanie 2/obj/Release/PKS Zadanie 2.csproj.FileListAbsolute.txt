@@ -1,0 +1,9 @@
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\bin\Release\PKS Zadanie 2.exe.config
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\bin\Release\PKS Zadanie 2.exe
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\bin\Release\PKS Zadanie 2.pdb
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Release\PKS Zadanie 2.csprojResolveAssemblyReference.cache
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Release\PKS_Zadanie_2.Form1.resources
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Release\PKS_Zadanie_2.Properties.Resources.resources
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Release\PKS Zadanie 2.csproj.GenerateResource.Cache
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Release\PKS Zadanie 2.exe
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Release\PKS Zadanie 2.pdb

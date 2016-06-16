@@ -1,0 +1,33 @@
+package facade;
+
+import java.util.List;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import entity.Station;
+import entity.User;
+import executive.StationsExecutiveBean;
+
+/**
+ * Session Bean implementation class StationsFacadeBean
+ */
+@Stateless
+public class StationsFacadeBean implements StationsFacadeBeanRemote {
+
+	@EJB
+	private StationsExecutiveBean stationsBean;
+
+	@Override
+	public List<Station> getStations() {
+		return stationsBean.getStations();
+	}
+
+	@Override
+	public boolean saveStations(User user) {
+		return stationsBean.saveStations(user);
+	}
+
+    
+
+}

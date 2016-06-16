@@ -1,0 +1,65 @@
+DruhyRodic1
+2
+?X je rodic ?Y
+manzelia ?X ?Z
+1
+pridaj ?Z je rodic ?Y
+-
+DruhyRodic2
+2
+?X je rodic ?Y
+manzelia ?Z ?X
+1
+pridaj ?Z je rodic ?Y
+-
+Otec
+2
+?X je rodic ?Y
+muz ?X
+1
+pridaj ?X je otec ?Y
+-
+Matka
+2
+?X je rodic ?Y
+zena ?X
+1
+pridaj ?X je matka ?Y
+-
+Surodenci
+3
+?X je rodic ?Y
+?X je rodic ?Z
+<> ?Y ?Z
+1
+pridaj ?Y a ?Z su surodenci
+-
+Brat
+2
+?Y a ?Z su surodenci
+muz ?Y
+1
+pridaj ?Y je brat ?Z
+-
+Sestra
+2
+?Y a ?Z su surodenci
+zena ?Y
+1
+pridaj ?Y je sestra ?Z
+-
+Stryko
+2
+?Y je brat ?Z
+?Z je rodic ?X
+2
+pridaj ?Y je stryko ?X
+sprava ?X ma stryka
+-
+Test mazania
+2
+?Y je stryko ?X
+zena ?X
+1
+vymaz zena ?X
+-

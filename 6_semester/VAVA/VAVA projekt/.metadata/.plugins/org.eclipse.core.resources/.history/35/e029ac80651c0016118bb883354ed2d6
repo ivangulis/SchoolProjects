@@ -1,0 +1,14 @@
+package facade;
+
+import javax.ejb.Remote;
+
+import model.User;
+
+@Remote
+public interface UserFacadeBeanRemote {
+
+	public boolean createAccount(String username, String password, String server, String nick);
+	public User confirmLogin(String username, String password);
+	void saveUserPool(User user);
+
+}

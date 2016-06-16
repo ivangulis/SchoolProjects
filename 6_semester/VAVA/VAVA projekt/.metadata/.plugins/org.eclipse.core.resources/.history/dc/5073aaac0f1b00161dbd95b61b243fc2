@@ -1,0 +1,31 @@
+package executive;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import model.Champion;
+import webSearchFeature.WebSearch;
+
+/**
+ * Session Bean implementation class LoginExecutiveBean
+ */
+@Stateless
+public class ChampionsExecutiveBean {
+
+	@PersistenceContext
+    private EntityManager entityManager;
+	
+	public List<Champion> getAllChampions() {
+		List<Champion> allChampions = new ArrayList<Champion>();
+		
+		WebSearch webSearch = new WebSearch();
+		allChampions = webSearch.searchForChampions();
+		
+		return allChampions;
+	}
+
+}

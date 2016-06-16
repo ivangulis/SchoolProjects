@@ -1,0 +1,9 @@
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\bin\Debug\PKS Zadanie 2.exe.config
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\bin\Debug\PKS Zadanie 2.exe
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\bin\Debug\PKS Zadanie 2.pdb
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Debug\PKS Zadanie 2.csprojResolveAssemblyReference.cache
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Debug\PKS_Zadanie_2.Properties.Resources.resources
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Debug\PKS Zadanie 2.csproj.GenerateResource.Cache
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Debug\PKS Zadanie 2.exe
+C:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Debug\PKS Zadanie 2.pdb
+c:\škola 4\23.2\PKS\zadanie 2\PKS Zadanie 2\PKS Zadanie 2\obj\Debug\PKS_Zadanie_2.Form1.resources

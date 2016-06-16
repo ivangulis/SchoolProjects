@@ -1,0 +1,31 @@
+package dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import model.User;
+
+/**
+ * Class is used for communication with database around users:
+ * Save user, get specified user or create new user.
+ * @author Ivan Gulis
+ */
+public class UserDAO {
+	
+	/** Získa usera z databázy podla username */
+	public User getUser(EntityManager entityManager, String username) {
+		TypedQuery<User> query = entityManager.createNamedQuery("User.getUser", User.class);
+		query.setParameter("paramName", username);
+		return query.getSingleResult();
+	}
+
+	/** Uloží nového usera do databázy */
+	public void createAccount(EntityManager entityManager, User user) {
+		entityManager.persist(user);
+	}
+	
+	/** Aktualizuje usera z databázy */
+	public void saveAccount(EntityManager entityManager, User user) {
+		entityManager.merge(user);
+	}
+}

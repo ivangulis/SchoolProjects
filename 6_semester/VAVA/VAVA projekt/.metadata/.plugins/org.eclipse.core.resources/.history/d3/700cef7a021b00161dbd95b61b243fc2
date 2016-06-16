@@ -1,0 +1,101 @@
+package model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="champion")
+public class Champion implements Serializable {
+
+	private static final long serialVersionUID = 2866491435298062248L;
+	private int id;
+	private String name;
+	private String role;
+	private String winRatio;
+	private String playRatio;
+	private String banRatio;
+	private String released;
+	private int rpCost;
+	private int ipCost;
+	
+	@Column(nullable = false)
+	public String getReleased() {
+		return released;
+	}
+	public void setReleased(String released) {
+		this.released = released;
+	}
+	
+	@Column(nullable = false)
+	public int getRpCost() {
+		return rpCost;
+	}
+	public void setRpCost(int rpCost) {
+		this.rpCost = rpCost;
+	}
+	
+	@Column(nullable = false)
+	public int getIpCost() {
+		return ipCost;
+	}
+	public void setIpCost(int ipCost) {
+		this.ipCost = ipCost;
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@Column(nullable = false)
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@Column(nullable = false)
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	@Column(nullable = false)
+	public String getWinRatio() {
+		return winRatio;
+	}
+	public void setWinRatio(String winRatio) {
+		this.winRatio = winRatio;
+	}
+	
+	@Column(nullable = false)
+	public String getPlayRatio() {
+		return playRatio;
+	}
+	public void setPlayRatio(String playRatio) {
+		this.playRatio = playRatio;
+	}
+	
+	@Column(nullable = false)
+	public String getBanRatio() {
+		return banRatio;
+	}
+	public void setBanRatio(String banRatio) {
+		this.banRatio = banRatio;
+	}
+	
+	
+}

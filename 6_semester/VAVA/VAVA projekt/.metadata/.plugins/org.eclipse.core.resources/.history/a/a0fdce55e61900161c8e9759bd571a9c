@@ -1,0 +1,49 @@
+package downloader;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.joda.time.IllegalFieldValueException;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import entity.Film;
+import entity.TvDay;
+
+public class Parser {
+
+	public List<Film> parseDoc(TvDay tvDay, Document doc, LocalDate date) {
+		List<Film> films = new ArrayList<>();
+		Elements elements = doc.select("div#tv-station-" + date).select("div.sO");
+		for (Element e: elements) {
+			String name = e.select("a[class = n]").text();
+			String startAndDuration = e.select("div[data-dur]").attr("data-dur");
+			Film film = new Film();
+			film.setName(name);
+			film.setTv_day(tvDay);
+			fillTime(film, startAndDuration);
+			films.add(film);
+		}
+		return films;
+	}
+	
+	public void fillTime(Film film, String startAndDuration) {
+		int spaceInd = startAndDuration.indexOf("-");
+		try {
+			String timeStr = startAndDuration.substring(0, spaceInd);
+			int minutes = Integer.parseInt(timeStr);
+			LocalTime time = new LocalTime(minutes/60, minutes%60);
+			film.setStart_time(time);
+			timeStr = startAndDuration.substring(spaceInd + 1);
+			int duration = Integer.parseInt(timeStr);
+			time = new LocalTime((minutes+duration)/60, (minutes+duration)%60);
+			film.setEnd_time(time);
+		} catch (NumberFormatException | IllegalFieldValueException e) {
+			//TODO logger
+		}
+	}
+
+}

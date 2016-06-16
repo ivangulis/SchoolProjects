@@ -1,0 +1,79 @@
+package executive;
+
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+
+import dao.UserDAO;
+import model.Champion;
+import model.User;
+
+/**
+ * Session Bean implementation class UserExecutiveBean
+ * This bean is used to register new user, login (get registered user) and create new user.
+ * @author Ivan Gulis
+ */
+@Stateless
+public class UserExecutiveBean {
+
+	@PersistenceContext
+    private EntityManager entityManager;
+	private UserDAO userDAO = new UserDAO();
+	
+	private static Logger LOG = Logger.getLogger(UserExecutiveBean.class.getName());
+	
+	/** Vráti objekt usera */
+	public User getUser(String username) {
+		User user = null;
+		try {
+			user = userDAO.getUser(entityManager, username);
+			for (Champion c : user.getPool())
+				entityManager.detach(c);
+			entityManager.detach(user);
+			user.setPool(new ArrayList<Champion>(user.getPool()));
+			LOG.info("User was successfully found in database.");
+		} catch (NoResultException e) {
+			LOG.log(Level.SEVERE, "Error: User does not exist - Failed to get user entity from database.", e);
+		}
+		return user; //null user bude ošetrený vyššie
+	}
+
+	/** Vytvorí a vloží objekt usera do databázy */
+	public boolean createAccount(String username, String password, String salt, String server, String nick) {
+		User user = new User();
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setSalt(salt);
+		user.setServer(server);
+		user.setNick(nick);
+		try {
+			userDAO.createAccount(entityManager, user);
+		} catch (EntityExistsException e) {
+			LOG.log(Level.SEVERE, "Error: User already exists - Failed to create user in database.", e);
+			return false; //pre informáciu o neúspešnosti a výpis chybovej hlášky do GUI
+		} catch (IllegalArgumentException e) {
+			LOG.log(Level.SEVERE, "Error: User is not an entity in database - Failed to create user in database.", e);
+			return false; //pre informáciu o neúspešnosti a výpis chybovej hlášky do GUI
+		}
+		LOG.info("User was successfully created in database.");
+		return true;
+	}
+
+	/** Aktualizuje usera v databáze */
+	public boolean saveUser(User user) {
+		try {
+			userDAO.saveAccount(entityManager, user);
+		} catch (IllegalArgumentException  e) {
+			LOG.log(Level.SEVERE, "Error: User is not an entity or was deleted from database - Failed to actualize user in database.", e);
+			return false; //pre informáciu o neúspešnosti a výpis chybovej hlášky do GUI
+		}
+		return true;
+	}
+
+}

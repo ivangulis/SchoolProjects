@@ -1,0 +1,55 @@
+package executive;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import dao.ChampionDAO;
+import dao.UserDAO;
+import model.Champion;
+import model.User;
+import webSearchFeature.WebSearch;
+
+/**
+ * Session Bean implementation class LoginExecutiveBean
+ */
+@Stateless
+public class ChampionsExecutiveBean {
+
+	@PersistenceContext
+    private EntityManager entityManager;
+	private ChampionDAO championDAO = new ChampionDAO();
+	
+	public List<Champion> saveAllChampions() {
+		List<Champion> allChampions = new ArrayList<Champion>();
+		
+		WebSearch webSearch = new WebSearch();
+		allChampions = webSearch.searchForChampions();
+		
+		return allChampions;
+	}
+	
+	public List<Champion> loadFromDbAllChampions() {
+    	List<Champion> allChampions = null;
+		try {
+			allChampions = championDAO.loadFromDbAllChampions(entityManager);
+			for (List<Champion> champion : allChampions) {
+				entityManager.detach(champion);
+				f.setUsers(null);
+				}
+			}
+			response.setTvDays(tvDays);
+			for (Champion c : user.getPool())
+				entityManager.detach(c);
+			entityManager.detach(user);
+			user.setPool(new ArrayList<Champion>(user.getPool()));
+		} catch (Exception e) {
+			return allChampions; //TODO logger
+		}
+    	return allChampions;
+    }
+
+}

@@ -1,0 +1,30 @@
+ChampionPoolManager = Mana\u017Eér výberu \u0161ampiónov
+DifferentPasswords = Heslá sa nezhodujú
+AccountCreated = Vá\u0161 ú\u010Det bol úspe\u0161ne vytvorený
+AlreadyRegistered = Tento ú\u010Det u\u017E existuje
+Language = Jazyk
+NewPassword = Nové heslo
+ConfirmPassword = Porvt\u010F heslo
+
+EditProfileTitle = Úprava profilu
+EditProfileCaption = UPRAV PROFIL
+EditProfileNick = Nová prezývka
+EditProfileServer = Zmenie\u0165 server
+Save = Ulo\u017E
+
+LoginPassword = Heslo
+LoginUsername = Meno
+LoginError = Zlé prihlasovacie meno alebo heslo
+Login = Prihlási\u0165
+Register = Registrova\u0165
+
+RegisterTitle = Registrácia
+RegisterNick = Tvoja prezývka
+RegisterUsername = Nové meno
+RegisterCreate = Vytvor
+
+MainWindowBans = Najlep\u0161ie bany
+MainWindowDetails = Detaily
+Name = Meno
+Role = Rola
+Value = Hodnota

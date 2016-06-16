@@ -1,0 +1,28 @@
+.button {
+    -fx-background-color: linear-gradient(#ff5400, #be1d00);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.button Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+    -fx-font-size: 36pt;
+}
+
+.root {
+    -fx-background-image: url("/images/background.jpg");
+}
+
+#labelRegLog {
+    -fx-font-size: 30pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+}
+
+.label {
+	-fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+}

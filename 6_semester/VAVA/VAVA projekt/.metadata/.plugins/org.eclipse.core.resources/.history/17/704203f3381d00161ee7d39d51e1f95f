@@ -1,0 +1,84 @@
+package executive;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
+
+import dao.ChampionDAO;
+import model.Champion;
+import webSearchFeature.WebSearch;
+
+/**
+ * Session Bean implementation class LoginExecutiveBean
+ * This bean is used to register new user, login (get registered user) and create new user.
+ * @author Ivan Gulis
+ */
+@Stateless
+public class ChampionsExecutiveBean {
+
+	@PersistenceContext
+    private EntityManager entityManager;
+	private ChampionDAO championDAO = new ChampionDAO();
+	
+	private static Logger LOG = Logger.getLogger(UserExecutiveBean.class.getName());
+	
+	/** Save all entities of champion into database */
+	public boolean saveAllChampions() {
+		List<Champion> allChampions = new ArrayList<Champion>();
+		WebSearch webSearch = new WebSearch();
+		
+		allChampions = webSearch.searchForChampions();
+		if (allChampions != null){
+			try {
+				championDAO.saveAllChampions(entityManager, allChampions);
+				LOG.info("All champions were successfully saved into database.");
+			} catch (IllegalArgumentException  e) {
+				LOG.log(Level.SEVERE, "Error: One or more champions are not an entity or were deleted from database"
+						+ " - Failed to actualize champions in database.", e);
+				return false; //to get information about success for client
+			}
+			return true; // success
+		} else {
+			return false; // not success, there are no champions in this list
+		}
+	}
+	
+	/** Load all entities of champion from database */
+	public List<Champion> loadFromDbAllChampions() {
+    	List<Champion> allChampions = null;
+		try {
+			allChampions = championDAO.loadFromDbAllChampions(entityManager);
+			for (Champion champion : allChampions) {
+				entityManager.detach(champion);
+			}
+			LOG.info("All champions were successfully loaded from database.");
+		} catch (PersistenceException e) {
+			LOG.log(Level.SEVERE, "Error: Query execution exceeded the query timeout value set and the"
+					+ " transaction was rolled back - Failed to get champion list from database.", e);
+		}
+    	return allChampions; // not success, there are no champions in this list
+    }
+	
+	/** Load 6 most banned entities of champion from database */
+	public List<Champion> getTopBans() {
+    	List<Champion> banList = null;
+		try {
+			banList = championDAO.getTopBans(entityManager);
+			for (Champion champion : banList) {
+				entityManager.detach(champion);
+			}
+			LOG.info("6 certain champions were successfully loaded from database.");
+		} catch (PersistenceException e) {
+			LOG.log(Level.SEVERE, "Error: Query execution exceeded the query timeout value set and the"
+					+ " transaction was rolled back - Failed to get champion list from database.", e);
+		}
+    	return banList; // not success, there are no champions in this list
+    }
+
+}

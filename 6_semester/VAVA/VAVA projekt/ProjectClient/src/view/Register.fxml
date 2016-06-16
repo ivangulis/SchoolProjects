@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="600.0" stylesheets="@Other.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RegisterController">
+   <children>
+      <TextField fx:id="textFieldUsernameR" layoutX="323.0" layoutY="161.0" />
+      <TextField fx:id="textFieldNickR" layoutX="323.0" layoutY="207.0" />
+      <ComboBox fx:id="comboBoxServer" layoutX="483.0" layoutY="209.0" prefHeight="25.0" prefWidth="103.0" />
+      <PasswordField fx:id="passwordFieldR" layoutX="323.0" layoutY="256.0" />
+      <PasswordField fx:id="passwordFieldR2" layoutX="323.0" layoutY="314.0" />
+      <Label fx:id="labelUsernameR" layoutX="131.0" layoutY="161.0" prefHeight="25.0" prefWidth="149.0" text="New username">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="labelPasswordR" layoutX="133.0" layoutY="256.0" prefHeight="25.0" prefWidth="149.0" text="New password">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="labelPasswordR2" layoutX="133.0" layoutY="314.0" prefHeight="25.0" prefWidth="149.0" text="Confirm password">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="labelMainCaption" alignment="CENTER" layoutX="158.0" layoutY="79.0" prefHeight="58.0" prefWidth="286.0" text="REGISTRATION" underline="true">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonCreateAccount" layoutX="249.0" layoutY="354.0" mnemonicParsing="false" onAction="#createAccount" prefHeight="47.0" prefWidth="103.0" text="Create" />
+      <Label fx:id="labelPasswordError" alignment="CENTER" layoutX="122.0" layoutY="414.0" prefHeight="27.0" prefWidth="356.0" textFill="RED" underline="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelNickR" layoutX="133.0" layoutY="207.0" prefHeight="25.0" prefWidth="149.0" text="Your Ingame Nick">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <MenuBar prefHeight="38.0" prefWidth="600.0">
+         <menus>
+            <Menu fx:id="menuLanguage" mnemonicParsing="false" text="Language">
+               <items>
+                  <MenuItem fx:id="menuItemEnglish" mnemonicParsing="false" onAction="#changeEnglish" text="ENG" />
+                  <MenuItem fx:id="menuItemSlovak" mnemonicParsing="false" onAction="#changeSlovak" text="SK" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>

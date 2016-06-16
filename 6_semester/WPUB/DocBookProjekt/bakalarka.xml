@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: sablona-bp.xml,v 1.3 2006/04/22 09:47:36 jkj Exp $ -->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<book lang="sk">
+  <bookinfo>
+  
+    <title>Útoky na detekcie plagiátorstva</title>
+
+    <subtitle>Bakalárska práca</subtitle>
+
+    <author>
+      <firstname>Ivan</firstname>
+
+      <surname>Gulis</surname>
+
+      <affiliation>
+        <orgname>Slovenská technická univerzita v Bratislave</orgname>
+
+        <orgdiv role="fakulta">Fakulta informatiky a informačných technológií</orgdiv>
+
+      </affiliation>
+    </author>
+
+	<orgdiv role="program">Informatika</orgdiv>
+	
+	<orgdiv role="odbor">9.2.1 Informatika</orgdiv>
+	
+	<orgdiv role="miesto">Ústav informatiky a softvérového inžinierstva, FIIT STU, Bratislava</orgdiv>
+	
+    <othername role="veduci">Mgr. Daniela Chudá, PhD.</othername>
+
+    <pubdate>december 2015</pubdate>
+
+    <abstract>
+      <orgdiv role="anotacia">ANOTÁCIA</orgdiv>	 
+	  <orgdiv role="univerzita">Slovenská technická univerzita v Bratislave</orgdiv>
+	  <orgdiv role="fakulta">FAKULTA INFORMATIKY A INFORMAČNÝCH TECHNOLÓGIÍ</orgdiv>
+	  <orgdiv role="program">Študijný program: Informatika</orgdiv>	
+	  <orgdiv role="autor">Autor: Ivan Gulis</orgdiv>	
+	  <orgdiv role="nazov">Bakalárska práca: Útoky na detekcie plagiátorstva</orgdiv>	
+	  <orgdiv role="veduci">Vedúci bakalárskej práce: doc. Mgr. Daniela Chudá, PhD.</orgdiv>	
+	  <orgdiv role="datum">december, 2015</orgdiv>	
+	  <orgdiv role="text">Cieľom tejto práce je analyzovať súčasný stav metód detekcie plagiátov v textoch a 
+	  navrhnúť mechanizmy pre vylepšenie týchto metód proti existujúcim útokom. Metódy detekcie a 
+	  útoky budú rozdelené do kategórii podľa princípov, na ktorých sú založené, kde budú opísané 
+	  ich slabé a silné stránky. Po analýze bude nasledovať experiment so súčasnými aplikáciami pre 
+	  detekciu plagiátov, kde budú všetky aplikácie a ich metódy detekcie porovnané navzájom, spolu 
+	  s percentuálnou úspešnosťou odhalenia plagiátov. Ako testovacie vzorky budú použité dvojice 
+	  textov, originál a jeho plagiát - na ktorom budú postupne aplikované techniky jednotlivých 
+	  útokov. Okrem tabuliek bude vytvorený aj graf s priemernými hodnotami úspešnosti všetkých 
+	  aplikácii. Po zhodnotení experimentu budú navrhnuté nové mechanizmy pre vylepšenie detekčných 
+	  metód proti úspešným typom útokov z experimentu. Tieto mechanizmy budú následne 
+	  implementované a otestované na vzorkách slovenských textov. Výsledky oboch experimentov budú navzájom porovnané.</orgdiv>
+
+    </abstract>
+
+    <abstract lang="en">
+	  <orgdiv role="anotacia">ANNOTATION</orgdiv>	 
+	  <orgdiv role="univerzita">Slovak University of Technology Bratislava</orgdiv>
+	  <orgdiv role="fakulta">FACULTY OF INFORMATICS AND INFORMATION TECHNOLOGIES</orgdiv>
+	  <orgdiv role="program">Degree Course: Informatics</orgdiv>	
+	  <orgdiv role="autor">Author: Ivan Gulis</orgdiv>	
+	  <orgdiv role="nazov">Bachelor Thesis: Attacks on plagiarism detection</orgdiv>	
+	  <orgdiv role="veduci">Supervisor: doc. Mgr. Daniela Chudá, PhD.</orgdiv>	
+	  <orgdiv role="datum">2015, December</orgdiv>	
+	  <orgdiv role="text">The purpose of this work is to analyze the state of current detection methods of plagiarism 
+	  in texts and to design mechanisms for improvement of these methods against existing attacks. 
+	  Methods of detection and methods of attacks will be divided according to principes, on which 
+	  they are based. Their weak and emphasis aspects will be described there. Experiment with current 
+	  applications for plagiarism detection will follow up after the process of analysis. All of the 
+	  applications and methods of detection will be compared along with percentual success of plagiarism 
+	  detection. Pairs of texts (original and it's copy, on which one of plagiarism methods is applied) 
+	  will be used as testing samples. These texts will undergo applied technics of various attacks.  
+	  Besides the table a graph with average values of all application success will be designed. New 
+	  mechanisms for enhancing the detection methods against successful types of attacks will be designed. 
+	  Afterwards these mechanisms will be implemented and tested on samples of slovak texts. The results of both experiments will be compared.</orgdiv>
+    </abstract>
+  </bookinfo>
+
+  <chapter>
+    <title>Úvod</title>
+
+    <para>V súčasnosti je plagiátorstvo celkom bežná záležitosť. 
+	Výskyt plagiátov je hlavne v študentských prácach, kde študenti radšej 
+	odovzdajú prácu niekoho iného s vedomím, že ich určite nikto neodhalí. 
+	Študenti sú vynaliezaví a vymýšľajú rôzne metódy, ako zamaskovať svoj plagiát. 
+	Podobné je to s podvádzaním pri testoch - možnosť dosiahnuť lepšie hodnotenie 
+	za minimum námahy je lákavé a riziko nie je dostatočne veľké. S technikou narastá 
+	počet rôznych metód tvorby plagiátov, rovnako ako narastá počet metód tvorby “ťahákov”. 
+	Plagiátori už nezostávajú u jednoduchého ctrl+c, ctrl+v, ale používajú obrázky 
+	či neznáme symboly, aby ich dokument vyzeral rovnako, no zvnútra bol úplne odlišný. 
+	Rozšírené je hlavne kopírovanie častí článkov z internetu, a následné upravenie týchto 
+	častí ako len najviac je to možné. Z dôvodu absencie slovenských vedeckých článkov na 
+	internete študenti prekladajú a kopírujú aj anglické články, čo podstatne komplikuje 
+	detekciu plagiátov - každý preklad je určitým spôsobom iný. Ak viacero študentov kopíruje
+	z rovnakého zdroja na internete, je možný výskytu plagiátov aj bez priameho kopírovania 
+	študenta od študenta. Ako útok označujeme pokus skopírovať určité časti iného dokumentu a 
+	prehlásiť dokument za svoj vlastný, bez príslušných citácii alebo uvedenia zdroja. 
+	Ochrana pred útokmi je odhalenie zhody dvoch dokumentov, ktoré obsahujú rovnakú 
+	myšlienku alebo zhodné časti textu, ale sú prezentované ako dva odlišné dokumenty 
+	odlišných autorov. Nikde však nie je definované, koľko percentná zhoda musí nastať, 
+	aby bol dokument označený ako plagiát - tento aspekt zostáva na posúdení človekom, 
+	program len zobrazí podozrivé zhody.</para>
+
+    <section>
+      <title>Hlavný cieľ tejto práce</title>
+
+      <para>Hlavným cieľom tejto práce je analyzovať jednotlivé metódy plagiátorských útokov, 
+	  zistiť ich slabiny, a navrhnúť techniky na ochranu pred nimi. Útoky aj metódy detekcie 
+	  kategorizujeme do skupín. Po analýze silných a slabých stránok detekčných metód vykonáme 
+	  experiment s tromi známymi nástrojmi na detekciu plagiátov, kde sa zameriame iba na 
+	  aplikácie, ktoré porovnávajú vstupnú množinu dokumentov - nehľadajú plagiáty na internete. 
+	  Výsledky experimentu zapíšeme do tabuliek a grafu, a úspešnosť útokov a metód ochrany 
+	  navzájom porovnáme v zhodnotení experimentu. Nakoniec uvedieme stručný návrh mechanizmov, 
+	  ktoré neskôr implementujeme a preveríme vzorkou slovenských textov - nebudeme sa 
+	  zaoberať plagiátmi z angličtiny do slovenčiny. Výsledky experimentov porovnáme.</para>
+	  
+    </section>
+	
+  </chapter>
+  
+  <chapter>
+	<title>Metódy útokov na detekciu podobnosti textov</title>
+	
+	<para>Tieto metódy útokov rozdelíme na tri skupiny: 
+	<orderedlist numeration="arabic">
+	<listitem>
+	<para>pôsobiace na úrovni slov</para>
+	</listitem>
+	<listitem>
+	<para>pôsobiace  na úrovni znakov</para>
+	</listitem>
+	<listitem>
+	<para><xref linkend="p1"/></para>
+	</listitem>
+	</orderedlist>
+	</para>
+	
+	<section id="p1" xreflabel="pôsobiace na úrovni vzhľadu dokumentu ako celku">
+      <title>Pôsobiace na úrovni vzhľadu dokumentu ako celku</title>
+
+      <para>Tieto techniky sa snažia upraviť dokument tak, aby zachovali vzhľad dokumentu podľa originálu.</para>
+		<para><emphasis role="strong">Útok pridaním úvodzoviek pred a za text</emphasis>
+		<indexterm>
+		<primary>Útoky na detekciu</primary>
+		<secondary>Útok pridaním úvodzoviek pred a za text</secondary>
+		</indexterm>
+		sa zakladá na myšlienke, že detektor plagiátov označí tento úsek za citáciu. 
+		Teoreticky by potom bolo možné dať úvodzovky na začiatok a koniec dokumentu, a program na detekciu plagiátov by text vôbec nekontroloval.</para>
+		
+		<para><emphasis role="strong">Útok výmenou medzier za biele znaky</emphasis> 
+		<indexterm>
+		<primary>Útoky na detekciu</primary>
+		<secondary>Útok výmenou medzier za biele znaky</secondary>
+		</indexterm>
+		je veľmi silný typ útoku. Vizuálnou slabinou je šírka medzery a šírka znakov. 
+		Podstatne odhaliteľnejšou slabinou útoku je vznik podozrivo dlhých slov (alebo celý dokument sa stane jedným dlhým slovom).
+		Existujú dve variácie: Náhrada medzier za znaky, ktoré sa v dokumente bežne nachádzajú (písmená, čísla). Pokusom je možné zistiť, aké znaky sú vhodné pre tento typ útoku (väčšinou úzke znaky ako napríklad “l,1,j”). Slabinou útoku je, že vznikne abnormálny výskyt použitého znaku. Je možné použiť náhodný biely znak na úkor vizuálnej stránky (medzery nebudú rovnako široké).
+		Druhá možnosť je použiť symboly mimo bežne používanej abecedy (znaky cyriliky alebo rôzne čínske znaky). Takto nevznikne nadbytok použitia určitého písmena.
+		Tento útok je veľmi ľahko vykonateľný pomocou funkcii v napríklad Microsoft Worde 
+		(vyhľadať všetky medzery a nahradiť ich požadovaným znakom).<?linebreak?>
+		Príklad plagiátu: “Žuvanie je mechanické rozmelňovanie potravy alebo tabaku v ústnej dutine.”<?linebreak?>
+		Plagiát
+		<footnote>
+			<para>
+			Miesto medzier sú biele "i": Žuvanieijeimechanickéirozmelňovanieipotravyialeboitabakuiviústnejidutine.
+			</para>
+		</footnote>
+		: “Žuvanie je mechanické rozmelňovanie potravy alebo tabaku v ústnej dutine.”
+		</para>
+		
+		<para><emphasis role="strong">Útok využitím textovej a vizuálnej vrstvy PDF formátu</emphasis> 
+		<indexterm>
+		<primary>Útoky na detekciu</primary>
+		<secondary>Útok využitím textovej a vizuálnej vrstvy PDF formátu</secondary>
+		</indexterm>
+		je založený na fakte, že PDF sú tvorené vo vrstvách. 
+		Na pozadí je vrstva textová, a na povrchu je vrstva vizuálna. Základom útoku je do vizuálnej vrstvy vložiť originálny text, a do textovej 
+		vrstvy vložiť náhodné znaky (“odpad”). Vylepšenie tejto metódy je použiť originálny text, a jeho znaky len premeniť na iné, takto sa zachová 
+		dĺžka dokumentu. Tento plagiát je extrémne dôveryhodný. Text sa dá myšou označiť, čo vyzerá ako označenie originálneho textu, ale kopírovanie kopíruje textovú vrstvu.
+		Postup tvorby plagiátu:
+		<orderedlist numeration="arabic">
+		<listitem>
+		<para>Strany pôvodného dokumentu sa konvertujú na obrázky (napríklad JPG). Tieto obrázky by mali byť čo najkvalitnejšie - budú tvoriť vzhľad strán dokumentu.</para>
+		</listitem>
+		<listitem>
+		<para>Vytvorí sa text rovnakej dĺžky s náhodnými znakmi (“odpad”).</para>
+		</listitem>
+		<listitem>
+		<para>Z vytvoreného textu sa spraví PDF dokument.</para>
+		</listitem>
+		<listitem>
+		<para>Obrázky originálneho textu sa nakopírujú cez strany textu.</para>
+		</listitem>
+		</orderedlist>
+		Slabinou môže byť horšia kvalita vizuálnej vrstvy (je nutné text konvertovať na obrázok), a tiež samotná veľkosť plagiátu
+		<footnote>
+			<para>
+			Menším pokusom sme zistili, že jedna strana textu v PDF má približne 128 kB (381kB s všetkými vrstvami).
+			Čísla závisia od kvality obrázku - čím kvalitnejšie obrázky, tým väčší dokument.
+			</para>
+		</footnote>.
+		</para>
+		<para><emphasis role="strong">Útok využitím obrázkov miesto častí textu</emphasis> 
+		<indexterm>
+		<primary>Útoky na detekciu</primary>
+		<secondary>Útok využitím obrázkov miesto častí textu</secondary>
+		</indexterm>
+		má podobne ako predošlý typ slabinu v kvalite obrázkov. Je možné použiť okrem PDF formátu aj DOC.
+		Ak použijeme iba spomenutú vizuálnu vrstvu PDF (bez odpadu - nebude možné text označiť), plagiát má približne dvojnásobok pôvodnej strany textu. 
+		DOC pri 1 strane toho istého textu má približne 5-násobné zväčšenie veľkosti.
+		Hodnoty podrobnejšie preveríme väčšími experimentmi, čísla uvádzame len pre názornú ukážku.
+	  </para>
+	  
+    </section>
+  
+  </chapter>
+  
+  <chapter>
+    <title>Metódy detekcie plagiátorstva v textoch</title>
+	
+	<para><emphasis role="strong">Kategorizácia:</emphasis>
+	<orderedlist numeration="arabic">
+	<listitem>
+	<para>Metódy založené na porovnávaní N-prvkových blokov</para>
+		<orderedlist numeration="loweralpha">
+		<listitem>
+		<para><xref linkend="m1"/></para>
+		</listitem>
+		</orderedlist>
+	</listitem>
+	<listitem>
+	<para>Metódy založené na dynamickom programovaní</para>
+		<orderedlist numeration="loweralpha">
+		<listitem>
+		<para><xref linkend="m2"/></para>
+		</listitem>
+		<listitem>
+		<para><xref linkend="m3"/></para>
+		</listitem>
+		<listitem>
+		<para><xref linkend="m4"/></para>
+		</listitem>
+		<listitem>
+		<para><xref linkend="m5"/></para>
+		</listitem>
+		</orderedlist>
+	</listitem>
+	<listitem>
+	<para>Metódy založené na frekvencii použitia slov</para>
+		<orderedlist numeration="loweralpha">
+		<listitem>
+		<para>TF-IDF (term frequency, inverse document frequency)</para>
+		</listitem>
+		<listitem>
+		<para>Cosine similarity (Weirdness) - Kosínová podobnosť</para>
+		</listitem>
+		</orderedlist>
+	</listitem>
+	<listitem>
+	<para>Metódy založené na netextovom porovnávaní</para>
+		<orderedlist numeration="loweralpha">
+		<listitem>
+		<para>Metadáta</para>
+		</listitem>
+		</orderedlist>
+	</listitem>
+	</orderedlist>
+	</para>
+	
+	<section>
+	  <title>Metódy detekcie založené na porovnávaní N-prvkových blokov</title>
+	  
+	  <section id="m1" xreflabel="N-gramy">
+	  <title>N-gramy</title>
+	  
+	  <para><emphasis role="strong">Analýza:</emphasis> 
+	  <indexterm>
+	  <primary>Metódy detekcie</primary>
+	  <secondary>N-gramy</secondary>
+	  </indexterm>
+	  Základom je rozdelenie dokumentov na skupiny po N slov (N-gramy), 
+	  ktoré sa následne porovnávajú s ostatnými skupinami v druhom dokumente. Bližšie o N-gramoch sa 
+	  dozviete v článku <xref linkend="1" />, kde je aj experimentom ukázaná ich funkčnosť a efektivita. 
+	  Pre čo najväčšie zmenšenie veľkosti týchto N-gramov je vhodné využiť hašovacie funkcie. 
+	  Ako príklad uvedieme hašovaciu funkciu - súčet všetkých ASCII hodnôt spoluhlások. Tieto 
+	  haš hodnoty sa následne porovnávajú s haš hodnotami druhého dokumentu. Na toto sa využíva 
+	  Rabin-Karp algoritmus, ktorý v pomerne dobrom čase dokáže porovnávať viac haš hodnôt naraz. 
+	  Pre veľký počet haš hodnôt (a počet N-gramov) sa môže použiť winnowing algoritmus - zahašované 
+	  N-gramy sa rozdelia do prekrývajúcich okien po 4 hodnoty (okno sa posúva vždy o jeden haš ďalej, 
+	  aby vytvoril nasledujúce okno), a následne sa vyberú neprekrývajúce minimá haš hodnôt. Rabin-Karpom 
+	  sa porovnávajú už len tieto pretriedené hodnoty - zníži sa presnosť metódy, ale podstatne sa zvýši 
+	  rýchlosť. Viac o týchto technikách sa dozviete v článku <xref linkend="2" />, kde je opísané využitie Rabin-Karp 
+	  algoritmu a samotný Winnowing algoritmus.</para>
+
+      <para><emphasis role="strong">Klady a zápory:</emphasis> Haš hodnota N-gramu sa nezmení ani pri prehodení slov v rámci N-gramu. Pri použití 
+	  Winnowings algoritmu sa stráca presnosť - je možné, že kopírované časti nebudú vybrané ako minimá. 
+	  Táto metóda všeobecne nedáva dostatočne dobré výsledky (<xref linkend="tab1" /> a <xref linkend="tab2" />), 
+	  pretože stačí zmena jediného písmenka (napr. na nejaký homoglyf), a haš hodnota celého N-gramu sa dramaticky zmení.
+	  </para>
+	  
+	  </section>
+	  
+	</section>
+	
+	<section>
+	    <title>Metódy detekcie založené na dynamickom programovaní</title>
+	    
+		<section id="m2" xreflabel="Greedy String Tiling">
+	      <title>Greedy String Tiling</title>
+		  
+		  <para><emphasis role="strong">Analýza:</emphasis> 
+		  <indexterm>
+		  <primary>Metódy detekcie</primary>
+		  <secondary>Greedy String Tiling</secondary>
+		  </indexterm>
+		  Táto metóda je založená na hľadaní vždy najdlhšieho spoločného podreťazca 
+		  dvoch dokumentov. Vstupným parametrom je minimálna dĺžka spoločného podreťazca. Algoritmus 
+		  nájde najdlhší podreťazec, označí ho za nájdený v oboch dokumentoch, a hľadá ďalší neoznačený 
+		  najdlhší spoločný podreťazec. Ak už v dokumentoch neexistujú spoločné podreťazce dlhšie ako 
+		  minimálna dĺžka, algoritmus končí. Výsledná podobnosť je potom pomer dĺžky spoločných 
+		  podreťazcov * 2, a dĺžky oboch dokumentov spolu. Viac o Greedy String Tiling sa dočítate 
+		  v článku <xref linkend="3" />, kde je opísané fungovanie programu JPlag, ktorý je na Greedy String Tiling metóde založený.</para>
+
+		  <para><emphasis role="strong">Klady a zápory:</emphasis> Táto metóda dáva všeobecne veľmi dobré výsledky (viz. <xref linkend="tab3" />). 
+		  Algoritmus je odolný voči zmene poradia viet či odsekov (ak sú väčšie ako minimálna dĺžka spoločného stringu). 
+		  Je závislá na vhodnom určení minima - pri výmene dvoch slov by minimum muselo byť 1, čo by znamenalo spustiť 
+		  hľadanie najdlhšieho podreťazca až pre každé jedno slovo dokumentu. Algoritmu tiež nezáleží na pozícii 
+		  zhodných podreťazcov - pri útokoch s homoglyfami hľadá podreťazce medzi upravenými slovami.
+		  </para>
+		  
+	    </section>
+		
+		<section id="m3" xreflabel="LCS - substring">
+	      <title>LCS - substring</title>
+	  
+		  <para><emphasis role="strong">Analýza:</emphasis> 
+		  <indexterm>
+		  <primary>Metódy detekcie</primary>
+		  <secondary>LCS - substring</secondary>
+		  </indexterm>
+		  Veľmi podobná metóda ako Greedy String Tiling, ale jej úlohou je nájsť len jeden najdlhší 
+		  reťazec. Algoritmus je založený na dynamickom programovaní a porovnávajú sa celé dokumenty ako dva dlhé 
+		  podreťazce. Môže byť upravený na nájdenie N najdlhších podreťazcov so vstupným parametrom N - najdlhší 
+		  spoločný podreťazec sa rovnako ako v Greedy String Tiling označí za nájdený, a hľadanie sa opakuje N-krát.</para>
+
+		  <para><emphasis role="strong">Klady a zápory:</emphasis> Pre správne fungovanie algoritmu je nutné v predspracovaní odstrániť hlavičky a časti dokumentu, 
+		  ktoré sa opakujú vo veľkom množstve dokumentov (napr. názov fakulty alebo študovaný predmet). Mohlo by sa totiž stať, 
+		  že tento reťazec bude označený za najdlhší spoločný podreťazec, a tak budú všetky porovnávané dokumenty 
+		  podozrivé z kopírovania. Tiež je teda vhodné určiť vstupný parameter N>1, pretože najdlhší spoločný podreťazec 
+		  môže tvoriť len malé percento z celého dokumentu - napríklad pri útokoch homoglyfami, synonymami alebo zmenou 
+		  slovosledu vzniknú len menšie zhodné podreťazce. Tento algoritmus je vhodný na odhalenie veľkého zhodného úseku(alebo N úsekov) 
+		  v rýchlom čase. Všeobecne dáva táto metóda len veľmi slabé výsledky (viz. <xref linkend="tab1" />).
+
+		  </para>
+		  
+	    </section>
+		
+		<section id="m4" xreflabel="LCS - subsequence">
+	      <title>LCS - subsequence</title>
+	      
+		  <para><emphasis role="strong">Analýza:</emphasis>
+		  <indexterm>
+		  <primary>Metódy detekcie</primary>
+		  <secondary>LCS - subsequence</secondary>
+		  </indexterm>
+		  Podobne ako predošlá LCS metóda je aj hľadanie najdlhšej podpostupnosti založená na dynamickom 
+		  programovaní. Tiež je vhodné rozdeliť dokument na slová - človek myslí v slovách, prípadne ich zahašovanie - zníži 
+		  sa tým veľkosť porovnávanej množiny, a ďalej sa hľadá podpostupnosť hašov. Oproti hľadaniu najdlhšieho substringu, 
+		  subsequencia nemusí nasledovať nutne za sebou. Viac o tejto metóde sa dočítate v článku <xref linkend="4" />, ktorý sa celý zaoberá 
+		  touto metódou aj s jej implementáciou.</para>
+
+		  <para><emphasis role="strong">Klady a zápory:</emphasis> Tento algoritmus vracia veľmi dobré výsledky (viz. <xref linkend="tab1" />). Je v určitej 
+		  miere odolný voči lokálnej zmene slovosledu, pretože podpostupnosť sa v širšom hľadisku nikdy úplne nestratí. 
+		  Je vo veľkej miere odolný voči útokom, ktoré menia konkrétne slová - dokáže tieto slová jednoducho ignorovať (útoky zámenou písmen, 
+		  zámena čísloviek za slovné ekvivalenty). 
+		  </para>
+		  
+	    </section>
+		
+		<section id="m5" xreflabel="Levenstheinova vzdialenosť">
+	      <title>Levenstheinova vzdialenosť</title>
+		  
+		  <para><emphasis role="strong">Analýza:</emphasis> 
+		  <indexterm>
+		  <primary>Metódy detekcie</primary>
+		  <secondary>Levenstheinova vzdialenosť</secondary>
+		  </indexterm>
+		  Touto metódou sa dá jednoducho číselne vyjadriť odlišnosť dvoch porovnávaných dokumentov. 
+		  Vzdialenosť sa meria počtom operácii, ktoré treba vykonať, aby sa z reťazca A stal reťazec B. Tento algoritmus 
+		  využíva opäť dynamické programovanie, a rozpoznáva 3 operácie: zmena, odobranie a pridanie znaku. Pre identické 
+		  dokumenty je vzdialenosť = 1, pre úplne odlišné to je dĺžka dlhšieho dokumentu. Viac o tejto metóde sa dočítate 
+		  v článku <xref linkend="5" />, kde je opísaný celý algoritmus aj s jeho implementáciou, a jeho kombinácia s Smith-Watermanovým 
+		  algoritmom na efektívne a rýchle odhalenie plagiátov.</para>
+
+		  <para><emphasis role="strong">Klady a zápory:</emphasis> Na rozdiel od ostatných metód, výsledkom tejto metódy je jedno číslo - vzdialenosť dvoch dokumentov. 
+		  Táto metóda je odolná voči útokom s použitím homoglyfov - zmenený znak len pridá vzdialenosť +1 o operáciu 
+		  zmenu písmena, čo je oproti ostatným metódam výhodou. Naopak tento algoritmus zmätie prehodenie poradia dvoch 
+		  podobných častí - zvýši sa vzdialenosť (napr. pri útoku zmenou slovosledu, alebo len výmena odsekov).
+		  </para>
+		  
+	    </section>
+		
+	</section>
+	
+  </chapter>
+  
+  <chapter>
+	<title>Experimenty s nástrojmi na detekciu</title>
+	
+	<section>
+		<title>Vybrané nástroje k testovaniu</title>
+		
+		<para><emphasis role="strong">PlaDes</emphasis> <xref linkend="6" />
+		<footnote>
+		<para> PlaDes stránka produktu: 
+		<ulink url="http://www2.fiit.stuba.sk/~chuda/plagiarism/PlaDeS.html"></ulink>
+		</para>
+		</footnote>
+		
+		<indexterm>
+		<primary>Nástroje na detekciu</primary>
+		<secondary>PlaDes</secondary>
+		</indexterm>
+		je to desktopová applikácia na detekciu plagiátov v textoch, vytvorená 
+		študentami Fakulty informatiky a informačných technológii. Oplýva všetkými vyššie analyzovanými 
+		metódami detekcie okrem Levensteinovej vzdialenosti. Podporuje všetky bežné textové 
+		formáty ako doc/docx, .pdf, .txt. Pre predspracovanie textu využíva odstránenie čísel, 
+		odstránenie stop slov (slov, ktoré nemajú samy o sebe žiaden význam - a, aby, aj, ale…), 
+		nahradenie synoným, lemmatizáciu (nájdenie koreňa slova) a stemming (odstraňovanie prípon). 
+		O niektorých vyššie uvedených metódach, ako aj o dôležitosti pre zefektívnenie detekčných metód 
+		sa dočítate v článku <xref linkend="7" />, kde nájdete aj experimentálne overené hypotézy. V aplikácii je možné 
+		prepnúť do módu anglického jazyka.<?linebreak?>
+		
+		<emphasis role="strong">Ferret</emphasis> <xref linkend="8" />
+		<footnote>
+		<para> Ferret stránka produktu: 
+		<ulink url="http://freecode.com/projects/ferret"></ulink>
+		</para>
+		</footnote>
+		
+		<indexterm>
+		<primary>Nástroje na detekciu</primary>
+		<secondary>Ferret</secondary>
+		</indexterm>
+		je aplikácia vytvorená skupinou na University of Herfordshire. Obsahuje len metódu 
+		detekcie 3-gram, a podporuje formáty doc/docx, .pdf, .txt. Vie hľadať plagiáty aj v kódoch vo 
+		formátoch cpp, c, h, java. Text žiadnym spôsobom nepredspracúva, len ho konvertuje na .txt.<?linebreak?>
+		
+		<emphasis role="strong">WCopyFind</emphasis> <xref linkend="9" />
+		<footnote>
+		<para> WCopyFind stránka produktu: 
+		<ulink url="http://wcopyfind.findmysoft.com/"></ulink>
+		</para>
+		</footnote>
+		
+		<indexterm>
+		<primary>Nástroje na detekciu</primary>
+		<secondary>WCopyFind</secondary>
+		</indexterm>
+		je open-source aplikácia pre Windows bez potreby inštalácie. Texty kontroluje 
+		porovnávaním podreťazcov s množstvom nastavení. Metóda v aplikácii uvedená nie je, ale podľa 
+		pokusov by to mala byť Greedy-String-Tiling - dáva veľmi podobné výsledky ako GST metóda 
+		PlaDesu (viz. <xref linkend="tab1" /> a <xref linkend="tab3" />). Je teda možné určiť dĺžku najkratšieho podretazca a 
+		minimálne % zhody pre report. Obsahuje tiež možnosť použiť rôzne ignorovanie či preskakovanie 
+		častí textu: ignorovanie diakritiky či interpunkčných znamienok, ignorovanie čísel, 
+		nerozlišovanie veľkých a malých písmen, preskakovanie neplatných slov a slov dlhších 
+		ako N znakov. Pre DOC formát aj nastavenie pre zohľadňovanie len základných znakov. 
+		Tiež dokáže nastaviť kontrolu v slovenskom jazyku - je možné pri kontrole vybrať z širokého výberu jazykov.
+		</para>
+		
+	</section>
+	
+	<section>
+		<title>Výsledky experimentu</title>
+				
+		<table id="tab1" frame='all'><title>Výsledky PlaDesu</title>
+			<tgroup cols='7' align='center' colsep='1' rowsep='1'>
+			<colspec colwidth='3*'/>
+			<thead>
+			<row>
+				<entry align="left">Plades 4.0.0 (%)</entry>
+				<entry>3-gram</entry>
+				<entry>LCS-substring</entry>
+				<entry>LCS-subsequence</entry>
+				<entry>Greedy-string-tilling</entry>
+				<entry>Cosine similarity</entry>
+				<entry>Priemer</entry>
+			</row>
+			</thead>
+			<tbody>
+			<row>
+				<entry align="left">presná kópia</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+			</row>
+			<row>
+				<entry align="left">uvozovky pred a za</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+				<entry>100</entry>
+			</row>
+			<row>
+				<entry align="left">synonymá</entry>
+				<entry>18,33</entry>
+				<entry>12,9</entry>
+				<entry>67,74</entry>
+				<entry>31,75</entry>
+				<entry>31,75</entry>
+				<entry>32,344</entry>
+			</row>
+			<row>
+				<entry align="left">výmena čísiel za text</entry>
+				<entry>39,2</entry>
+				<entry>1,78</entry>
+				<entry>99,84</entry>
+				<entry>76,38</entry>
+				<entry>92</entry>
+				<entry>61,84</entry>
+			</row>
+			<row>
+				<entry align="left">zmena slovosledu</entry>
+				<entry>16,67</entry>
+				<entry>25</entry>
+				<entry>60</entry>
+				<entry>23,81</entry>
+				<entry>71</entry>
+				<entry>39,296</entry>
+			</row>
+			<row>
+				<entry align="left">platné homoglyfy</entry>
+				<entry>14,63</entry>
+				<entry>1,46</entry>
+				<entry>55,75</entry>
+				<entry>27,51</entry>
+				<entry>9</entry>
+				<entry>21,67</entry>
+			</row>
+			<row>
+				<entry align="left">homoglyfy - cyrilika</entry>
+				<entry>3,32</entry>
+				<entry>0,52</entry>
+				<entry>16,15</entry>
+				<entry>0,51</entry>
+				<entry>2</entry>
+				<entry>4,5</entry>
+			</row>
+			<row>
+				<entry align="left">biele znaky za medzery</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+			</row>
+			<row>
+				<entry align="left">využitie vrstiev PDF formátu</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+			</row>
+			<row>
+				<entry align="left">obrázky miesto textu</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+				<entry>0</entry>
+			</row>
+			</tbody>
+			</tgroup>
+		</table>
+		
+		<table id="tab2" frame='all'><title>Výsledky Ferretu</title>
+			<tgroup cols='2' align='center' colsep='1' rowsep='1'>
+			<thead>
+			<row>
+				<entry align="left">Ferret 5.0 (%)</entry>
+				<entry>3-gram</entry>
+			</row>
+			</thead>
+			<tbody>
+			<row>
+				<entry align="left">presná kópia</entry>
+				<entry>100</entry>
+			</row>
+			<row>
+				<entry align="left">uvozovky pred a za</entry>
+				<entry>100</entry>
+			</row>
+			<row>
+				<entry align="left">synonymá</entry>
+				<entry>0</entry>
+			</row>
+			<row>
+				<entry align="left">výmena čísiel za text</entry>
+				<entry>15,67</entry>
+			</row>
+			<row>
+				<entry align="left">zmena slovosledu</entry>
+				<entry>0</entry>
+			</row>
+			<row>
+				<entry align="left">platné homoglyfy</entry>
+				<entry>9,28</entry>
+			</row>
+			<row>
+				<entry align="left">homoglyfy - cyrilika</entry>
+				<entry>-</entry>
+			</row>
+			<row>
+				<entry align="left">biele znaky za medzery</entry>
+				<entry>-</entry>
+			</row>
+			<row>
+				<entry align="left">využitie vrstiev PDF formátu</entry>
+				<entry>0,39</entry>
+			</row>
+			<row>
+				<entry align="left">obrázky miesto textu</entry>
+				<entry>-</entry>
+			</row>
+			</tbody>
+			</tgroup>
+		</table>
+		
+		<table id="tab3" frame='all'><title>Výsledky WCopyFindu</title>
+			<tgroup cols='2' align='center' colsep='1' rowsep='1'>
+			<thead>
+			<row>
+				<entry align="left">WCopyFind 4.1.4 (%)</entry>
+				<entry>Greedy-string-tilling</entry>
+			</row>
+			</thead>
+			<tbody>
+			<row>
+				<entry align="left">presná kópia</entry>
+				<entry>100</entry>
+			</row>
+			<row>
+				<entry align="left">uvozovky pred a za</entry>
+				<entry>100</entry>
+			</row>
+			<row>
+				<entry align="left">synonymá</entry>
+				<entry>0</entry>
+			</row>
+			<row>
+				<entry align="left">výmena čísiel za text</entry>
+				<entry>71</entry>
+			</row>
+			<row>
+				<entry align="left">zmena slovosledu</entry>
+				<entry>12</entry>
+			</row>
+			<row>
+				<entry align="left">platné homoglyfy</entry>
+				<entry>27</entry>
+			</row>
+			<row>
+				<entry align="left">homoglyfy - cyrilika</entry>
+				<entry>-</entry>
+			</row>
+			<row>
+				<entry align="left">biele znaky za medzery</entry>
+				<entry>0</entry>
+			</row>
+			<row>
+				<entry align="left">využitie vrstiev PDF formátu</entry>
+				<entry>1</entry>
+			</row>
+			<row>
+				<entry align="left">obrázky miesto textu</entry>
+				<entry>-</entry>
+			</row>
+			</tbody>
+			</tgroup>
+		</table>
+		
+		<figure id="obr1"><title>Porovnávací graf</title>
+		<mediaobject>
+		<imageobject>
+			<imagedata fileref="graf.png"/>
+		</imageobject>
+		<textobject><phrase>Porovnanie úspešnosti nástrojov detekcie</phrase></textobject>
+		</mediaobject>
+		</figure>
+		
+	</section>
+	
+	<section>
+		<title>Zhodnotenie experimentu</title>
+		
+		<section>
+			<title>Zhodnotenie výsledkov pre aplikácie</title>
+			
+			<para>Aplikácia <emphasis role="strong">PlaDes</emphasis> bola najúspešnejšia z porovnávaných 3 aplikácii (viz. <xref linkend="obr1"/>), hlavne pre výhodu práce v 
+			slovenskom jazyku a vďaka úspešnej metóde LCS - subsequence (viz. <xref linkend="m4"/>), ktorá sa ukazuje ako 
+			najefektívnejšia - dokáže preskočiť veľa prekážok, ktoré sú koreňmi útokov. <?linebreak?>
+			
+			Aplikácia <emphasis role="strong">Ferret</emphasis> pre jej jedinú metódu 3-gramov(viz. <xref linkend="m1"/>) ukázala len veľmi slabé výsledky (viz. <xref linkend="tab2"/>), a  mala problémy so 
+			začatím detekcie posledných silných útokov. <?linebreak?>
+			
+			Aplikácia <emphasis role="strong">WCopyFind</emphasis>, ktorá má pomerne silnú detekčnú silu cez jej unikátnu metódu porovnávania a 
+			hľadania rovnakých podreťazcov (a nie len jedného LCS), vrátila porovnateľne dobré výsledky (viz. <xref linkend="tab3"/>) ako PlaDes. 
+			Obsahuje pomerne dobré techniky predspracovania textu ako PlaDes, ale chýba jej synonymický slovník.
+			</para>
+			
+		</section>
+		
+		<section id="hyp" xreflabel="Hypotézy">
+			<title>Otázky a hypotézy pre nasledujúce experimenty s plánom ich riešenia</title>
+			
+			<para>
+			<orderedlist numeration="arabic">
+			<listitem>
+			<para>Je možné na základe porovnania celkovej reálnej veľkosti dokumentu s vypočítanou veľkosťou dokumentu (spočítanie znakov * veľkosť znaku) označiť dokument za podozrivý?</para>
+			</listitem>
+			<listitem>
+			<para>Je možné získať z predspracovania dokumentu dostatok informácii pre štatistiky, na ktorých základe bude postavená detekcia útokov homoglyfami a bielymi znakmi?</para>
+			</listitem>
+			<listitem>
+			<para>Bude možné zo získaných štatistík experimentálne určiť použiteľné hranice označenia dokumentov za podozrivé?</para>
+			</listitem>
+			<listitem>
+			<para>Nespomalí proces detekcie pre ostatné metódy toto získavanie a spracovávanie štatistík? </para>
+			</listitem>
+			<listitem>
+			<para>Nakoľko úspešná bude detekcia plagiátorských útokov založená len na štatistických údajoch, bez porovnávania s korpusom?</para>
+			</listitem>
+			</orderedlist>
+			Nasledujúcimi experimentmi a implementáciou navrhnutých mechanizmov sa pokúsime tieto hypotézy potvrdiť alebo vyvrátiť. 
+			Najbližšie experimenty sa budú týkať určovania veľkosti dokumentu a porovnanie tejto veľkosti s vypočítanou veľkosťou 
+			dokumentu na základe početnosti znakov, kde sa predpokladá pri obrázkových plagiátoch niekoľkonásobný rozdiel týchto 
+			hodnôt, čo by mohlo prvú hypotézu potvrdiť. Jedná sa o pomer množstva obrázkov a skutočného textu. Testované dokumenty 
+			budú obsahovať rôzne množstvo textu a obrázkov. Pre druhú hypotézu sa zameriame na efektívne získanie štatistiky 
+			znakov a slov počas predspracovania dokumentu, aby sme získali neskreslené štatistické údaje - slová pre štatistiku nesmú 
+			byť stemmované ani po lemmatizácii. Nasledujúci experiment bude pozostávať z množstva slovenských textov, kde predpokladáme 
+			získanie priemerných hraníc dĺžok slov a početnosti písmen pre našu detekciu. Po preverení tretej hypotézy porovnáme časovú 
+			zložitosť pred implementáciou spracovania štatistík a po nej. Predpokladá sa len mierne spomalenie. Predpokladáme značné 
+			zlepšenie detekcii útokov, pretože doterajšie výsledky boli veľmi slabé (0% detekcia, viz. <xref linkend="tab1"/>), čo potvrdí piatu hypotézu ako pozitívnu. 
+			Finálne sa úspešnosť potvrdí porovnaním výsledkov PlaDes-u z prvého experimentu a výsledkov PlaDes-u s našou vylepšenou 
+			implementáciou (naše softvérové riešenie).
+			</para>
+
+		</section>
+	
+	</section>
+	
+  </chapter>
+  
+  <chapter>
+	<title>Zhodnotenie</title>
+	
+	<para>V tejto správe sme analyzovali známe metódy útokov na detekcie plagiátorstva aj s uvedením príkladov a silných či 
+	slabých stránok. Následne sme popísali detekčné metódy s analýzou, prečo sú odolné a prečo slabé voči niektorým útokom. 
+	Po experimente s aplikáciami PlaDes, Ferret, WCopyFind sme metódy detekcie navzájom porovnali a názorne predviedli 
+	ich slabé a silné stránky. Zároveň sme porovnali silu jednotlivých útokov. Po experimente sme vyslovili hypotézy a 
+	predpoklady pre ďalšie experimenty. Nakoniec sme navrhli mechanizmy s návrhom ich implementácie na ochranu pred 
+	plagiátorskými útokmi, so zameraním na úspešné útoky z predošlých experimentov.
+	</para>
+	
+	<section>
+		<title>Plán pre nasledujúci semester</title>
+		
+		<para>V druhej časti tejto práce sa zameriame na zodpovedanie položených otázok a hypotéz (viz. <xref linkend="hyp"/>), a 
+		na implementáciu navrhnutých mechanizmov do prostredia už testovaného PlaDes-u, kde vykonáme 
+		podobné testy so vzorkami slovenských textov. Výsledky porovnáme s výsledkami z experimentov 
+		vykonaných v tejto časti - očakávame výrazné zlepšenie v percentách zhody.
+		Začneme experimentmi s veľkosťou dokumentov a ich obsahom, pokračovať budú experimenty s efektívnym a 
+		rýchlym získaním správnych štatistických údajov popri predspracovaní dokumentov a získanie hraníc 
+		pre určenie podozrivosti dokumentu. Následne implementujeme spracovanie týchto štatistík a 
+		spravíme experimenty s označovaním podozrivých dokumentov na základe spracovaných výsledkov. 
+		Finálnu implementáciu otestujeme na väčšej vzorke slovenských textov a porovnáme 
+		úspešnosť s predošlou implementáciou PlaDes-u. 
+		</para>
+	</section>
+	
+  </chapter>
+  
+  <index/>
+
+  <appendix>
+    <title>Obsah archívu</title>
+
+    <para>Odovzdávaný zip archív sa skladá z:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term></term>
+        <listitem>
+          <para>zdrojové texty vo formáte DocBook a ďalšie súbory súvisiace s obsahom (napr. obrázky)</para>
+        </listitem>
+		<listitem>
+          <para>skripty potrebné na preklad (dávkové súbory .bat)</para>
+        </listitem>
+		<listitem>
+          <para>cieľový tvar súborov a pôvodný tvar textu bakalárskeho projektu</para>
+        </listitem>
+		<listitem>
+          <para>sprievodný textový súbor „_Z1-xgulisi.txt“, ktorý obsahuje zoznam súborov obsiahnutých v archíve a spôsob prekladu (transformáciu) autorského textu v DocBook do cieľového formátu.</para>
+        </listitem>
+		<listitem>
+          <para>súbor github.url, s url projektu na GitHub-e</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </appendix>
+
+  <bibliography>
+    <title>Bibliografia</title>
+	
+    <bibliomixed id="1">Kučečka, Tomáš.: <title>Plagiarism Detection in Obfuscated Documents Using an N-gram Technique</title>. 
+	Information Sciences and Technologies Bulletin of the ACM Slovakia, 
+	Special Section on Student Research in Informatics and Information Technologies 3.2 : 67-71, 2011.
+	</bibliomixed>
+	
+	<bibliomixed id="2">Schleimer, Saul, Daniel S. Wilkerson, and Alex Aiken.: <title>Winnowing: local algorithms for document fingerprinting</title>. 
+	Proceedings of the 2003 ACM SIGMOD international conference on Management of data. ACM, 2003.
+	</bibliomixed>
+	
+	<bibliomixed id="3">Prechelt, Lutz, Guido Malpohl, and Michael Philippsen.: <title>Finding plagiarisms among a set of programs with JPlag</title>. 
+	J. UCS 8.11: 1016, 2002.
+	</bibliomixed>
+	
+	<bibliomixed id="4">Hirschberg, Daniel S.: <title>Algorithms for the longest common subsequence problem</title>. 
+	Journal of the ACM (JACM) 24.4: 664-675, 1977.
+	</bibliomixed>
+	
+	<bibliomixed id="5">Su, Z., Ahn, R.B., Eom, Y.K., Kang, K.M., Kim, P.J., Kim, K.M.: <title>Plagiarism Detection Using the Levenshtein Distance and Smith-Waterman Algorithm</title>. 
+	In: Proceedings of the 2008 3rd International Conference on Innovative Computing, Information and Control, Washington, DC, USA, 2008.
+	</bibliomixed>
+	
+	<bibliomixed id="6">Chudá, D., Návrat, P.: <title>Support for checking plagiarism in e-learning</title>. 
+	Procedia - Social and Behavioral Sciences, Innovation and Creativity in Education, vol. 2, no. 2, pp. 3140-3144, 2010, ISSN 1877-0428.
+	</bibliomixed>
+	
+	<bibliomixed id="7">Chudá, Daniela, Ján Chlpek, and Andrej Kumor.: <title>The impact of text pre-processing to determine the similarity in students assignments</title>. 
+	Proceedings of the 12th International Conference on Computer Systems and Technologies. ACM, 2011.
+	</bibliomixed>
+	
+	<bibliomixed id="8">Lyon, Caroline, Ruth Barrett, and James Malcolm.: <title>A theoretical basis to the automated detection of copying between texts, and its practical implementation in the Ferret plagiarism and collusion detector</title>. 
+	Plagiarism: Prevention, Practice and Policies, 2004.
+	</bibliomixed>
+	
+	<bibliomixed id="9">Balaguer, Enrique Vallés.: <title>Putting ourselves in SME’s shoes: Automatic detection of plagiarism by the WCopyFind tool</title>. 
+	Proc. SEPLN. 2009.
+	</bibliomixed>
+	
+  </bibliography>
+</book>

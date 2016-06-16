@@ -1,0 +1,73 @@
+package view;
+
+import application.Main;
+import facade.UserFacadeBeanRemote;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+
+import javafx.scene.control.PasswordField;
+
+public class RegisterController {
+	@FXML
+	private TextField textFieldUsernameR;
+	@FXML
+	private PasswordField passwordFieldR;
+	@FXML
+	private PasswordField passwordFieldR2;
+	@FXML
+	private Label labelUsernameR;
+	@FXML
+	private Label labelPasswordR;
+	@FXML
+	private Label labelPasswordR2;
+	@FXML
+	private Label labelMainCaption;
+	@FXML
+	private Button buttonCreateAccount;
+	@FXML
+	private Label labelPasswordError;
+	
+	// Event Listener on Button[#buttonCreateAccount].onAction
+		@FXML
+		public void createAccount(ActionEvent event) {
+			Context ctx = null;
+			labelPasswordError.setText("");
+			try {
+				String username = textFieldUsernameR.getText();
+				String password = passwordFieldR.getText();
+				String confirm = passwordFieldR2.getText();
+				ctx = new InitialContext();
+				UserFacadeBeanRemote remote = (UserFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//UserFacadeBean!facade.UserFacadeBeanRemote");
+				if (confirm.equals(password)){
+						if (remote.createAccount(username, password) == true) {
+							String text = Main.getInstance().getLanguage().getString("AccountCreated");
+							labelPasswordError.setText(text);
+						} else {
+							String text = Main.getInstance().getLanguage().getString("AlreadyRegistered");
+							labelPasswordError.setText(text);
+						}
+				} else {
+					String text = Main.getInstance().getLanguage().getString("DifferentPasswords");
+					labelPasswordError.setText(text);
+				}
+			} catch (NamingException e) {
+				e.printStackTrace(); //TODO loger
+			} finally {
+				try {
+					ctx.close();
+				} catch (NamingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace(); //TODO loger
+				}
+			}
+		}
+
+}

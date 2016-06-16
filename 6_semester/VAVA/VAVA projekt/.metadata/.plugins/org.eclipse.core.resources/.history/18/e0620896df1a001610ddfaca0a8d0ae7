@@ -1,0 +1,39 @@
+package webSearchFeature;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import model.Champion;
+
+public class WebSearch {
+
+	public List<Champion> getChampionList(String html) {
+		Document document = Jsoup.parse(html);
+		
+		Elements table1 = document.select("table[id=table_1]");
+		Elements body = table1.select("tbody");
+		Elements trElms = body.select("tr");
+		
+		List<Champion> champions = new ArrayList<Champion>();
+		
+		for(Element curElm : trElms) {
+			String nameAndSurname = curElm.select("a[target=\"blank\"]").text();
+			Elements small = curElm.select("small");
+			String sex = small.get(4).text();
+			
+			Student s = new Student();
+			s.setSex(sex);
+			fillNameAndSurname(s, nameAndSurname);
+			students.add(s);
+		}
+
+		return champions;
+	}
+	
+}
+

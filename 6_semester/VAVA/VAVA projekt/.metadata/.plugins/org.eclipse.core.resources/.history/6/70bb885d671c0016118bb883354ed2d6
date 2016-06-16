@@ -1,0 +1,112 @@
+package view;
+
+import application.Main;
+import facade.UserFacadeBeanRemote;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import javafx.scene.control.TextField;
+import model.Champion;
+import model.User;
+import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
+
+public class EditProfileController {
+	@FXML
+	private TextField textFieldNick;
+	@FXML
+	private PasswordField passwordField;
+	@FXML
+	private PasswordField passwordField2;
+	@FXML
+	private Label labelPassword;
+	@FXML
+	private Label labelPassword2;
+	@FXML
+	private Label labelMainCaption;
+	@FXML
+	private Button buttonSaveAccount;
+	@FXML
+	private Label labelPasswordError;
+	@FXML
+	private ComboBox<String> comboBoxServer;
+	
+	public ComboBox<String> getComboBoxServer() {
+		return comboBoxServer;
+	}
+
+	public void setComboBoxServer(ComboBox<String> comboBoxServer) {
+		this.comboBoxServer = comboBoxServer;
+	}
+	
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	// Event Listener on Button[#buttonCreateAccount].onAction
+	@FXML
+	public void editAccount(ActionEvent event) {
+		Context ctx = null;
+		labelPasswordError.setText("");
+		try {
+			String password = passwordField.getText();
+			String confirm = passwordField2.getText();
+			ctx = new InitialContext();
+			UserFacadeBeanRemote remote = (UserFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//UserFacadeBean!facade.UserFacadeBeanRemote");
+			if (confirm.equals(password)){
+				user.setPassword(passwordField.getText());
+				user.setServer(comboBoxServer.getSelectionModel().getSelectedItem());
+				user.setNick(textFieldNick.getText());
+				if (remote.saveUserPool(user)) {
+					//String text = Main.getInstance().getLanguage().getString("AccountCreated");
+					//labelPasswordError.setText(text);
+				} else {
+					//String text = Main.getInstance().getLanguage().getString("AlreadyRegistered");
+					//labelPasswordError.setText(text);
+				}
+				Main.getInstance().getMwc().getLabelNick().setText(user.getNick());
+				Main.getInstance().getMwc().getLabelServer().setText(user.getServer());
+			} else {
+				String text = Main.getInstance().getLanguage().getString("DifferentPasswords");
+				labelPasswordError.setText(text);
+			}
+		} catch (NamingException e) {
+			e.printStackTrace(); //TODO loger
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace(); //TODO loger
+			}
+		}
+	}
+	
+	// Event Listener on MenuItem[#menuItemSlovak].onAction
+	@FXML
+	public void changeSlovak(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("sk");
+	}
+	
+	// Event Listener on MenuItem[#menuItemEnglish].onAction
+	@FXML
+	public void changeEnglish(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("eng");
+	}
+}

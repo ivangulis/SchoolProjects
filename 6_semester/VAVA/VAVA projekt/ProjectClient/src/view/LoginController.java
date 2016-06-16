@@ -1,0 +1,207 @@
+package view;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import application.Hasher;
+import application.Main;
+import facade.UserFacadeBeanRemote;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import model.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.PasswordField;
+
+/**
+ * Class, that controlls Login window, which is responsible for login user into application.
+ * @author Ivan Gulis
+ */
+public class LoginController {
+	@FXML
+	private TextField textFieldUsername;
+	@FXML
+	private PasswordField passwordField;
+	@FXML
+	private Button buttonRegister;
+	@FXML
+	private Button buttonLogin;
+	@FXML
+	private Label labelMainCaption;
+	@FXML
+	private Label labelUsername;
+	@FXML
+	private Label labelPassword;
+	@FXML
+	private Label labelPasswordError;
+	@FXML
+	private Menu menuLanguage;
+	
+	private static Logger LOG = Logger.getLogger(RegisterController.class.getName());
+	
+	public Button getButtonRegister() {
+		return buttonRegister;
+	}
+
+	public Button getButtonLogin() {
+		return buttonLogin;
+	}
+
+	public Label getLabelMainCaption() {
+		return labelMainCaption;
+	}
+
+	public Label getLabelUsername() {
+		return labelUsername;
+	}
+
+	public Label getLabelPassword() {
+		return labelPassword;
+	}
+
+	public Label getLabelPasswordError() {
+		return labelPasswordError;
+	}
+
+	public Menu getMenuLanguage() {
+		return menuLanguage;
+	}
+
+	public TextField getTextFieldUsername() {
+		return textFieldUsername;
+	}
+	
+	public PasswordField getPasswordField() {
+		return passwordField;
+	}
+	
+	/** Button does login operation for user, and show MainWindow */
+	// Event Listener on Button[#buttonLogin].onAction
+	@FXML
+	public void login(ActionEvent event) {
+		Context ctx = null;
+		labelPasswordError.setText("");
+		String username = textFieldUsername.getText();
+		String password = passwordField.getText();
+		if (!"".equals(password)) {
+			String text = Main.getInstance().getLanguage().getString("LoginError");
+			labelPasswordError.setText(text);
+			return;
+		} 
+		Hasher hasher = new Hasher();
+		User user;
+		try {
+			ctx = new InitialContext();
+			UserFacadeBeanRemote remote = (UserFacadeBeanRemote) ctx.lookup
+					("ProjectEAR/ProjectServer//UserFacadeBean!facade.UserFacadeBeanRemote");
+			LOG.info("Connection to UserFacadeBean initialized");
+			user = remote.getUser(username);
+			LOG.info("User was successfully found in database.");
+			if (user != null) {
+				String hashedPassword = hasher.getHash(password, user.getSalt());
+				if (hashedPassword.equals(user.getPassword())) {
+					String title = Main.getInstance()
+							.getLanguage()
+							.getString("ChampionPoolManager");
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+							.getResource(Main.getInstance().getProperties().getProperty("MainWindowFXML")));
+					Parent root = fxmlLoader.load();
+					Main.getInstance().setMwc(fxmlLoader.<MainWindowController>getController());
+					Main.getInstance().getMwc().setUser(user);			
+					Scene scene = new Scene(root);
+					Stage stage = new Stage();
+					stage.setTitle(title);
+					stage.setScene(scene);
+					stage.show();
+					Main.getInstance().setMainWindow(stage);
+					Main.getInstance().getLoginWindow().hide();
+					Main.getInstance().renameMainWindow();
+					LOG.info("Account " + username + " was successfully logged in.");
+				} else {
+					String text = Main.getInstance().getLanguage().getString("LoginError");
+					labelPasswordError.setText(text);
+					LOG.warning("Given passwords was wrong.");
+				}
+			} else {
+				String text = Main.getInstance().getLanguage().getString("LoginUsernameError");
+				labelPasswordError.setText(text);
+				LOG.warning("Account " + username + ", that tried to log in, does not exist.");				
+			}
+		} catch (IOException | NamingException e) { //logging from this function
+			LOG.log(Level.SEVERE, "Context or fxmlLoader were not able to be initialized - name resolution has failed.", e);
+		} catch (RuntimeException e) { //logging from getUser
+			LOG.log(Level.SEVERE, "Error: Failed to get user entity from database.", e);
+		} catch (NoSuchAlgorithmException e) { //logging from hasher
+			LOG.log(Level.SEVERE, "Error: No hash was generated - MessageDigestSpi implementation for the specified algorithm"
+					+ " (MD5) is not available.", e);
+			String text = Main.getInstance().getLanguage().getString("HashingFailed");
+			labelPasswordError.setText(text);
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				LOG.log(Level.SEVERE, "Context was not able to be closed - name resolution has failed.", e);
+			}
+		}
+	}
+	
+	/** Button show window for registration */
+	// Event Listener on Button[#buttonRegister].onAction
+	@FXML
+	public void register(ActionEvent event) {
+		try {
+			String title = Main.getInstance().getLanguage().getString("RegisterTitle");
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass()
+					.getResource(Main.getInstance().getProperties().getProperty("RegisterFXML")));
+			Parent root = fxmlLoader.load();
+			Main.getInstance().setRc(fxmlLoader.<RegisterController>getController());
+			ObservableList<String> options = 
+				    FXCollections.observableArrayList(
+				        "EUW", "EUNE", "NA"
+			);
+			Main.getInstance().getRc().getComboBoxServer().setItems(options);
+			Main.getInstance().getRc().getComboBoxServer().getSelectionModel().select(0);
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setTitle(title);
+			stage.setScene(scene);
+			stage.show();
+			Main.getInstance().setRegisterWindow(stage);
+			Main.getInstance().renameRegister();
+			LOG.info("Register window was successfully set and loaded.");
+		} catch (IOException e) { //includes FileNotFoundException
+			LOG.log(Level.SEVERE, "Error: FxmlLoader was not able to load fxml file for Register window", e);
+		}
+	}
+	
+	/** Function, that changes language to slovak */
+	// Event Listener on MenuItem[#menuItemSlovak].onAction
+	@FXML
+	public void changeSlovak(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("sk");
+		Main.getInstance().renameAll();
+	}
+	
+	/** Function, that changes language to english */
+	// Event Listener on MenuItem[#menuItemEnglish].onAction
+	@FXML
+	public void changeEnglish(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("eng");
+		Main.getInstance().renameAll();
+	}
+}

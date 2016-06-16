@@ -1,0 +1,25 @@
+1463230563560	Rename package 'application'
+1463236032686	Rename package 'view'
+1463243166249	Delete element
+1463243187145	Delete element
+1463243198236	Delete element
+1463243205071	Delete elements
+1463243211395	Delete element
+1463244071445	Copy compilation unit
+1463244076490	Delete element
+1463276505218	Delete element
+1463276525657	Copy compilation units
+1463276529719	Delete element
+1463276532854	Delete element
+1463284715600	Copy compilation unit
+1463284719401	Delete element
+1463317107819	Rename resource 'Text_sk.properties'
+1463317120266	Rename resource 'Text.properties'
+1463321465488	Encapsulate field 'loginWindow'
+1463328732549	Encapsulate field 'mainWindow'
+1463328736359	Encapsulate field 'registerWindow'
+1463330994067	Encapsulate field 'value'
+1463333902773	Encapsulate field 'user'
+1463337771726	Rename type 'MainController'
+1463341309808	Move compilation units
+1463341314674	Delete element

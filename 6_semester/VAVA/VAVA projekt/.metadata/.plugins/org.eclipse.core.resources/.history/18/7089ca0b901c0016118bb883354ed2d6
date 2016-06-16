@@ -1,0 +1,28 @@
+ChampionPoolManager = Champion Pool Manager
+DifferentPasswords = Passwords do not match
+AccountCreated = Your account was successfully created
+AlreadyRegistered = This account is already registered
+Language = Language
+NewPassword = New password
+ConfirmPassword = Confirm password
+Name = Name
+Role = Role
+
+EditProfileTitle = Profile editing
+EditProfileCaption = EDIT PROFIL
+EditProfileNick = New nick
+EditProfileServer = Change server
+Save = Save
+
+LoginPassword = Password
+LoginUsername = Username
+LoginError = Wrong username or password
+Login = Login
+Register = Register
+
+RegisterTitle = Registration
+RegisterNick = Your nickname
+RegisterUsername = New username
+RegisterCreate = Create
+MainWindowBans = Best bans
+MainWindowDetails = Detaily

@@ -1,0 +1,16 @@
+package facade;
+
+import java.util.List;
+
+import javax.ejb.Remote;
+
+import entity2.Station;
+import entity2.User;
+
+@Remote
+public interface StationsFacadeBeanRemote {
+
+	public List<Station> getStations();
+	public boolean saveStations(User user);
+
+}

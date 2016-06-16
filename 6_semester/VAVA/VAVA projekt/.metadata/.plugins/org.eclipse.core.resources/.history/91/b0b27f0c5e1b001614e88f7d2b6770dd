@@ -1,0 +1,69 @@
+package model;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="\"user\"")
+@NamedQueries({
+	@NamedQuery(name="User.getUser",
+			query="SELECT user FROM User user LEFT JOIN FETCH user.pool WHERE user.username = :paramName AND user.password = :paramPassword")
+})
+public class User implements Serializable {
+
+	private static final long serialVersionUID = -6704828785283483993L;
+	private int id;
+	private String username;
+	private String password;
+	private List<Champion> pool;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@Column(nullable = false, unique = true)
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	@Column(nullable = false)
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	@ManyToMany
+	@JoinTable(name = "userChampion", 
+			   joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "championId"))
+	public List<Champion> getPool() {
+		return pool;
+	}
+	public void setPool(List<Champion> pool) {
+		this.pool = pool;
+	}
+	
+	
+	
+}

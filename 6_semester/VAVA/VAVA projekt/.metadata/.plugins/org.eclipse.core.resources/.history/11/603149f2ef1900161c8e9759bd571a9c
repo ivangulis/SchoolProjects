@@ -1,0 +1,15 @@
+package facade;
+
+import javax.ejb.Remote;
+
+import org.joda.time.DateTime;
+
+import entity.Response;
+import entity.User;
+
+@Remote
+public interface ProgramFacadeBeanRemote {
+
+	public Response loadProgram(User user, DateTime date);
+
+}

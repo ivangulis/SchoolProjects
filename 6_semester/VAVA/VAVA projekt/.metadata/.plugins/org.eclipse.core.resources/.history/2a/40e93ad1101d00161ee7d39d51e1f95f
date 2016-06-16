@@ -1,0 +1,23 @@
+package dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import model.User;
+
+public class UserDAO {
+	
+	public User getUser(EntityManager entityManager, String username) {
+		TypedQuery<User> query = entityManager.createNamedQuery("User.getUser", User.class);
+		query.setParameter("paramName", username);//.setParameter("paramPassword", password);
+		return query.getSingleResult();
+	}
+
+	public void createAccount(EntityManager entityManager, User user) {
+		entityManager.persist(user);
+	}
+	
+	public void saveAccount(EntityManager entityManager, User user) {
+		entityManager.merge(user);
+	}
+}

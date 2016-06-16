@@ -1,0 +1,23 @@
+package application;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class Language {
+
+	ResourceBundle rb;
+	
+	public Language() {
+		rb = ResourceBundle.getBundle("Resource");
+	}
+	
+	public void setLanguage(String lang) {
+		rb = ResourceBundle.getBundle("Resource", new Locale(lang));
+	}
+	
+	public String getText(String key) {
+		String text = rb.getString(key);
+		return text;
+	}
+
+}

@@ -1,0 +1,9 @@
+package controller;
+
+import entity.User;
+
+public interface InitUser {
+
+	public void initUser(User user);
+	
+}

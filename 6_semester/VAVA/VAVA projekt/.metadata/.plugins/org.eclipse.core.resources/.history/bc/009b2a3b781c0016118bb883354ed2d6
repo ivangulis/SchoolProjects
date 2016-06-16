@@ -1,0 +1,32 @@
+package facade;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import executive.UserExecutiveBean;
+import model.User;
+
+/**
+ * Session Bean implementation class UserFacadeBean
+ */
+@Stateless
+public class UserFacadeBean implements UserFacadeBeanRemote {
+
+	@EJB
+    UserExecutiveBean userExecBean;
+
+	@Override
+	public boolean createAccount(String username, String password, byte[] salt, String server, String nick) {
+		return userExecBean.createAccount(username, password, salt, server, nick);
+	}
+	
+	@Override
+	public User getUser(String username) {
+		return userExecBean.getUser(username);
+	}
+	
+	@Override
+	public boolean saveUser(User user) {
+		return userExecBean.saveUser(user);
+	}
+}

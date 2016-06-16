@@ -1,0 +1,24 @@
+package dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import model.Champion;
+import model.User;
+
+public class ChampionDAO {
+
+	public void saveAllChampions(EntityManager entityManager, List<Champion> champions) {
+		for (Champion champion: champions) {
+			entityManager.persist(champion);
+		}
+	}
+	public List<Champion> loadAllChampions(EntityManager entityManager, List<Champion> champions) {
+		TypedQuery<Champion> query = entityManager.createNamedQuery("Champion.getChampions", Champion.class);
+		query.setParameter("paramChampions", champions);
+		return query.getResultList();
+	}
+
+}

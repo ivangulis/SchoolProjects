@@ -1,0 +1,85 @@
+package webSearchFeature;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.jsoup.Connection;
+
+import model.Champion;
+
+public class WebSearch {
+	
+	private static final String URL = "http://champion.gg/statistics/";
+	private static final String USERAGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36";
+
+	public List<Champion> searchForChampions() {
+		List<Champion> champions = new ArrayList<Champion>();
+		Connection connection;
+		Document document = null;
+		try {
+			connection = Jsoup.connect(URL).userAgent(USERAGENT);
+			document = connection.get();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			Document doc = createHtml(URL);
+			System.out.println(doc.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Elements table1 = document.select("table[id=table-1]");
+		Elements body = table1.select("tbody");
+		Elements rows = body.select("tr");
+		//System.out.println(table1.toString());
+		for(Element element : rows) {
+			Elements columns = rows.select("td");
+			
+			String name = element.select("span[class=stat-champ-title]").text();
+			String role = element.select("td[class=stat-role-title]").text();
+			String playRatio = columns.get(4).text();
+			String banRatio = columns.get(5).text();
+			String rolePosition = columns.get(18).text();
+			String winRatio = columns.get(3).select("span").text();
+			
+			Champion champion = new Champion();
+			champion.setName(name);
+			champion.setRole(role);
+			champion.setWinRatio(winRatio);
+			champion.setBanRatio(banRatio);
+			champion.setPlayRatio(playRatio);
+			champion.setRole(rolePosition);
+			champions.add(champion);
+			//System.out.println(name + " " + role + " " + winRatio 
+			//		+ " " + banRatio + " " + playRatio + " " + rolePosition + " ");
+		}
+
+		return champions;
+	}
+	
+	public Document createHtml(String url) throws IOException{
+		Connection connection = Jsoup.connect(url).userAgent(USERAGENT);
+		Document htmlDocument = connection.get();
+		return htmlDocument;
+	}
+
+	public String getContent(String url) {
+		try {
+			Document doc = createHtml(url);
+			return doc.toString();
+		} catch (IOException e) {
+			return "Nepodarilo sa spojit";
+		}
+	}
+	
+}
+

@@ -1,0 +1,692 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.1
+-- Dumped by pg_dump version 9.4.1
+-- Started on 2015-05-03 21:52:35
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 184 (class 3079 OID 11855)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2068 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 182 (class 1259 OID 32959)
+-- Name: bubliny; Type: TABLE; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE TABLE bubliny (
+    hranata boolean DEFAULT false,
+    text character varying(100),
+    id_bubliny integer NOT NULL,
+    nakreslena_postava integer NOT NULL
+);
+
+
+ALTER TABLE bubliny OWNER TO "Ivan";
+
+--
+-- TOC entry 183 (class 1259 OID 32969)
+-- Name: bubliny_id_bubliny_seq; Type: SEQUENCE; Schema: public; Owner: Ivan
+--
+
+CREATE SEQUENCE bubliny_id_bubliny_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bubliny_id_bubliny_seq OWNER TO "Ivan";
+
+--
+-- TOC entry 2069 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: bubliny_id_bubliny_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Ivan
+--
+
+ALTER SEQUENCE bubliny_id_bubliny_seq OWNED BY bubliny.id_bubliny;
+
+
+--
+-- TOC entry 173 (class 1259 OID 32851)
+-- Name: komixy; Type: TABLE; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE TABLE komixy (
+    nazov character varying(40) NOT NULL,
+    cislo_komixu integer NOT NULL,
+    datum_vytvorenia date NOT NULL
+);
+
+
+ALTER TABLE komixy OWNER TO "Ivan";
+
+--
+-- TOC entry 172 (class 1259 OID 32849)
+-- Name: komixy_cislo_komixu_seq; Type: SEQUENCE; Schema: public; Owner: Ivan
+--
+
+CREATE SEQUENCE komixy_cislo_komixu_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE komixy_cislo_komixu_seq OWNER TO "Ivan";
+
+--
+-- TOC entry 2070 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: komixy_cislo_komixu_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Ivan
+--
+
+ALTER SEQUENCE komixy_cislo_komixu_seq OWNED BY komixy.cislo_komixu;
+
+
+--
+-- TOC entry 181 (class 1259 OID 32911)
+-- Name: postavicka_nakreslena; Type: TABLE; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE TABLE postavicka_nakreslena (
+    id_postavy integer NOT NULL,
+    id_nakreslenia integer NOT NULL,
+    datum_nakreslenia date NOT NULL,
+    id_strany integer NOT NULL,
+    cinnost character varying(50)
+);
+
+
+ALTER TABLE postavicka_nakreslena OWNER TO "Ivan";
+
+--
+-- TOC entry 180 (class 1259 OID 32909)
+-- Name: postavicka_nakreslena_id_nakreslenia_seq; Type: SEQUENCE; Schema: public; Owner: Ivan
+--
+
+CREATE SEQUENCE postavicka_nakreslena_id_nakreslenia_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE postavicka_nakreslena_id_nakreslenia_seq OWNER TO "Ivan";
+
+--
+-- TOC entry 2071 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: postavicka_nakreslena_id_nakreslenia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Ivan
+--
+
+ALTER SEQUENCE postavicka_nakreslena_id_nakreslenia_seq OWNED BY postavicka_nakreslena.id_nakreslenia;
+
+
+--
+-- TOC entry 179 (class 1259 OID 32889)
+-- Name: postavy; Type: TABLE; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE TABLE postavy (
+    meno character varying(40) NOT NULL,
+    typ character varying(30) NOT NULL,
+    id_autora integer NOT NULL,
+    id_postavy integer NOT NULL,
+    muz boolean
+);
+
+
+ALTER TABLE postavy OWNER TO "Ivan";
+
+--
+-- TOC entry 178 (class 1259 OID 32887)
+-- Name: postavy_id_postavy_seq; Type: SEQUENCE; Schema: public; Owner: Ivan
+--
+
+CREATE SEQUENCE postavy_id_postavy_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE postavy_id_postavy_seq OWNER TO "Ivan";
+
+--
+-- TOC entry 2073 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: postavy_id_postavy_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Ivan
+--
+
+ALTER SEQUENCE postavy_id_postavy_seq OWNED BY postavy.id_postavy;
+
+
+--
+-- TOC entry 175 (class 1259 OID 32866)
+-- Name: strany; Type: TABLE; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE TABLE strany (
+    cislo_komixu integer NOT NULL,
+    id_strany integer NOT NULL,
+    situacia character varying(200)
+);
+
+
+ALTER TABLE strany OWNER TO "Ivan";
+
+--
+-- TOC entry 174 (class 1259 OID 32864)
+-- Name: strany_id_strany_seq; Type: SEQUENCE; Schema: public; Owner: Ivan
+--
+
+CREATE SEQUENCE strany_id_strany_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE strany_id_strany_seq OWNER TO "Ivan";
+
+--
+-- TOC entry 2074 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: strany_id_strany_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Ivan
+--
+
+ALTER SEQUENCE strany_id_strany_seq OWNED BY strany.id_strany;
+
+
+--
+-- TOC entry 177 (class 1259 OID 32880)
+-- Name: umelci; Type: TABLE; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE TABLE umelci (
+    meno character varying(40) NOT NULL,
+    id_zamestnanca integer NOT NULL,
+    zamestnany_od date NOT NULL
+);
+
+
+ALTER TABLE umelci OWNER TO "Ivan";
+
+--
+-- TOC entry 176 (class 1259 OID 32878)
+-- Name: umelci_id_zamestnanca_seq; Type: SEQUENCE; Schema: public; Owner: Ivan
+--
+
+CREATE SEQUENCE umelci_id_zamestnanca_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE umelci_id_zamestnanca_seq OWNER TO "Ivan";
+
+--
+-- TOC entry 2075 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: umelci_id_zamestnanca_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Ivan
+--
+
+ALTER SEQUENCE umelci_id_zamestnanca_seq OWNED BY umelci.id_zamestnanca;
+
+
+--
+-- TOC entry 1918 (class 2604 OID 32971)
+-- Name: id_bubliny; Type: DEFAULT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY bubliny ALTER COLUMN id_bubliny SET DEFAULT nextval('bubliny_id_bubliny_seq'::regclass);
+
+
+--
+-- TOC entry 1912 (class 2604 OID 32854)
+-- Name: cislo_komixu; Type: DEFAULT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY komixy ALTER COLUMN cislo_komixu SET DEFAULT nextval('komixy_cislo_komixu_seq'::regclass);
+
+
+--
+-- TOC entry 1916 (class 2604 OID 32914)
+-- Name: id_nakreslenia; Type: DEFAULT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY postavicka_nakreslena ALTER COLUMN id_nakreslenia SET DEFAULT nextval('postavicka_nakreslena_id_nakreslenia_seq'::regclass);
+
+
+--
+-- TOC entry 1915 (class 2604 OID 32892)
+-- Name: id_postavy; Type: DEFAULT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY postavy ALTER COLUMN id_postavy SET DEFAULT nextval('postavy_id_postavy_seq'::regclass);
+
+
+--
+-- TOC entry 1913 (class 2604 OID 32869)
+-- Name: id_strany; Type: DEFAULT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY strany ALTER COLUMN id_strany SET DEFAULT nextval('strany_id_strany_seq'::regclass);
+
+
+--
+-- TOC entry 1914 (class 2604 OID 32883)
+-- Name: id_zamestnanca; Type: DEFAULT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY umelci ALTER COLUMN id_zamestnanca SET DEFAULT nextval('umelci_id_zamestnanca_seq'::regclass);
+
+
+--
+-- TOC entry 2059 (class 0 OID 32959)
+-- Dependencies: 182
+-- Data for Name: bubliny; Type: TABLE DATA; Schema: public; Owner: Ivan
+--
+
+COPY bubliny (hranata, text, id_bubliny, nakreslena_postava) FROM stdin;
+f	Démon sa blíži	1	19
+f	Schovajte ženy a deti	2	19
+f	A postarajte sa mi prosím o syna	3	19
+f	Vidím ho prichádzať	4	20
+f	Dúfam že to zvládneme	5	20
+f	Útok!	6	21
+f	Démon nemôže byť porazený, musíme ho zapečatiť!	7	25
+f	Syn môj, Naruto, až budeš starší, pochopíš to	8	26
+f	Ako je dnes v škole krásne	9	27
+f	Skoro až škoda tu sedieť	10	27
+\.
+
+
+--
+-- TOC entry 2076 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: bubliny_id_bubliny_seq; Type: SEQUENCE SET; Schema: public; Owner: Ivan
+--
+
+SELECT pg_catalog.setval('bubliny_id_bubliny_seq', 10, true);
+
+
+--
+-- TOC entry 2050 (class 0 OID 32851)
+-- Dependencies: 173
+-- Data for Name: komixy; Type: TABLE DATA; Schema: public; Owner: Ivan
+--
+
+COPY komixy (nazov, cislo_komixu, datum_vytvorenia) FROM stdin;
+Naruto - Awakening	1	2015-01-02
+Naruto - Škola	2	2015-01-26
+Naruto - Na cestách	3	2015-01-28
+Naruto - Na mori	12	2015-05-03
+\.
+
+
+--
+-- TOC entry 2077 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: komixy_cislo_komixu_seq; Type: SEQUENCE SET; Schema: public; Owner: Ivan
+--
+
+SELECT pg_catalog.setval('komixy_cislo_komixu_seq', 12, true);
+
+
+--
+-- TOC entry 2058 (class 0 OID 32911)
+-- Dependencies: 181
+-- Data for Name: postavicka_nakreslena; Type: TABLE DATA; Schema: public; Owner: Ivan
+--
+
+COPY postavicka_nakreslena (id_postavy, id_nakreslenia, datum_nakreslenia, id_strany, cinnost) FROM stdin;
+3	33	2015-04-12	9	spí na lavici
+1	34	2015-04-12	18	vstupuje do haly v škole
+5	35	2015-04-12	9	Vstupuje do triedy
+8	36	2015-04-13	17	Hra sa
+3	37	2015-05-03	18	Smeje sa
+3	38	2015-05-03	22	Smeje sa
+3	39	2015-05-03	23	Smeje sa
+4	40	2015-05-03	18	Tancuje
+1	41	2015-05-03	24	Čaká na loď
+1	11	2015-01-27	1	spinká
+1	12	2015-01-27	1	spinká
+1	13	2015-01-27	1	spinká
+4	42	2015-05-03	24	Nesie narutovi jedlo
+1	14	2015-01-27	2	spinká
+1	15	2015-01-27	2	spinká
+1	16	2015-01-27	3	spinká
+1	17	2015-01-27	3	spinká
+1	18	2015-01-27	4	spinká
+20	19	2015-01-27	1	Čaká na démona
+20	20	2015-01-27	2	Čaká na démona
+20	21	2015-01-27	3	Bráni dedinu
+20	22	2015-01-27	4	Bráni dedinu
+20	23	2015-01-27	5	Bráni dedinu
+20	24	2015-01-27	6	Bráni dedinu
+20	25	2015-01-27	7	Zapečatí démona do syna
+20	26	2015-01-27	8	Zapečatí démona do syna
+4	27	2015-01-27	9	Študuje
+4	28	2015-01-27	10	Študuje
+4	29	2015-01-27	11	Študuje
+4	30	2015-01-27	12	Študuje
+5	43	2015-05-03	23	Rube drevo
+5	45	2015-05-03	24	Nic
+4	46	2015-05-03	24	Neviem uš
+4	47	2015-05-03	5	Neviem uš
+\.
+
+
+--
+-- TOC entry 2078 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: postavicka_nakreslena_id_nakreslenia_seq; Type: SEQUENCE SET; Schema: public; Owner: Ivan
+--
+
+SELECT pg_catalog.setval('postavicka_nakreslena_id_nakreslenia_seq', 47, true);
+
+
+--
+-- TOC entry 2056 (class 0 OID 32889)
+-- Dependencies: 179
+-- Data for Name: postavy; Type: TABLE DATA; Schema: public; Owner: Ivan
+--
+
+COPY postavy (meno, typ, id_autora, id_postavy, muz) FROM stdin;
+Naruto	ninja	1	1	t
+Ino	ninja	1	23	f
+Hinata	ninja	1	3	f
+Sakura	ninja	1	4	f
+Kimimaro	demon	1	5	t
+Eduard	prízrak	16	50	t
+Shikamaru	ninja	16	51	t
+Inuyash	mačací démon	1	11	t
+Okamura	lesník	16	52	t
+Hitsuha	demon	6	53	t
+Bulbasaur	pokemon	1	15	t
+Kushina	matka	4	19	f
+Nvm	nikto	16	54	t
+sdcf	ad	16	55	f
+Minato	otec	5	20	t
+Urahara	ninja	5	21	t
+Mizukage	ninja	5	22	t
+Mikasa	kucharka	4	9	f
+Pikachu	myš	4	8	t
+Charmander	pokemon	6	12	t
+Ash	trener pokemonov	6	13	t
+Squirtle	korytnačka	6	14	t
+kjndfs		1	56	f
+Hirako	bojovnik	17	57	t
+\.
+
+
+--
+-- TOC entry 2079 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: postavy_id_postavy_seq; Type: SEQUENCE SET; Schema: public; Owner: Ivan
+--
+
+SELECT pg_catalog.setval('postavy_id_postavy_seq', 57, true);
+
+
+--
+-- TOC entry 2052 (class 0 OID 32866)
+-- Dependencies: 175
+-- Data for Name: strany; Type: TABLE DATA; Schema: public; Owner: Ivan
+--
+
+COPY strany (cislo_komixu, id_strany, situacia) FROM stdin;
+1	3	Démon útočí na dedinu
+1	4	Démon útočí na dedinu
+1	5	Démon útočí na dedinu
+1	6	Démon útočí na dedinu
+1	7	Zapečatenie démona do dieťata
+1	8	Zapečatenie démona do dieťata
+2	9	Naruto v škole
+2	10	Naruto v škole
+2	11	Naruto v škole
+2	12	Naruto v škole
+1	1	Démon prichádza
+1	2	Démon prichádza
+2	14	\N
+2	15	\N
+2	16	študenti píšu písomku
+2	17	snažia sa odpisovať
+3	18	prihlasovanie sa na školu
+3	22	haaaaaah
+3	23	Nic moc, nahodna strana
+12	24	Stojí v prístave
+\.
+
+
+--
+-- TOC entry 2080 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: strany_id_strany_seq; Type: SEQUENCE SET; Schema: public; Owner: Ivan
+--
+
+SELECT pg_catalog.setval('strany_id_strany_seq', 24, true);
+
+
+--
+-- TOC entry 2054 (class 0 OID 32880)
+-- Dependencies: 177
+-- Data for Name: umelci; Type: TABLE DATA; Schema: public; Owner: Ivan
+--
+
+COPY umelci (meno, id_zamestnanca, zamestnany_od) FROM stdin;
+Takashi	1	2013-01-01
+Yamanako Kosushi	4	2011-01-01
+Chako Abeno	5	2002-06-25
+Amano Akira	6	2008-02-22
+Ikitake Urinase	14	2015-04-12
+Iminaky Taky	16	2015-04-12
+Kishimoto	17	2015-04-13
+Marko Polo	20	2015-05-03
+\.
+
+
+--
+-- TOC entry 2081 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: umelci_id_zamestnanca_seq; Type: SEQUENCE SET; Schema: public; Owner: Ivan
+--
+
+SELECT pg_catalog.setval('umelci_id_zamestnanca_seq', 20, true);
+
+
+--
+-- TOC entry 1920 (class 2606 OID 32856)
+-- Name: cislo_komixu; Type: CONSTRAINT; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+ALTER TABLE ONLY komixy
+    ADD CONSTRAINT cislo_komixu PRIMARY KEY (cislo_komixu);
+
+
+--
+-- TOC entry 1934 (class 2606 OID 32976)
+-- Name: id_bubliny; Type: CONSTRAINT; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+ALTER TABLE ONLY bubliny
+    ADD CONSTRAINT id_bubliny PRIMARY KEY (id_bubliny);
+
+
+--
+-- TOC entry 1931 (class 2606 OID 32916)
+-- Name: id_nakreslenia; Type: CONSTRAINT; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+ALTER TABLE ONLY postavicka_nakreslena
+    ADD CONSTRAINT id_nakreslenia PRIMARY KEY (id_nakreslenia);
+
+
+--
+-- TOC entry 1927 (class 2606 OID 32894)
+-- Name: id_postavy; Type: CONSTRAINT; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+ALTER TABLE ONLY postavy
+    ADD CONSTRAINT id_postavy PRIMARY KEY (id_postavy);
+
+
+--
+-- TOC entry 1922 (class 2606 OID 32871)
+-- Name: id_strany; Type: CONSTRAINT; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+ALTER TABLE ONLY strany
+    ADD CONSTRAINT id_strany PRIMARY KEY (id_strany);
+
+
+--
+-- TOC entry 1924 (class 2606 OID 32885)
+-- Name: id_zamestnanca; Type: CONSTRAINT; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+ALTER TABLE ONLY umelci
+    ADD CONSTRAINT id_zamestnanca PRIMARY KEY (id_zamestnanca);
+
+
+--
+-- TOC entry 1925 (class 1259 OID 32933)
+-- Name: fki_ID autora; Type: INDEX; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE INDEX "fki_ID autora" ON postavy USING btree (id_autora);
+
+
+--
+-- TOC entry 1928 (class 1259 OID 32939)
+-- Name: fki_ID_postavy; Type: INDEX; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE INDEX "fki_ID_postavy" ON postavicka_nakreslena USING btree (id_postavy);
+
+
+--
+-- TOC entry 1929 (class 1259 OID 32958)
+-- Name: fki_id_strany; Type: INDEX; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE INDEX fki_id_strany ON postavicka_nakreslena USING btree (id_strany);
+
+
+--
+-- TOC entry 1932 (class 1259 OID 32999)
+-- Name: fki_nakreslena_postava_hovori; Type: INDEX; Schema: public; Owner: Ivan; Tablespace: 
+--
+
+CREATE INDEX fki_nakreslena_postava_hovori ON bubliny USING btree (nakreslena_postava);
+
+
+--
+-- TOC entry 1935 (class 2606 OID 32872)
+-- Name: cislo_komixu; Type: FK CONSTRAINT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY strany
+    ADD CONSTRAINT cislo_komixu FOREIGN KEY (cislo_komixu) REFERENCES komixy(cislo_komixu) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1936 (class 2606 OID 41179)
+-- Name: id_autora; Type: FK CONSTRAINT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY postavy
+    ADD CONSTRAINT id_autora FOREIGN KEY (id_autora) REFERENCES umelci(id_zamestnanca);
+
+
+--
+-- TOC entry 1938 (class 2606 OID 41189)
+-- Name: id_postavy; Type: FK CONSTRAINT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY postavicka_nakreslena
+    ADD CONSTRAINT id_postavy FOREIGN KEY (id_postavy) REFERENCES postavy(id_postavy) ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1937 (class 2606 OID 41184)
+-- Name: id_strany; Type: FK CONSTRAINT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY postavicka_nakreslena
+    ADD CONSTRAINT id_strany FOREIGN KEY (id_strany) REFERENCES strany(id_strany) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1939 (class 2606 OID 32994)
+-- Name: nakreslena_postava; Type: FK CONSTRAINT; Schema: public; Owner: Ivan
+--
+
+ALTER TABLE ONLY bubliny
+    ADD CONSTRAINT nakreslena_postava FOREIGN KEY (nakreslena_postava) REFERENCES postavicka_nakreslena(id_nakreslenia) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2067 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- TOC entry 2072 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: postavy; Type: ACL; Schema: public; Owner: Ivan
+--
+
+REVOKE ALL ON TABLE postavy FROM PUBLIC;
+REVOKE ALL ON TABLE postavy FROM "Ivan";
+
+
+-- Completed on 2015-05-03 21:52:35
+
+--
+-- PostgreSQL database dump complete
+--
+

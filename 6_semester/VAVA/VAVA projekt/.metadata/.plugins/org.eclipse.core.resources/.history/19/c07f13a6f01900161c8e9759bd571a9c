@@ -1,0 +1,68 @@
+package controller;
+
+import javafx.fxml.FXML;
+
+import javafx.scene.control.Button;
+
+import javafx.scene.control.TextField;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import application.Main;
+import facade.LoginFacadeBeanRemote;
+import javafx.event.ActionEvent;
+
+import javafx.scene.control.PasswordField;
+
+public class NewAccController {
+	
+	@FXML
+	private TextField username_textField;
+	@FXML
+	private PasswordField password_textField;
+	@FXML
+	private PasswordField confirm_textField;
+	@FXML
+	private Button create_button;
+	@FXML
+	private Button cancel_button;
+
+	// Event Listener on Button[#create_button].onAction
+	@FXML
+	public void create(ActionEvent event) {
+		Context ctx = null;
+		try {
+			ctx = new InitialContext();
+			LoginFacadeBeanRemote remote = (LoginFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//LoginFacadeBean!facade.LoginFacadeBeanRemote");
+			String username = username_textField.getText();
+			String password = password_textField.getText();
+			String confirm = confirm_textField.getText();
+			if (password.equals(confirm) && remote.createAccount(username, password)) {
+				String text = Main.getInstance().getLanguage().getText("AccCreated");
+				Main.getInstance().getWindowController().information(text);
+			} else {
+				String text = Main.getInstance().getLanguage().getText("AccExists");
+				Main.getInstance().getWindowController().error(text);
+			}
+		} catch (NamingException e) {
+			e.printStackTrace(); //TODO loger
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace(); //TODO loger
+			}
+		}
+	}
+	
+	// Event Listener on Button[#cancel_button].onAction
+	@FXML
+	public void cancel(ActionEvent event) {
+		String fxml = Main.getInstance().getProperties().getProperty("NewAccFXML");
+		Main.getInstance().getWindowController().closeWindow(fxml);
+	}
+	
+}

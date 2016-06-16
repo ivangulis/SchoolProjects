@@ -1,0 +1,203 @@
+package view;
+
+import application.Hasher;
+import application.Main;
+import facade.UserFacadeBeanRemote;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import model.User;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.PasswordField;
+
+/**
+ * Class, that controlls EditProfile window, which is responsible for editing user information.
+ * @author Ivan Gulis
+ */
+public class EditProfileController {
+	@FXML
+	private AnchorPane root;
+	@FXML
+	private TextField textFieldNick;
+	@FXML
+	private PasswordField passwordField;
+	@FXML
+	private PasswordField passwordField2;
+	@FXML
+	private Label labelPassword;
+	@FXML
+	private Label labelPassword2;
+	@FXML
+	private Label labelMainCaption;
+	@FXML
+	private Button buttonSaveAccount;
+	@FXML
+	private Label labelPasswordError;
+	@FXML
+	private Label labelNick;
+	@FXML
+	private Label labelServer;
+	@FXML
+	private Menu menuLanguage;
+	@FXML
+	private CheckBox checkChangePassword;
+	@FXML
+	private ComboBox<String> comboBoxServer;
+	private User user;
+
+	private static Logger LOG = Logger.getLogger(RegisterController.class.getName());
+	
+	public CheckBox getCheckChangePassword() {
+		return checkChangePassword;
+	}
+
+	public PasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public PasswordField getPasswordField2() {
+		return passwordField2;
+	}
+
+	public Label getLabelPassword() {
+		return labelPassword;
+	}
+
+	public Label getLabelPassword2() {
+		return labelPassword2;
+	}
+
+	public Label getLabelMainCaption() {
+		return labelMainCaption;
+	}
+
+	public Button getButtonSaveAccount() {
+		return buttonSaveAccount;
+	}
+
+	public Label getLabelPasswordError() {
+		return labelPasswordError;
+	}
+
+	public Label getLabelNick() {
+		return labelNick;
+	}
+
+	public Label getLabelServer() {
+		return labelServer;
+	}
+
+	public Menu getMenuLanguage() {
+		return menuLanguage;
+	}
+	
+	public ComboBox<String> getComboBoxServer() {
+		return comboBoxServer;
+	}
+
+	public void setComboBoxServer(ComboBox<String> comboBoxServer) {
+		this.comboBoxServer = comboBoxServer;
+	}
+	
+	public TextField getTextFieldNick() {
+		return textFieldNick;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/** Class, that edit and save user information */
+	// Event Listener on Button[#buttonCreateAccount].onAction
+	@FXML
+	public void editAccount(ActionEvent event) {
+		Context ctx = null;
+		labelPasswordError.setText("");
+		String password = passwordField.getText();
+		String confirm = passwordField2.getText();
+		user.setServer(comboBoxServer.getSelectionModel().getSelectedItem());
+		user.setNick(textFieldNick.getText());
+		try {
+			ctx = new InitialContext();
+			UserFacadeBeanRemote remote = (UserFacadeBeanRemote) ctx.lookup("ProjectEAR/ProjectServer//UserFacadeBean!facade.UserFacadeBeanRemote");
+			LOG.info("Connection to UserFacadeBean initialized");
+			if (checkChangePassword.isSelected()) {
+				if (confirm.equals(password)){ //user wants to change password too
+					Hasher hasher = new Hasher();
+					String salt = hasher.getSalt().toString();
+					String hashedPassword = hasher.getHash(password, salt);
+					user.setPassword(hashedPassword);
+					user.setSalt(salt.toString());
+					saveUserFunction();
+				} else {
+					String text = Main.getInstance().getLanguage().getString("DifferentPasswords");
+					labelPasswordError.setText(text);
+					LOG.warning("Given passwords do not match.");
+				}
+			} else {
+				saveUserFunction();
+			}
+		} catch (NamingException e) { //logging from this function
+			LOG.log(Level.SEVERE, "Context was not able to be initialized - name resolution has failed.", e);
+		} catch (IllegalArgumentException e) { //logging from saveUser
+			String text = Main.getInstance().getLanguage().getString("AccountNotSaved");
+			labelPasswordError.setText(text);
+			LOG.log(Level.SEVERE, "Error: User " + user.getUsername() + " is not an entity or was deleted from database - Failed to actualize user in database.", e);
+		} catch (NoSuchAlgorithmException | NoSuchProviderException e) { //logging from hasher
+			LOG.log(Level.SEVERE, "Error: No hash was generated - MessageDigestSpi implementation for the specified algorithm"
+					+ " (MD5) is not available.", e);
+			String text = Main.getInstance().getLanguage().getString("HashingFailed");
+			labelPasswordError.setText(text);
+		} finally {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				LOG.log(Level.SEVERE, "Context was not able to be closed - name resolution has failed.", e);
+			}
+		}
+	}
+	
+	public void saveUserFunction() {
+		remote.saveUser(user); //actualize user info in database
+		String text = Main.getInstance().getLanguage().getString("AccountSaved");
+		labelPasswordError.setText(text);
+		LOG.info("User changes were successfully saved into database.");
+		Main.getInstance().getMwc().getLabelNick().setText(user.getNick());
+		Main.getInstance().getMwc().getLabelServer().setText("(" + user.getServer() + ")");
+	}
+	
+	/** Function, that changes language to slovak */
+	// Event Listener on MenuItem[#menuItemSlovak].onAction
+	@FXML
+	public void changeSlovak(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("sk");
+		Main.getInstance().renameAll();
+	}
+	
+	/** Function, that changes language to english */
+	// Event Listener on MenuItem[#menuItemEnglish].onAction
+	@FXML
+	public void changeEnglish(ActionEvent event) {
+		Main.getInstance().getLanguage().setLanguage("eng");
+		Main.getInstance().renameAll();
+	}
+}
